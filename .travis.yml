@@ -12,7 +12,7 @@ addons:
     - libgl1-mesa-dev
 
 before_script:
-- git clone -b '2.5.1' --depth 1 https://github.com/SFML/SFML.git && cd sfml && mkdir build && cd build
+- git clone -b '2.5.1' --depth 1 https://github.com/SFML/SFML.git sfml && cd sfml && mkdir build && cd build
 - cmake .. $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install -DSFML_DEPENDENCIES_INSTALL_PREFIX=../install -DSFML_MISC_INSTALL_PREFIX=../install
 - cmake --build . --target install
 - cd ../..
