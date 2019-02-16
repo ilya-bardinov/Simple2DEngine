@@ -1,16 +1,11 @@
 # Use: `doxygen -g test.txt` to generate all possible settings for this file
 
-# For modern doxygen style uncomment these three lines:
- HTML_EXTRA_STYLESHEET = "@CMAKE_CURRENT_SOURCE_DIR@/doxygen/customdoxygen.css"
- HTML_HEADER = "@CMAKE_CURRENT_SOURCE_DIR@/doxygen/header.html"
- HTML_FOOTER = "@CMAKE_CURRENT_SOURCE_DIR@/doxygen/footer.html"
-
 # not interested build output
 QUIET                  = NO
 
 # Basic settings:
 PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
-PROJECT_NUMBER         = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@@VERSION_TYPE@"
+PROJECT_NUMBER         = "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@"
 STRIP_FROM_PATH        = "@CMAKE_CURRENT_SOURCE_DIR_LINUX@" \ 
                          "@PROJECT_SOURCE_DIR_LINUX@"
 INPUT                  = "@PROJECT_SOURCE_DIR_LINUX@/readme.md" \
@@ -28,7 +23,7 @@ FILE_PATTERNS          = *.h \
                          *.cpp \
                          *.md
 RECURSIVE              = YES
-USE_MDFILE_AS_MAINPAGE = "@PROJECT_SOURCE_DIR_LINUX@/readme.md"
+USE_MDFILE_AS_MAINPAGE = "@PROJECT_SOURCE_DIR_LINUX@/README.md"
 # output location
 HTML_OUTPUT            = "@CMAKE_CURRENT_BINARY_DIR_LINUX@/doc"
 
