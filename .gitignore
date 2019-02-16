@@ -8,3 +8,4 @@ Build
 build
 .idea
 .vs
+/external/Catch

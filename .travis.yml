@@ -1,51 +1,42 @@
 # Enable C++ support
-sudo: required
-dist: trusty
 language: cpp
+
+addons:
+  apt_packages:
+    - cmake
+    - libxrandr-dev
+    - libudev-dev
+    - libopenal-dev
+    - libflac-dev
+    - libvorbis-dev
+    - libgl1-mesa-dev
+
+before_script:
+- git clone https://github.com/sfml/sfml && cd sfml && mkdir build && cd build &&
+  cmake .. $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install
+- cmake --build . --target install
+- cd ../..
+
+script:
+- mkdir build && cd build
+- cmake .. -DCMAKE_BUILD_TYPE=Release $CMAKE_FLAGS -DSFML_DIR=$TRAVIS_BUILD_DIR/sfml/install/lib/cmake/SFML -DCMAKE_INSTALL_PREFIX=../install
+- cmake --build . --target check
+- cmake --build . --target install
 
 matrix:
   include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env: COMPILER=g++-7
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env: COMPILER=g++-6
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-          packages:
-            - clang-3.6
-      env: COMPILER=clang++-3.6
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
-          packages:
-            - clang-3.7
-      env: COMPILER=clang++-3.7
 
-before_install:
-  - sudo apt-get update -qq
+  - name: "Linux gcc"
+    os: linux
+    dist: xenial
+    compiler: gcc
 
-# Build steps
-script:
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make check && make package
+  - name: "Linux clang"
+    os: linux
+    dist: xenial
+    compiler: clang
 
+  - name: "MacOS clang"
+    os: linux
+    dist: xenial
+    compiler: clang
