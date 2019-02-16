@@ -1,0 +1,10 @@
+Debug
+Release
+*.user
+*.xcuserstate
+.DS_Store
+xcuserdata
+Build
+build
+.idea
+.vs
