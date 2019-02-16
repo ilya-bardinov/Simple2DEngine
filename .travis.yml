@@ -1,5 +1,6 @@
 # Enable C++ support
 language: cpp
+dist: xenial
 
 addons:
   apt_packages:
@@ -11,6 +12,24 @@ addons:
     - libvorbis-dev
     - libgl1-mesa-dev
 
+os:
+  - linux
+  - osx
+  - windows
+
+compiler:
+  - clang
+  - gcc
+
+env:
+  - BUILD_CONFIGURATION=Debug
+  - BUILD_CONFIGURATION=Release
+
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+
 before_script:
 - git clone https://github.com/sfml/sfml && cd sfml && mkdir build && cd build &&
   cmake .. $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install
@@ -19,24 +38,5 @@ before_script:
 
 script:
 - mkdir build && cd build
-- cmake .. -DCMAKE_BUILD_TYPE=Release $CMAKE_FLAGS -DSFML_DIR=$TRAVIS_BUILD_DIR/sfml/install/lib/cmake/SFML -DCMAKE_INSTALL_PREFIX=../install
-- cmake --build . --target unit
+- cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION $CMAKE_FLAGS -DSFML_DIR=$TRAVIS_BUILD_DIR/sfml/install/lib/cmake/SFML -DCMAKE_INSTALL_PREFIX=../install
 - cmake --build . --target install
-
-matrix:
-  include:
-
-  - name: "Linux gcc"
-    os: linux
-    dist: xenial
-    compiler: gcc
-
-  - name: "Linux clang"
-    os: linux
-    dist: xenial
-    compiler: clang
-
-  - name: "MacOS clang"
-    os: linux
-    dist: xenial
-    compiler: clang
