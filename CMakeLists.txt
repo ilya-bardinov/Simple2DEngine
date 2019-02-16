@@ -18,21 +18,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # We can use include() and find_package() for our scripts in there
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/)
+include(ConfigSafeGuards)
 
-# Set default build type to debug
-if(NOT CMAKE_BUILD_TYPE)
-    message(STATUS "Setting build type to Debug as none was specified.")
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
-endif()
-
-#-------------------------------------------------------------------------------
-# Set default install location to dist folder in build dir
-# we do not want to install to /usr by default
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set (CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
-        "Install path prefix, prepended onto install directories." FORCE)
-endif()
 #------------------------------------------------------------------------------
 # Enable helpfull warnings and C++14 for all files
 if(MSVC)

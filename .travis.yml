@@ -1,5 +1,7 @@
 # Enable C++ support
 language: cpp
+notifications:
+  email: false
 
 addons:
   apt_packages:
