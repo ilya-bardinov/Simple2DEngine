@@ -13,6 +13,7 @@
 #define SIMPLE2DENGINE_SCENES_SCENE_MANAGER_H_
 
 #include <list>
+#include <memory>
 
 #include "simple2dengine/scenes/node.h"
 
