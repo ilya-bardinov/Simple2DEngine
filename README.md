@@ -20,7 +20,7 @@ cmake --build .
 cmake --build . --target install
 ~~~
 
-Release build which will install itself into `install` system folder
+Release build which will install itself into `install` folder in project root dir
 ~~~
 mkdir build 
 cd build
