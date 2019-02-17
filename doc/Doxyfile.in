@@ -101,7 +101,7 @@ GENERATE_TODOLIST      = YES
 # we want all we can get
 EXTRACT_ALL            = YES
 EXTRACT_STATIC         = YES
-EXTRACT_PRIVATE        = YES
+EXTRACT_PRIVATE        = NO
 
 # We do not need latex output
 GENERATE_LATEX         = NO

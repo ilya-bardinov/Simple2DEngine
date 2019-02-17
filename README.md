@@ -1,6 +1,6 @@
 # Simple2DEngine
 
-Simple2DEngine is a simple game engine written in C++.
+Simple2DEngine is a simple game engine based on SFML and written in C++.
 
 ## Build Status
 
@@ -10,7 +10,7 @@ Simple2DEngine is a simple game engine written in C++.
 
 ## How to build Simple2DEngine
 
-Debug build which will install itself into `build/dist`)
+Debug build which will install itself into default path (`build/dist`)
 
 ~~~
 mkdir build
@@ -20,13 +20,13 @@ cmake --build .
 cmake --build . --target install
 ~~~
 
-Release build which will install itself into `/usr` system folder
+Release build which will install itself into `install` system folder
 ~~~
 mkdir build 
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE="Release"
+cmake .. -DCMAKE_INSTALL_PREFIX="../install" -DCMAKE_BUILD_TYPE="Release"
 cmake --build .
-sudo cmake --build . --target install
+cmake --build . --target install
 ~~~
 
 Use this commands if you want build and install documentation
