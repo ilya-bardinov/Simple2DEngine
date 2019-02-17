@@ -30,6 +30,17 @@ namespace simple2dengine
          */
         Node();
         /**
+         * @brief Update logic of engine
+         * 
+         * @param deltaInMs delta time from previous update in milliseconds
+         */
+        void update(int32_t deltaInMs);
+        /**
+         * @brief Render and Display scene.
+         * 
+         */
+        void render();
+        /**
          * @brief Get the SceneManager.
          * 
          * @return SceneManager* for convenient way to add or remove scene from currenet scene. Will be nullptr if scene is not added.

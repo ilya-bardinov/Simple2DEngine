@@ -7,6 +7,16 @@ namespace simple2dengine
 
     }
 
+    void Node::update(int32_t deltaInMs)
+    {
+
+    }
+
+    void Node::render()
+    {
+
+    }
+
     SceneManager* Node::getSceneManager() const
     {
         return sceneManager;

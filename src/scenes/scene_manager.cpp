@@ -29,13 +29,17 @@ namespace simple2dengine
         return nodes.size();
     }
 
-    void SceneManager::update(int64_t deltaInMs)
+    void SceneManager::update(int32_t deltaInMs)
     {
-
+        std::shared_ptr<Node> node = nodes.back();
+        if(node)
+            node->update(deltaInMs);
     }
 
     void SceneManager::render()
     {
-
+        std::shared_ptr<Node> node = nodes.back();
+        if(node)
+            node->render();
     }
 }

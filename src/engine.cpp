@@ -69,7 +69,8 @@ namespace simple2dengine
         }
 
         // update scenes in scene manager
-        sceneManager->update(deltaTime.asMilliseconds());
+        if(sceneManager)
+            sceneManager->update(deltaTime.asMilliseconds());
 
         // Now we should display in window all our graphics
         render();
@@ -80,7 +81,8 @@ namespace simple2dengine
         // clear the window with black color
         window.clear(sf::Color::Black);
         // render scenes in scene manager
-        sceneManager->render();
+        if(sceneManager)
+            sceneManager->render();
         // end the current frame
         window.display();
     }
