@@ -52,7 +52,6 @@ TEST_CASE("State of scenes in Engine") {
     simple2dengine::Engine engine;
 
     std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>();
-
     engine.startWithScene(node);
 
     REQUIRE(node->getSceneManager()->getScenesCount() == 1);

@@ -66,7 +66,7 @@ namespace simple2dengine
          * 
          * @param node initial scene
          */
-        void startWithScene(std::shared_ptr<Node>& node);
+        void startWithScene(const std::shared_ptr<Node>& node);
         /**
          * @brief Update logic of Engine and Nodes.
          * 

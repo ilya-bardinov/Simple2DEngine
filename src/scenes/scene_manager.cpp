@@ -7,7 +7,7 @@ namespace simple2dengine
 
     }
 
-    void SceneManager::pushScene(std::shared_ptr<Node>& node)
+    void SceneManager::pushScene(const std::shared_ptr<Node>& node)
     {
         node->setSceneManager(this);
         nodes.push_back(node);
@@ -18,7 +18,7 @@ namespace simple2dengine
         nodes.pop_back();
     }
         
-    void SceneManager::replaceScene(std::shared_ptr<Node>& node)
+    void SceneManager::replaceScene(const std::shared_ptr<Node>& node)
     {
         popScene();
         pushScene(node);

@@ -31,7 +31,7 @@ namespace simple2dengine
         return window.isOpen();
     }
 
-    void Engine::startWithScene(std::shared_ptr<Node>& node)
+    void Engine::startWithScene(const std::shared_ptr<Node>& node)
     {
         if(sceneManager)
         {

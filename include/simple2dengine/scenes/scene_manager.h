@@ -34,7 +34,7 @@ namespace simple2dengine
          * 
          * @param node Node
          */
-        void pushScene(std::shared_ptr<Node>& node);
+        void pushScene(const std::shared_ptr<Node>& node);
         /**
          * @brief Remove last node.
          * 
@@ -45,7 +45,7 @@ namespace simple2dengine
          * 
          * @param node new that will be added
          */
-        void replaceScene(std::shared_ptr<Node>& node);
+        void replaceScene(const std::shared_ptr<Node>& node);
         /**
          * @brief Get the Scenes Count.
          * 
