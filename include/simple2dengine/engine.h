@@ -62,13 +62,13 @@ namespace simple2dengine
          */
         bool isWindowOpen() const;
         /**
-         * @brief Add Scene to Engine to display it.
+         * @brief Add Node (Scene) to Engine to display it.
          * 
          * @param node initial scene
          */
         void startWithScene(std::shared_ptr<Node>& node);
         /**
-         * @brief Update logic of Engine and Scene.
+         * @brief Update logic of Engine and Nodes.
          * 
          */
         void update();

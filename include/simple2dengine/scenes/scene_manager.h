@@ -28,8 +28,6 @@ namespace simple2dengine
     class SceneManager
     {
       public:
-              // allow to construct SceneManager from Engine only. 
-        friend class Engine;
         /**
          * @brief Make Node as a current scene.
          * Old Node will be paused.
@@ -76,6 +74,9 @@ namespace simple2dengine
 
       private:
         std::list<std::shared_ptr<Node>> nodes;
+
+        // allow to construct SceneManager from Engine only. 
+        friend class Engine;
     };
 } // simple2dengine
 

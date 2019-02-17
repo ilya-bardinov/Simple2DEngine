@@ -30,9 +30,9 @@ namespace simple2dengine
          */
         Node();
         /**
-         * @brief Get the Scene Manager.
+         * @brief Get the SceneManager.
          * 
-         * @return SceneManager* for convenient way to add or remove scene from currenet scene
+         * @return SceneManager* for convenient way to add or remove scene from currenet scene. Will be nullptr if scene is not added.
          */
         SceneManager* getSceneManager() const;
 
@@ -41,7 +41,7 @@ namespace simple2dengine
          * @brief Set the Scene Manager.
          * Used for internal purpose.
          * 
-         * @param sceneManager is a Scene Manager 
+         * @param sceneManager is a SceneManager 
          */
         void setSceneManager(SceneManager* sceneManager);
 

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "simple2dengine/engine.h"
 
 namespace simple2dengine
@@ -9,6 +11,11 @@ namespace simple2dengine
 
     void Engine::openWindow(const int windowWidth, const int windowHeight, const std::string & windowName)
     {
+        if(isWindowOpen())
+        {
+            std::cout << "ERROR: Engine::openWindow: Already opened a window!" << std::endl;
+            return;
+        }
         // SFML creates window with size parameters and name
         window.create(sf::VideoMode(windowWidth, windowHeight), windowName);
     }
@@ -26,6 +33,11 @@ namespace simple2dengine
 
     void Engine::startWithScene(std::shared_ptr<Node>& node)
     {
+        if(sceneManager)
+        {
+            std::cout << "ERROR: Engine::startWithScene: Already started with scene!" << std::endl;
+            return;
+        }
         sceneManager = std::unique_ptr<SceneManager>(new SceneManager());
         sceneManager->pushScene(node);
     }
