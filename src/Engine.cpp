@@ -1,16 +1,16 @@
-#include "Simple2DEngine/Engine.hpp"
+#include "simple2dengine/engine.h"
 
-namespace Simple2DEngine
+namespace simple2dengine
 {
     Engine::Engine()
     {
 
     }
 
-    void Engine::openWindow(const int windowWidth, const int windowheight, const std::string & windowName)
+    void Engine::openWindow(const int windowWidth, const int windowHeight, const std::string & windowName)
     {
         // SFML creates window with size parameters and name
-        window.create(sf::VideoMode(windowWidth, windowheight), windowName);
+        window.create(sf::VideoMode(windowWidth, windowHeight), windowName);
     }
 
     void Engine::closeWindow()
@@ -24,9 +24,10 @@ namespace Simple2DEngine
         return window.isOpen();
     }
 
-    void Engine::startWithNode()
+    void Engine::startWithScene(std::shared_ptr<Node>& node)
     {
-        
+        sceneManager = std::unique_ptr<SceneManager>(new SceneManager());
+        sceneManager->pushScene(node);
     }
 
     void Engine::update()
@@ -34,22 +35,29 @@ namespace Simple2DEngine
         // get elapsed time every tick for physics
         // Limit the framerate if needed
         sf::Time deltaTime = deltaClock.restart();
-        if (frameTimeLimit != sf::Time::Zero && frameTimeLimit - deltaTime > sf::Time::Zero)
+        if (framerateLimit != sf::Time::Zero && framerateLimit - deltaTime > sf::Time::Zero)
         {
-            sleep(frameTimeLimit - deltaTime);
+            sleep(framerateLimit - deltaTime);
+            deltaTime = framerateLimit;
         }
 
-        if (isWindowOpen())
+        // it make no sense to render and update if no window
+        if (!isWindowOpen())
         {
-            // check all the window's events that were triggered since the last iteration of the loop
-            sf::Event event;
-            while (window.pollEvent(event))
-            {
-                // "close requested" event: we close the window
-                if (event.type == sf::Event::Closed)
-                    closeWindow();
-            }
+            return;
         }
+
+        // check all the window's events that were triggered since the last iteration of the loop
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                closeWindow();
+        }
+
+        // update scenes in scene manager
+        sceneManager->update(deltaTime.asMilliseconds());
 
         // Now we should display in window all our graphics
         render();
@@ -59,6 +67,8 @@ namespace Simple2DEngine
     {
         // clear the window with black color
         window.clear(sf::Color::Black);
+        // render scenes in scene manager
+        sceneManager->render();
         // end the current frame
         window.display();
     }
@@ -66,8 +76,8 @@ namespace Simple2DEngine
     void Engine::setFramerateLimit(const unsigned int limit)
     {
         if (limit > 0)
-            frameTimeLimit = sf::seconds(1.f / limit);
+            framerateLimit = sf::seconds(1.f / limit);
         else
-            frameTimeLimit = sf::Time::Zero;
+            framerateLimit = sf::Time::Zero;
     }
-}
+} // simple2dengine

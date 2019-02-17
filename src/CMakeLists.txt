@@ -4,18 +4,16 @@ set(SFML_MIN_VERSION 2.5.1)
 find_package(SFML COMPONENTS window system graphics REQUIRED)
 
 
-# Headers and Sources
-set(
-    HEADERS
-    ${Simple2DEngine_SOURCE_DIR}/include/Simple2DEngine/Engine.hpp
-)
+# Sources
 set(
     SOURCES
-    ${Simple2DEngine_SOURCE_DIR}/src/Engine.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/engine.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/scenes/scene_manager.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/scenes/node.cpp
 )
 
 # Executable
-add_library(Simple2DEngine STATIC ${HEADERS} ${SOURCES})
+add_library(Simple2DEngine STATIC ${SOURCES})
 
 # Link SFML
 target_link_libraries(
@@ -40,8 +38,9 @@ install(
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib/static
 )
+
 # Install headers
 install(
-    DIRECTORY ${Simple2DEngine_SOURCE_DIR}/include/Simple2DEngine
+    DIRECTORY ${Simple2DEngine_SOURCE_DIR}/include/simple2dengine
     DESTINATION include
 )
