@@ -15,19 +15,20 @@ Linux GCC   Linux Clang   MacOS   Windows
 Documentation
 -------------
 
-Status
+Documentation status
 ~~~~~~
 
-.. image:: https://readthedocs.org/projects/simple2dengine/badge/?version=latest
-   :target: https://simple2dengine.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/simple2dengine/badge/?version=master
+   :target: https://simple2dengine.readthedocs.io/en/master/?badge=master
    :alt: Documentation Status
 
-You can read online documentation here.
+You can read online documentation `here 
+<https://simple2dengine.readthedocs.io/en/master/>`_.
 
-How to build
+How to build documentation
 ~~~~~~~~~~~~
 
-First you need ``exhale`` python package that can be install by
+First of all you need ``exhale`` python package that can be install by
 
 ::
 
@@ -77,7 +78,7 @@ Targets
 
 -  Miscellaneous
 
-   -  *doc* - build documentation (if doxygen is available)
+   -  *doc* - build documentation
 
 -  External
 
