@@ -6,17 +6,24 @@ Simple2DEngine is a simple game engine based on SFML and written in C++.
 Build Status
 ------------
 
-=========== ============= ======= =========
-Linux GCC   Linux Clang   MacOS   Windows
-=========== ============= ======= =========
-|Linux GCC| |Linux Clang| |MacOS| |Windows|
-=========== ============= ======= =========
+.. list-table:: 
+   :widths: 35 35 35 35
+   :header-rows: 1
+
+   * - Linux GCC
+     - Linux Clang
+     - MacOS
+     - Windows
+   * - |Linux GCC|
+     - |Linux Clang|
+     - |MacOS|
+     - |Windows|
 
 Documentation
 -------------
 
 Documentation status
-~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. image:: https://readthedocs.org/projects/simple2dengine/badge/?version=master
    :target: https://simple2dengine.readthedocs.io/en/master/?badge=master
@@ -26,7 +33,7 @@ You can read online documentation `here
 <https://simple2dengine.readthedocs.io/en/master/>`_.
 
 How to build documentation
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all you need ``exhale`` python package that can be install by
 
