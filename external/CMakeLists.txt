@@ -29,3 +29,6 @@ add_custom_target(external-Catch-update
 )
 # set include directory
 set(EXTERNAL_CATCH_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Catch/src/Catch/single_include/catch2" PARENT_SCOPE)
+
+# remove Catch directory on clean
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Catch")

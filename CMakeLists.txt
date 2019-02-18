@@ -35,7 +35,7 @@ endif()
 add_subdirectory(external)
 
 # Documentation build
-add_subdirectory(doc)
+add_subdirectory(docs)
 
 # Testing
 enable_testing()

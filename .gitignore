@@ -5,8 +5,13 @@ Release
 .DS_Store
 xcuserdata
 Build
+_build
 build
 .idea
 .vs
 /external/Catch
 .vscode
+
+# ignore for docs
+docs/doxyoutput
+docs/api
