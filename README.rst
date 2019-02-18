@@ -12,6 +12,41 @@ Linux GCC   Linux Clang   MacOS   Windows
 |Linux GCC| |Linux Clang| |MacOS| |Windows|
 =========== ============= ======= =========
 
+Documentation
+-------------
+
+Status
+~~~~~~
+
+.. image:: https://readthedocs.org/projects/simple2dengine/badge/?version=latest
+   :target: https://simple2dengine.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+You can read online documentation here.
+
+How to build
+~~~~~~~~~~~~
+
+First you need ``exhale`` python package that can be install by
+
+::
+
+   pip install exhale
+
+After installation use this if you want build documentation.
+
+::
+
+   cmake --build . --target doc
+
+If you want to install documentation you can use this after doc building.
+
+::
+
+   cmake --build . --target install
+
+Don't forget to use ``-DCMAKE_INSTALL_PREFIX``
+
 Building instructions
 ---------------------
 
@@ -20,9 +55,8 @@ Prerequisites
 
 -  ``CMake 3.2`` or newer
 -  ``SFML 2.5.1`` or newer
--  Compiler with support for ``C++14``
+-  Compiler with ``C++14`` support 
 -  ``git`` - for downloading Catch2 for Unit Testing
--  ``Doxygen`` for docs generation (*Graphviz for more graphs in docs, PlantUML for more UML diagrams*, PlantUML needs java)
 
 Targets
 ~~~~~~~
@@ -58,7 +92,7 @@ CMake Variables
 Build example
 ~~~~~~~~~~~~~
 
-Debug build which will install itself into default path (``build/dist``)
+Debug build which will install itself into default path (``build/dist``).
 
 ::
 
@@ -68,7 +102,7 @@ Debug build which will install itself into default path (``build/dist``)
    cmake --build .
    cmake --build . --target install
 
-Release build which will install itself into ``install`` folder in project root dir
+Release build which will install itself into ``install`` directory in project root dir.
 
 ::
 
@@ -78,19 +112,12 @@ Release build which will install itself into ``install`` folder in project root 
    cmake --build .
    cmake --build . --target install
 
-Use this commands if you want build and install documentation
-
-::
-
-   cmake --build . --target doc
-   cmake --build . --target install
-
 License
 -------
 
 |License|
 
-This project uses a BSD 3-clause license.
+Simple2DEngine uses a BSD 3-clause license.
 
 .. |Linux GCC| image:: https://travis-matrix-badges.herokuapp.com/repos/ilya-bardinov/Simple2DEngine/branches/master/1
    :target: https://travis-ci.org/ilya-bardinov/Simple2DEngine
@@ -102,3 +129,4 @@ This project uses a BSD 3-clause license.
    :target: https://travis-ci.org/ilya-bardinov/Simple2DEngine
 .. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
    :target: https://github.com/ilya-bardinov/Simple2DEngine/blob/master/LICENSE
+

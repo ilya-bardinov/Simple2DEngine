@@ -14,8 +14,6 @@
 
 import sys
 import os
-import shlex
-import textwrap
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -34,8 +32,7 @@ needs_sphinx = '1.0'
 # Tell Sphinx to use both the `breathe` and `exhale` extensions
 extensions = [
     'breathe',
-    'exhale',
-    'recommonmark'
+    'exhale'
 ]
 
 # Setup the `breathe` extension
