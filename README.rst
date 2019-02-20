@@ -45,6 +45,9 @@ After installation use this if you want build documentation.
 
 ::
 
+   mkdir build 
+   cd build
+   cmake ..
    cmake --build . --target doc
 
 If you want to install documentation you can use this after doc building.
@@ -53,7 +56,7 @@ If you want to install documentation you can use this after doc building.
 
    cmake --build . --target install
 
-Don't forget to use ``-DCMAKE_INSTALL_PREFIX``
+Directory for installation can be set by ``-DCMAKE_INSTALL_PREFIX`` variable.
 
 Building instructions
 ---------------------
