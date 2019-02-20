@@ -4,7 +4,7 @@
 
 namespace simple2dengine
 {
-    Engine::Engine(const Configuration& config) : sceneManager(*this), configuration(config)
+    Engine::Engine(const Configuration& config) : sceneManager(*this), assetManager(), configuration(config)
     {
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
     }
@@ -37,6 +37,11 @@ namespace simple2dengine
     SceneManager& Engine::getSceneManager()
     {
         return sceneManager;
+    }
+
+    AssetManager& Engine::getAssetManager()
+    {
+        return assetManager;
     }
 
     void Engine::update(int delta)

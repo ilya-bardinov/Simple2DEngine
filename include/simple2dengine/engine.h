@@ -21,6 +21,7 @@
 
 #include "simple2dengine/configuration.h"
 #include "simple2dengine/managers/scene_manager.h"
+#include "simple2dengine/managers/asset_manager.h"
 
 /**
  * @brief Namespace for Simple2DEngine.
@@ -57,6 +58,11 @@ namespace simple2dengine
          *
          */
         SceneManager& getSceneManager();
+        /**
+         * @brief Get AssetManager.
+         *
+         */
+        AssetManager& getAssetManager();
 
       private:
         /**
@@ -76,8 +82,9 @@ namespace simple2dengine
         sf::Clock deltaClock;
         // running state
         bool isRunning = false;
-        // scene manager
+        // managers
         SceneManager sceneManager;
+        AssetManager assetManager;
         // config
         Configuration configuration;
     };
