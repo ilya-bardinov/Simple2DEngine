@@ -27,7 +27,7 @@ namespace simple2dengine
         }
     }
 
-    void Node::update(int32_t deltaInMs)
+    void Node::update(int deltaInMs)
     {
         for(const auto& child : children)
         {

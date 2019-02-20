@@ -64,6 +64,8 @@ namespace simple2dengine
          */
         AssetManager& getAssetManager();
 
+        sf::RenderWindow& getRenderWindow();
+
       private:
         /**
          * @brief Update logic of Engine and Nodes.

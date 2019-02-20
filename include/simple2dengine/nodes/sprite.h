@@ -45,6 +45,8 @@ namespace simple2dengine
          */
         void setPosition(float x, float y);
 
+        virtual void render();
+
       private:
         sf::Sprite sprite;
     };

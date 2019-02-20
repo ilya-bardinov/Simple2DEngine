@@ -44,6 +44,11 @@ namespace simple2dengine
         return assetManager;
     }
 
+    sf::RenderWindow& Engine::getRenderWindow()
+    {
+        return window;
+    }
+
     void Engine::update(int delta)
     {
 

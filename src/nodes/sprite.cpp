@@ -12,4 +12,9 @@ namespace simple2dengine
     {
         sprite.setPosition(sf::Vector2f(x, y));
     }
+
+    void SpriteNode::render()
+    {
+        engine.getRenderWindow().draw(sprite);
+    }
 }
