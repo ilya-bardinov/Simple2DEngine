@@ -3,84 +3,107 @@
 
 #include "catch.hpp"
 #include "simple2dengine/engine.h"
-#include "simple2dengine/scenes/node.h"
+#include "simple2dengine/configuration.h"
+#include "simple2dengine/nodes/node.h"
+#include "simple2dengine/managers/scene_manager.h"
 
 TEST_CASE("State of window in Engine") {
 
-    simple2dengine::Engine engine;
-
-    REQUIRE(engine.isWindowOpen() == false);
-
-    SECTION("Open window and update") {
-        engine.openWindow(100, 100, "test");
-
-        REQUIRE(engine.isWindowOpen() == true);
-
-        engine.update();
-    }
-    SECTION("Close window and update") {
-        engine.closeWindow();
-        engine.update();
-        
-        REQUIRE(engine.isWindowOpen() == false);
-    }
-    SECTION("Open and close window") {
-        engine.openWindow(100, 100, "test");
-        
-        REQUIRE(engine.isWindowOpen() == true);
-
-        engine.closeWindow();
-
-        REQUIRE(engine.isWindowOpen() == false);
-    }
-    SECTION("Open window twice and close it ") {
-        engine.openWindow(100, 100, "test");
-
-        REQUIRE(engine.isWindowOpen() == true);
-
-        engine.openWindow(100, 100, "test");
-        
-        REQUIRE(engine.isWindowOpen() == true);
-
-        engine.closeWindow();
-
-        REQUIRE(engine.isWindowOpen() == false);
-    }
+    simple2dengine::Configuration config;
+    config.fps = 60;
+    config.window.width = 400;
+    config.window.height = 300;
+    config.window.name = std::string("Unit Test");
+    simple2dengine::Engine engine(config);
+    engine.stop();
 }
 
-TEST_CASE("State of scenes in Engine") {
-    simple2dengine::Engine engine;
+TEST_CASE("Work of scenes in Engine") {
+    simple2dengine::Configuration config;
+    config.fps = 60;
+    config.window.width = 400;
+    config.window.height = 300;
+    config.window.name = std::string("Unit Test");
+    simple2dengine::Engine engine(config);
 
-    std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>();
-    engine.startWithScene(node);
+    simple2dengine::SceneManager scenemanager = engine.getSceneManager();
 
-    REQUIRE(node->getSceneManager()->getScenesCount() == 1);
+    SECTION("Scenes count") {
 
-    SECTION("Pop, push and pop the same scene") {
-        node->getSceneManager()->popScene();
-        REQUIRE(node->getSceneManager()->getScenesCount() == 0);
-
-        node->getSceneManager()->pushScene(node);
-        REQUIRE(node->getSceneManager()->getScenesCount() == 1);
-
-        node->getSceneManager()->popScene();
-        REQUIRE(node->getSceneManager()->getScenesCount() == 0);
+        REQUIRE(scenemanager.getSceneCount() == 0);
     }
-    SECTION("Replace scene with another one") {
-        std::shared_ptr<simple2dengine::Node> node2 = std::make_shared<simple2dengine::Node>();
-        node->getSceneManager()->replaceScene(node2);
+    SECTION("Add, switch and remove scene") {
+        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
+        scenemanager.addScene("root", node);
+        scenemanager.switchToScene("root");
 
-        REQUIRE(node->getSceneManager()->getScenesCount() == 1);
-    }
-    SECTION("Call startWithScene twice") {
-        std::shared_ptr<simple2dengine::Node> node2 = std::make_shared<simple2dengine::Node>();
-        engine.startWithScene(node2);
+        REQUIRE(scenemanager.getSceneCount() == 1);
 
-        REQUIRE(node->getSceneManager()->getScenesCount() == 1);
+        scenemanager.removeScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
+
+        scenemanager.switchToScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
     }
-    SECTION("Update engine and set framerate") {
-        engine.update();
-        engine.setFramerateLimit(60);
-        engine.update();
+    SECTION("Add and remove scene") {
+        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
+        scenemanager.addScene("root", node);
+
+        REQUIRE(scenemanager.getSceneCount() == 1);
+
+        scenemanager.removeScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
+
+        scenemanager.switchToScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
+    }
+    SECTION("Remove scene without adding it") {
+        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
+
+        scenemanager.removeScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
+
+        scenemanager.switchToScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
+    }
+    SECTION("Multiple nodes") {
+        printf("[STARTED] Multiple nodes \n");
+        std::shared_ptr<simple2dengine::Node> node1 = std::make_shared<simple2dengine::Node>(engine);
+        std::shared_ptr<simple2dengine::Node> node2 = std::make_shared<simple2dengine::Node>(engine);
+
+        scenemanager.addScene("root", node1);
+        scenemanager.addScene("menu", node2);
+
+        REQUIRE(scenemanager.getSceneCount() == 2);
+
+        scenemanager.switchToScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 2);
+
+        std::shared_ptr<simple2dengine::Node> childNode1 = std::make_shared<simple2dengine::Node>(engine);
+        std::shared_ptr<simple2dengine::Node> childNode2 = std::make_shared<simple2dengine::Node>(engine);
+        node2->addChild(childNode1);
+        node2->addChild(childNode2);
+        std::shared_ptr<simple2dengine::Node> childNode3 = std::make_shared<simple2dengine::Node>(engine);
+        std::shared_ptr<simple2dengine::Node> childNode4 = std::make_shared<simple2dengine::Node>(engine);
+        childNode1->addChild(childNode3);
+        childNode1->addChild(childNode4);
+
+        REQUIRE(scenemanager.getSceneCount() == 2);
+
+        scenemanager.switchToScene("menu");
+        scenemanager.removeScene("root");
+
+        REQUIRE(scenemanager.getSceneCount() == 1);
+
+        scenemanager.removeScene("menu");
+
+        REQUIRE(scenemanager.getSceneCount() == 0);
     }
 }

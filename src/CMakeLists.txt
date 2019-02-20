@@ -8,8 +8,8 @@ find_package(SFML COMPONENTS window system graphics REQUIRED)
 set(
     SOURCES
     ${Simple2DEngine_SOURCE_DIR}/src/engine.cpp
-    ${Simple2DEngine_SOURCE_DIR}/src/scenes/scene_manager.cpp
-    ${Simple2DEngine_SOURCE_DIR}/src/scenes/node.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/managers/scene_manager.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/nodes/node.cpp
 )
 
 # Executable

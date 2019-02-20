@@ -4,9 +4,9 @@
  * @brief Starting class.
  * @version 0.1
  * @date 2019-02-17
- * 
+ *
  * @copyright Copyright (c) 2019
- * 
+ *
  */
 
 #ifndef SIMPLE2DENGINE_ENGINE_H_
@@ -19,70 +19,54 @@
 #include <string>
 #include <memory>
 
-#include "simple2dengine/scenes/node.h"
-#include "simple2dengine/scenes/scene_manager.h"
+#include "simple2dengine/configuration.h"
+#include "simple2dengine/managers/scene_manager.h"
 
 /**
  * @brief Namespace for Simple2DEngine.
- * 
+ *
  */
 namespace simple2dengine
 {
     /**
      * @brief Initialization class of Engine.
      * It is a starting point for Simple2DEngine.
-     * 
+     *
      */
     class Engine
     {
       public:
         /**
-         * @brief Default constructor.
-         * 
+         * @brief Construct a new Engine object.
+         *
+         * @param config Configuration for Engine
          */
-        Engine();
+        Engine(const Configuration& config);
         /**
-         * @brief Initialize and open an empty window of specified size and name.
-         * 
-         * @param windowWidth window width
-         * @param windowHeight window height
-         * @param windowName window name
+         * @brief Start Engine loop.
+         *
          */
-        void openWindow(const int windowWidth, const int windowHeight, const std::string& windowName);
+        void run();
         /**
-         * @brief Close window.
-         * 
+         * @brief Stop Engine and exit.
+         *
          */
-        void closeWindow();
+        void stop();
         /**
-         * @brief Check if window is open or not.
-         * 
-         * @return true if window is open. 
-         * @return false if window is not open.
+         * @brief Get SceneManager.
+         *
          */
-        bool isWindowOpen() const;
-        /**
-         * @brief Add Node (Scene) to Engine to display it.
-         * 
-         * @param node initial scene
-         */
-        void startWithScene(const std::shared_ptr<Node>& node);
-        /**
-         * @brief Update logic of Engine and Nodes.
-         * 
-         */
-        void update();
-        /**
-         * @brief Set the Framerate Limit in window.
-         * 
-         * @param limit framerate limit 
-         */
-        void setFramerateLimit(const unsigned int limit);
+        SceneManager& getSceneManager();
 
       private:
         /**
+         * @brief Update logic of Engine and Nodes.
+         *
+         */
+        void update(int delta);
+        /**
          * @brief Render Scenes.
-         * 
+         *
          */
         void render();
 
@@ -90,9 +74,12 @@ namespace simple2dengine
         sf::RenderWindow window;
         // time and framerate
         sf::Clock deltaClock;
-        sf::Time framerateLimit = sf::Time::Zero;
+        // running state
+        bool isRunning = false;
         // scene manager
-        std::unique_ptr<SceneManager> sceneManager;
+        SceneManager sceneManager;
+        // config
+        Configuration configuration;
     };
 } // simple2dengine
 

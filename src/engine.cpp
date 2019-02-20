@@ -4,60 +4,43 @@
 
 namespace simple2dengine
 {
-    Engine::Engine()
+    Engine::Engine(const Configuration& config) : sceneManager(*this), configuration(config)
     {
-
+        window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
     }
 
-    void Engine::openWindow(const int windowWidth, const int windowHeight, const std::string & windowName)
+    void Engine::run()
     {
-        if(isWindowOpen())
+        isRunning = true;
+
+        while (isRunning)
         {
-            std::cout << "ERROR: Engine::openWindow: Already opened a window!" << std::endl;
-            return;
+            sf::Time deltaTime = deltaClock.restart();
+
+            update(deltaTime.asMilliseconds());
+
+            // Limit the framerate if needed
+            if (configuration.fps > 0)
+            {
+                sf::Time currFramerate = sf::seconds(static_cast<float>(1.0f / configuration.fps));
+                if(currFramerate > deltaTime)
+                    sf::sleep(currFramerate - deltaTime);
+            }
         }
-        // SFML creates window with size parameters and name
-        window.create(sf::VideoMode(windowWidth, windowHeight), windowName);
     }
 
-    void Engine::closeWindow()
+    void Engine::stop()
     {
-        if(isWindowOpen())
-            window.close();
+        isRunning = false;
     }
 
-    bool Engine::isWindowOpen() const
+    SceneManager& Engine::getSceneManager()
     {
-        return window.isOpen();
+        return sceneManager;
     }
 
-    void Engine::startWithScene(const std::shared_ptr<Node>& node)
+    void Engine::update(int delta)
     {
-        if(sceneManager)
-        {
-            std::cout << "ERROR: Engine::startWithScene: Already started with scene!" << std::endl;
-            return;
-        }
-        sceneManager = std::unique_ptr<SceneManager>(new SceneManager());
-        sceneManager->pushScene(node);
-    }
-
-    void Engine::update()
-    {
-        // get elapsed time every tick for physics
-        // Limit the framerate if needed
-        sf::Time deltaTime = deltaClock.restart();
-        if (framerateLimit != sf::Time::Zero && framerateLimit - deltaTime > sf::Time::Zero)
-        {
-            sleep(framerateLimit - deltaTime);
-            deltaTime = framerateLimit;
-        }
-
-        // it make no sense to render and update if no window
-        if (!isWindowOpen())
-        {
-            return;
-        }
 
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
@@ -65,12 +48,14 @@ namespace simple2dengine
         {
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
-                closeWindow();
+            {
+                stop();
+                window.close();
+            }
         }
 
         // update scenes in scene manager
-        if(sceneManager)
-            sceneManager->update(deltaTime.asMilliseconds());
+        sceneManager.update(delta);
 
         // Now we should display in window all our graphics
         render();
@@ -81,17 +66,8 @@ namespace simple2dengine
         // clear the window with black color
         window.clear(sf::Color::Black);
         // render scenes in scene manager
-        if(sceneManager)
-            sceneManager->render();
+        sceneManager.render();
         // end the current frame
         window.display();
-    }
-
-    void Engine::setFramerateLimit(const unsigned int limit)
-    {
-        if (limit > 0)
-            framerateLimit = sf::seconds(1.f / limit);
-        else
-            framerateLimit = sf::Time::Zero;
     }
 } // simple2dengine
