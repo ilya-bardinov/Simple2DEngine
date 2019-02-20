@@ -5,6 +5,7 @@
 #include "simple2dengine/engine.h"
 #include "simple2dengine/configuration.h"
 #include "simple2dengine/nodes/node.h"
+#include "simple2dengine/nodes/sprite.h"
 #include "simple2dengine/managers/scene_manager.h"
 
 TEST_CASE("State of window in Engine") {
@@ -33,7 +34,7 @@ TEST_CASE("Work of scenes in Engine") {
         REQUIRE(scenemanager.getSceneCount() == 0);
     }
     SECTION("Add, switch and remove scene") {
-        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
+        auto node = std::make_shared<simple2dengine::Node>(engine);
         scenemanager.addScene("root", node);
         scenemanager.switchToScene("root");
 
@@ -47,9 +48,14 @@ TEST_CASE("Work of scenes in Engine") {
 
         REQUIRE(scenemanager.getSceneCount() == 0);
     }
-    SECTION("Add and remove scene") {
-        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
-        scenemanager.addScene("root", node);
+    SECTION("Add and remove sprite scene") {
+        auto sprite = std::make_shared<simple2dengine::SpriteNode>(engine);
+        sprite->setImage("testres/image.png");
+        sprite->setPosition(10, 55.8f);
+        scenemanager.addScene("root", sprite);
+        engine.getAssetManager().loadTexture("tst");
+        engine.getAssetManager().unloadTexture("tst");
+        engine.getAssetManager().unloadTextures();
 
         REQUIRE(scenemanager.getSceneCount() == 1);
 
@@ -62,7 +68,7 @@ TEST_CASE("Work of scenes in Engine") {
         REQUIRE(scenemanager.getSceneCount() == 0);
     }
     SECTION("Remove scene without adding it") {
-        std::shared_ptr<simple2dengine::Node> node = std::make_shared<simple2dengine::Node>(engine);
+        auto node = std::make_shared<simple2dengine::Node>(engine);
 
         scenemanager.removeScene("root");
 
@@ -74,8 +80,8 @@ TEST_CASE("Work of scenes in Engine") {
     }
     SECTION("Multiple nodes") {
         printf("[STARTED] Multiple nodes \n");
-        std::shared_ptr<simple2dengine::Node> node1 = std::make_shared<simple2dengine::Node>(engine);
-        std::shared_ptr<simple2dengine::Node> node2 = std::make_shared<simple2dengine::Node>(engine);
+        auto node1 = std::make_shared<simple2dengine::Node>(engine);
+        auto node2 = std::make_shared<simple2dengine::Node>(engine);
 
         scenemanager.addScene("root", node1);
         scenemanager.addScene("menu", node2);
@@ -86,12 +92,12 @@ TEST_CASE("Work of scenes in Engine") {
 
         REQUIRE(scenemanager.getSceneCount() == 2);
 
-        std::shared_ptr<simple2dengine::Node> childNode1 = std::make_shared<simple2dengine::Node>(engine);
-        std::shared_ptr<simple2dengine::Node> childNode2 = std::make_shared<simple2dengine::Node>(engine);
+        auto childNode1 = std::make_shared<simple2dengine::Node>(engine);
+        auto childNode2 = std::make_shared<simple2dengine::Node>(engine);
         node2->addChild(childNode1);
         node2->addChild(childNode2);
-        std::shared_ptr<simple2dengine::Node> childNode3 = std::make_shared<simple2dengine::Node>(engine);
-        std::shared_ptr<simple2dengine::Node> childNode4 = std::make_shared<simple2dengine::Node>(engine);
+        auto childNode3 = std::make_shared<simple2dengine::Node>(engine);
+        auto childNode4 = std::make_shared<simple2dengine::SpriteNode>(engine);
         childNode1->addChild(childNode3);
         childNode1->addChild(childNode4);
 
