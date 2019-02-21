@@ -36,8 +36,12 @@ namespace simple2dengine
         virtual void load();
         virtual void unload();
 
+        virtual void process(int deltaInMs);
+
         void addChild(const std::shared_ptr<Node>& child);
         void removeChild(const std::shared_ptr<Node>& child);
+
+      protected:
         /**
          * @brief Update logic of engine
          *
@@ -49,14 +53,14 @@ namespace simple2dengine
          *
          */
         virtual void render();
-
-      protected:
         // engine refer
         Engine& engine;
 
       private:
         // all child nodes
         std::vector<std::shared_ptr<Node>> children;
+
+        friend class SceneManager;
     };
 } // simple2dengine
 

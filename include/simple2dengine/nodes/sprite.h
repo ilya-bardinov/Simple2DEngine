@@ -18,7 +18,6 @@
 
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/node.h"
-#include "simple2dengine/managers/asset_manager.h"
 
 namespace simple2dengine
 {
@@ -28,7 +27,6 @@ namespace simple2dengine
     */
     class SpriteNode : public Node
     {
-      using Node::Node;
       public:
         SpriteNode(Engine& engine) : Node(engine) {  };
         /**
@@ -44,8 +42,11 @@ namespace simple2dengine
          * @param y Y coordinate of the new position
          */
         void setPosition(float x, float y);
+        const sf::Vector2f& getPosition() const;
+        void moveTo(float x, float y);
 
-        virtual void render();
+      protected:
+        virtual void render() override;
 
       private:
         sf::Sprite sprite;

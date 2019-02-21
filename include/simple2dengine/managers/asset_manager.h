@@ -15,9 +15,10 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include <iostream>
 
-#include "SFML/Graphics/Texture.hpp"
+#include "simple2dengine/managers/loaders/loader.h"
 
 namespace simple2dengine
 {
@@ -29,12 +30,36 @@ namespace simple2dengine
     class AssetManager
     {
       public:
-        sf::Texture loadTexture(const std::string& filename);
-        void unloadTexture(const std::string& filename);
-        void unloadTextures();
+        void registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions);
+
+        void load(const std::string& filename);
+        void unload(const std::string& filename);
 
       private:
-        std::unordered_map<std::string, sf::Texture> textures;
+        template <class T>
+        T* getAsset(const std::string& filename) const
+        {
+            std::shared_ptr<Loader> loader = getLoader(filename);
+            if(!loader)
+            {
+                std::cout << "Error when getting asset '" << filename << "': no loaders found for extension!" << std::endl;
+                return nullptr;
+            }
+
+            std::shared_ptr<Asset> asset = loader->getAsset(filename);
+            if(asset != nullptr)
+            {
+                return static_cast<T *>(asset->nativeAsset);
+            }
+            return nullptr;
+        }
+
+        std::shared_ptr<Loader> getLoader(const std::string& filename) const;
+
+      private:
+        std::unordered_map<std::string, std::shared_ptr<Loader>> loaders;
+
+        friend class SpriteNode;
     };
 } // simple2dengine
 

@@ -22,6 +22,7 @@
 #include "simple2dengine/configuration.h"
 #include "simple2dengine/managers/scene_manager.h"
 #include "simple2dengine/managers/asset_manager.h"
+#include "simple2dengine/managers/loaders/texture_loader.h"
 
 /**
  * @brief Namespace for Simple2DEngine.
@@ -84,11 +85,13 @@ namespace simple2dengine
         sf::Clock deltaClock;
         // running state
         bool isRunning = false;
+        // config
+        Configuration configuration;
         // managers
         SceneManager sceneManager;
         AssetManager assetManager;
-        // config
-        Configuration configuration;
+        // loaders
+        std::shared_ptr<TextureLoader> textureLoader;
     };
 } // simple2dengine
 

@@ -4,15 +4,17 @@
 
 namespace simple2dengine
 {
-    Engine::Engine(const Configuration& config) : sceneManager(*this), assetManager(), configuration(config)
+    Engine::Engine(const Configuration& config) : sceneManager(), assetManager(), configuration(config)
     {
+        textureLoader = std::make_shared<TextureLoader>();
+        assetManager.registerLoader(textureLoader, { "png", "jpg" } );
+
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
     }
 
     void Engine::run()
     {
         isRunning = true;
-
         while (isRunning)
         {
             sf::Time deltaTime = deltaClock.restart();

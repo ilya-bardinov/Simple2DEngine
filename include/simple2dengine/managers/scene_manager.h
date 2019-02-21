@@ -20,7 +20,6 @@
 
 namespace simple2dengine
 {
-    class Engine;
     /**
      * @brief Scene Manager.
      * You can get it from Engine.
@@ -34,7 +33,7 @@ namespace simple2dengine
          * Used for internal purpose.
          *
          */
-        SceneManager(Engine& engine);
+        SceneManager();
         /**
          * @brief Make Node as a current scene.
          * Old Node will be paused.
@@ -59,6 +58,8 @@ namespace simple2dengine
          * @return int Scenes Count
          */
         int getSceneCount() const;
+
+      private:
         /**
          * @brief Update logic of engine
          *
@@ -72,12 +73,12 @@ namespace simple2dengine
         void render();
 
       private:
-        // engine
-        Engine& engine;
         // current scene
         std::shared_ptr<Node> currentScene;
         // map of nodes
         std::unordered_map<std::string, std::shared_ptr<Node>> scenes;
+
+        friend class Engine;
     };
 } // simple2dengine
 

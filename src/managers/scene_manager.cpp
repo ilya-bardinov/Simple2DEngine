@@ -2,7 +2,7 @@
 
 namespace simple2dengine
 {
-    SceneManager::SceneManager(Engine& engine) : engine(engine), currentScene(nullptr) { }
+    SceneManager::SceneManager() : currentScene(nullptr) { }
 
     void SceneManager::addScene(const std::string& name, const std::shared_ptr<Node>& scene)
     {

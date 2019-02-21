@@ -10,9 +10,12 @@ namespace simple2dengine
 
     void Node::unload() { }
 
+    void Node::process(int deltaInMs) { }
+
     void Node::addChild(const std::shared_ptr<Node>& child)
     {
         children.push_back(child);
+        child->load();
     }
 
     void Node::removeChild(const std::shared_ptr<Node>& child)
@@ -21,6 +24,7 @@ namespace simple2dengine
         {
             if (*it == child)
             {
+                child->unload();
                 children.erase(it);
                 break;
             }
@@ -33,6 +37,8 @@ namespace simple2dengine
         {
             child->update(deltaInMs);
         }
+
+        process(deltaInMs);
     }
 
     void Node::render()

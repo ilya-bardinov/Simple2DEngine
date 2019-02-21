@@ -2,37 +2,58 @@
 
 namespace simple2dengine
 {
-    sf::Texture AssetManager::loadTexture(const std::string& filename)
+    void AssetManager::registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions)
     {
-        auto it = textures.find(filename);
-
-        if (it != textures.end())
-            return it->second;
-
-        sf::Texture texture;
-        if (!texture.loadFromFile("image.png"))
+        for(const std::string& extension : extensions)
         {
-            std::cout << "AssetManager::loadTexture - error when loading file " << filename << std::endl;
-            return texture;
-        }
-
-        textures[filename] = texture;
-        return texture;
-    }
-
-    void AssetManager::unloadTexture(const std::string& filename)
-    {
-        auto it = textures.find(filename);
-
-        if (it != textures.end())
-        {
-            sf::Texture texture = it->second;
-            textures.erase(it);
+            auto loaderIterator = loaders.find(extension);
+            if(loaderIterator != loaders.end())
+            {
+                std::cout << "Error when register loader with extension '" << extension << "': extensions has already added!" << std::endl;
+                continue;
+            }
+            loaders[extension] = loader;
         }
     }
 
-    void AssetManager::unloadTextures()
+    void AssetManager::load(const std::string& filename)
     {
-        textures.clear();
+        std::shared_ptr<Loader> loader = getLoader(filename);
+        if(!loader)
+        {
+            std::cout << "Error when loading asset '" << filename << "': no loaders found for extension!" << std::endl;
+            return;
+        }
+
+        loader->load(filename);
+    }
+
+    void AssetManager::unload(const std::string& filename)
+    {
+        std::shared_ptr<Loader> loader = getLoader(filename);
+        if(!loader)
+        {
+            std::cout << "Error when loading asset '" << filename << "': no loaders found for extension!" << std::endl;
+            return;
+        }
+
+        loader->unload(filename);
+    }
+
+    std::shared_ptr<Loader> AssetManager::getLoader(const std::string& filename) const
+    {
+        size_t found = filename.rfind(".");
+        std::string extension("");
+
+        if (found != std::string::npos)
+        {
+            extension = filename.substr(found + 1);
+        }
+
+        auto loaderIterator = loaders.find(extension);
+        if(loaderIterator != loaders.end())
+            return loaderIterator->second;
+
+        return nullptr;
     }
 }

@@ -10,6 +10,8 @@ set(
     ${Simple2DEngine_SOURCE_DIR}/src/engine.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/managers/scene_manager.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/managers/asset_manager.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/loader.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/texture_loader.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/nodes/node.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/nodes/sprite.cpp
 )
