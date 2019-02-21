@@ -14,6 +14,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include "simple2dengine/managers/loaders/loader.h"
 

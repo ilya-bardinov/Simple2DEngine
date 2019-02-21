@@ -13,6 +13,7 @@
 #define _SIMPLE2DENGINE_MANAGERS_LOADERS_LOADER_H_
 
 #include <string>
+#include <memory>
 
 namespace simple2dengine
 {
