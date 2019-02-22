@@ -33,6 +33,7 @@ namespace simple2dengine
     void Engine::stop()
     {
         isRunning = false;
+        sceneManager.clear();
     }
 
     SceneManager& Engine::getSceneManager()

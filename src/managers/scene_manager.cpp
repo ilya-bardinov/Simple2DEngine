@@ -27,7 +27,7 @@ namespace simple2dengine
 
     void SceneManager::switchToScene(const std::string& name)
     {
-        if (currentScene != nullptr)
+        if (currentScene)
         {
             currentScene->unload();
         }
@@ -36,7 +36,7 @@ namespace simple2dengine
         if (it != scenes.end())
         {
             currentScene = it->second;
-            if(currentScene != nullptr)
+            if(currentScene)
                 currentScene->load();
         }
     }
@@ -46,9 +46,20 @@ namespace simple2dengine
         return scenes.size();
     }
 
+    void SceneManager::clear()
+    {
+        for (auto scene : scenes)
+        {
+	        if(scene.second)
+                scene.second->unload();
+        }
+        scenes.clear();
+        currentScene = nullptr;
+    }
+
     void SceneManager::update(int deltaInMs)
     {
-        if (currentScene != nullptr)
+        if (currentScene)
         {
             currentScene->update(deltaInMs);
         }
@@ -56,7 +67,7 @@ namespace simple2dengine
 
     void SceneManager::render()
     {
-        if (currentScene != nullptr)
+        if (currentScene)
         {
             currentScene->render();
         }

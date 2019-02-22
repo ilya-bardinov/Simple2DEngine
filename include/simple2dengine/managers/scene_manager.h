@@ -59,6 +59,8 @@ namespace simple2dengine
          */
         int getSceneCount() const;
 
+        void clear();
+
       private:
         /**
          * @brief Update logic of engine
