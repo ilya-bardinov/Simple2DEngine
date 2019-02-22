@@ -60,6 +60,7 @@ namespace simple2dengine
         std::unordered_map<std::string, std::shared_ptr<Loader>> loaders;
 
         friend class SpriteNode;
+        friend class SoundNode;
     };
 } // simple2dengine
 

@@ -33,7 +33,7 @@ namespace simple2dengine
         std::shared_ptr<Loader> loader = getLoader(filename);
         if(!loader)
         {
-            std::cout << "Error when loading asset '" << filename << "': no loaders found for extension!" << std::endl;
+            std::cout << "Error when unload asset '" << filename << "': no loaders found for extension!" << std::endl;
             return;
         }
 

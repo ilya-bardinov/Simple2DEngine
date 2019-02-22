@@ -3,9 +3,12 @@
 
 namespace simple2dengine
 {
-    void SpriteNode::setImage(const std::string& filename)
+    void SpriteNode::setImage(const std::string& filename, bool isAssetLoaded/* = true*/)
     {
-        engine.getAssetManager().load(filename);
+        if(!isAssetLoaded)
+        {
+            engine.getAssetManager().load(filename);
+        }
         sf::Texture* texture = engine.getAssetManager().getAsset<sf::Texture>(filename);
         if(texture == nullptr)
         {

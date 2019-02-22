@@ -48,7 +48,7 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "TextureLoader::unload - file '" << filename << "' is not loaded!" << std::endl;
+            std::cout << "TextureLoader::getAsset - file '" << filename << "' is not loaded!" << std::endl;
         }
         return nullptr;
     }

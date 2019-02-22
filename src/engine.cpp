@@ -7,7 +7,9 @@ namespace simple2dengine
     Engine::Engine(const Configuration& config) : sceneManager(), assetManager(), configuration(config)
     {
         textureLoader = std::make_shared<TextureLoader>();
+        soundLoader = std::make_shared<SoundLoader>();
         assetManager.registerLoader(textureLoader, { "png", "jpg" } );
+        assetManager.registerLoader(soundLoader, { "wav", "ogg" } );
 
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
     }

@@ -10,7 +10,7 @@ namespace simple2dengine
 
     void Node::unload() { }
 
-    void Node::process(int deltaInMs) { }
+    void Node::process(int /*deltaInMs*/) { }
 
     void Node::addChild(const std::shared_ptr<Node>& child)
     {

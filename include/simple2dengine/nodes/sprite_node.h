@@ -1,5 +1,5 @@
 /**
- * @file sprite.h
+ * @file sprite_node.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
  * @brief sprite node
  * @version 0.1
@@ -34,7 +34,7 @@ namespace simple2dengine
          *
          * @param filename Name of file with relative or full path
          */
-        void setImage(const std::string& filename);
+        void setImage(const std::string& filename, bool isAssetLoaded = true);
         /**
          * @brief Set the Position of Sprite.
          *
