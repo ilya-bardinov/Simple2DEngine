@@ -4,7 +4,7 @@
 
 namespace simple2dengine
 {
-    Engine::Engine(const Configuration& config) : sceneManager(), assetManager(), configuration(config)
+    Engine::Engine(const Configuration& config) : configuration(config)
     {
         textureLoader = std::make_shared<TextureLoader>();
         soundLoader = std::make_shared<SoundLoader>();
@@ -12,6 +12,11 @@ namespace simple2dengine
         assetManager.registerLoader(soundLoader, { "wav", "ogg" } );
 
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
+
+        if (configuration.fps > 0)
+        {
+            window.setFramerateLimit(configuration.fps);
+        }
     }
 
     void Engine::run()
@@ -22,14 +27,6 @@ namespace simple2dengine
             sf::Time deltaTime = deltaClock.restart();
 
             update(deltaTime.asMilliseconds());
-
-            // Limit the framerate if needed
-            if (configuration.fps > 0)
-            {
-                sf::Time currFramerate = sf::seconds(static_cast<float>(1.0f / configuration.fps));
-                if(currFramerate > deltaTime)
-                    sf::sleep(currFramerate - deltaTime);
-            }
         }
     }
 
@@ -70,7 +67,6 @@ namespace simple2dengine
 
         // update scenes in scene manager
         sceneManager.update(delta);
-
         // Now we should display in window all our graphics
         render();
     }
