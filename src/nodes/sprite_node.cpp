@@ -1,4 +1,4 @@
-#include "simple2dengine/nodes/sprite.h"
+#include "simple2dengine/nodes/sprite_node.h"
 #include "simple2dengine/managers/asset_manager.h"
 
 namespace simple2dengine
