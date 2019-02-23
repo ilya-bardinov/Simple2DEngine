@@ -29,7 +29,7 @@ namespace simple2dengine
          * @brief Construct a new Node.
          *
          */
-        Node(Engine& engine) : engine(engine) { };
+        Node(Engine& engineRef) : engine(engineRef) { };
 
         virtual ~Node() { };
 

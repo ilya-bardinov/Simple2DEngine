@@ -28,7 +28,7 @@ namespace simple2dengine
     class SpriteNode : public Node
     {
       public:
-        SpriteNode(Engine& engine) : Node(engine) { };
+        SpriteNode(Engine& engineRef) : Node(engineRef) { };
         /**
          * @brief add Image to SpriteNode object.
          *

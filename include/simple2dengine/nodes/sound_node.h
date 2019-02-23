@@ -28,7 +28,7 @@ namespace simple2dengine
     class SoundNode : public Node
     {
       public:
-        SoundNode(Engine& engine) : Node(engine) {  };
+        SoundNode(Engine& engineRef) : Node(engineRef) {  };
         /**
          * @brief add Sound to object.
          *
