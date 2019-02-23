@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.2)
 
 # Project setup, versioning stuff here, change when changing the version
-project (Simple2DEngine VERSION 0.0.1)
+project (simple2dengine VERSION 0.0.1)
 
 message(STATUS "")
 message(STATUS "    == ${PROJECT_NAME} Project configuration ==")

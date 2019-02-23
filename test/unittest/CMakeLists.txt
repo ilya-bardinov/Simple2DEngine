@@ -6,7 +6,7 @@
 add_executable(unittests EXCLUDE_FROM_ALL
     testmain.cpp
 )
-add_dependencies(unittests Catch Simple2DEngine) # Catch is needed for unit tests, located in ../external
+add_dependencies(unittests Catch simple2dengine) # Catch is needed for unit tests, located in ../external
 add_compile_options(/std:c++14 )
 target_compile_definitions(unittests PRIVATE UNIT_TESTS) # add -DUNIT_TESTS define
 target_include_directories(unittests PRIVATE ${PROJECT_SOURCE_DIR}/include)
@@ -15,7 +15,7 @@ target_include_directories(unittests SYSTEM PRIVATE
 )
 target_link_libraries(
     unittests
-    Simple2DEngine
+    simple2dengine
 )
 
 # convenience target for running only the unit tests

@@ -13,13 +13,13 @@ add_custom_target(check
     COMMAND echo [----] Running tests
     USES_TERMINAL
     COMMAND ${CMAKE_CTEST_COMMAND}  --output-on-failure -C Debug
-    DEPENDS Simple2DEngine unittests)
+    DEPENDS simple2dengine unittests)
 
 add_custom_target(checkVerbose
     COMMAND echo [----] Running tests
     USES_TERMINAL
     COMMAND ${CMAKE_CTEST_COMMAND}  -V --output-on-failure -C Debug
-    DEPENDS Simple2DEngine unittests)
+    DEPENDS simple2dengine unittests)
 
 #------------------------------------------------------------------------------
 # CTest test suite
