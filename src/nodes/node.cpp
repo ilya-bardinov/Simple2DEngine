@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "simple2dengine/nodes/node.h"
 
 namespace simple2dengine
@@ -9,7 +11,7 @@ namespace simple2dengine
 
     void Node::removeChild(const std::shared_ptr<Node>& child)
     {
-        auto it = find(children.begin(), children.end(), child);
+        auto it = std::find(children.begin(), children.end(), child);
         if (it != children.end())
         {
             child->notifyDestroy();

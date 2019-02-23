@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 
 #include "simple2dengine/managers/loaders/texture_loader.h"
 

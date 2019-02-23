@@ -13,6 +13,7 @@ set(
     ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/loader.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/texture_loader.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/sound_loader.cpp
+    ${Simple2DEngine_SOURCE_DIR}/src/managers/loaders/font_loader.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/nodes/node.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/nodes/sprite_node.cpp
     ${Simple2DEngine_SOURCE_DIR}/src/nodes/sound_node.cpp
