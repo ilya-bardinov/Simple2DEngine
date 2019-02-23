@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "simple2dengine/nodes/node.h"
 
@@ -33,7 +34,7 @@ namespace simple2dengine
          * Used for internal purpose.
          *
          */
-        SceneManager();
+        SceneManager() : currentScene(nullptr) { };
         /**
          * @brief Make Node as a current scene.
          * Old Node will be paused.
@@ -51,7 +52,7 @@ namespace simple2dengine
          *
          * @param node new that will be added
          */
-        void switchToScene(const std::string& name);
+        void activateScene(const std::string& name);
         /**
          * @brief Get the Scenes Count.
          *
@@ -79,6 +80,7 @@ namespace simple2dengine
         std::shared_ptr<Node> currentScene;
         // map of nodes
         std::unordered_map<std::string, std::shared_ptr<Node>> scenes;
+        std::vector<std::shared_ptr<Node>> destroyedScenes;
 
         friend class Engine;
     };

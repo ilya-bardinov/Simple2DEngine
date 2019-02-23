@@ -29,14 +29,15 @@ namespace simple2dengine
          * @brief Construct a new Node.
          *
          */
-        Node(Engine& engine);
+        Node(Engine& engine) : engine(engine) { };
 
-        virtual ~Node();
+        virtual ~Node() { };
 
-        virtual void load();
-        virtual void unload();
-
-        virtual void process(int deltaInMs);
+        virtual void onCreate() { };
+        virtual void onEnter() { };
+        virtual void onUpdate(int /*deltaInMs*/) { };
+        virtual void onExit() { };
+        virtual void onDestroy() { };
 
         void addChild(const std::shared_ptr<Node>& child);
         void removeChild(const std::shared_ptr<Node>& child);
@@ -53,6 +54,12 @@ namespace simple2dengine
          *
          */
         virtual void render();
+
+        void notifyCreate();
+        void notifyEnter();
+        void notifyExit();
+        void notifyDestroy();
+
         // engine refer
         Engine& engine;
 

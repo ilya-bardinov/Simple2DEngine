@@ -2,50 +2,76 @@
 
 namespace simple2dengine
 {
-    Node::Node(Engine& engine) : engine(engine) { }
-
-    Node::~Node() { }
-
-    void Node::load() { }
-
-    void Node::unload() { }
-
-    void Node::process(int /*deltaInMs*/) { }
-
     void Node::addChild(const std::shared_ptr<Node>& child)
     {
         children.push_back(child);
-        child->load();
     }
 
     void Node::removeChild(const std::shared_ptr<Node>& child)
     {
-        for (auto it = children.begin(); it != children.end(); it++)
+        auto it = find(children.begin(), children.end(), child);
+        if (it != children.end())
         {
-            if (*it == child)
-            {
-                child->unload();
-                children.erase(it);
-                break;
-            }
+            child->notifyDestroy();
+            children.erase(it);
         }
     }
 
     void Node::update(int deltaInMs)
     {
-        for(const auto& child : children)
+        this->onUpdate(deltaInMs);
+
+        for(auto& child : children)
         {
             child->update(deltaInMs);
         }
-
-        process(deltaInMs);
     }
 
     void Node::render()
     {
-        for(const auto& child : children)
+        for(auto& child : children)
         {
             child->render();
+        }
+    }
+
+    void Node::notifyCreate()
+    {
+        this->onCreate();
+
+        for(auto& child : children)
+        {
+            child->notifyCreate();
+        }
+    }
+
+    void Node::notifyEnter()
+    {
+        this->onEnter();
+
+        for(auto& child : children)
+        {
+            child->notifyEnter();
+        }
+    }
+
+    void Node::notifyExit()
+    {
+        this->onExit();
+
+        for(auto& child : children)
+        {
+            child->notifyExit();
+        }
+    }
+
+    void Node::notifyDestroy()
+    {
+        this->onDestroy();
+
+        for(auto& child : children)
+        {
+            child->notifyDestroy();
         }
     }
 }

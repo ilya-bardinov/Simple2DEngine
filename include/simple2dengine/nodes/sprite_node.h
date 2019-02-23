@@ -28,7 +28,7 @@ namespace simple2dengine
     class SpriteNode : public Node
     {
       public:
-        SpriteNode(Engine& engine) : Node(engine) {  };
+        SpriteNode(Engine& engine) : Node(engine) { };
         /**
          * @brief add Image to SpriteNode object.
          *
@@ -43,7 +43,7 @@ namespace simple2dengine
          */
         void setPosition(float x, float y);
         const sf::Vector2f& getPosition() const;
-        void moveTo(float x, float y);
+        void move(float x, float y);
 
       protected:
         virtual void render() override;

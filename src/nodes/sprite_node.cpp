@@ -28,7 +28,7 @@ namespace simple2dengine
         return sprite.getPosition();
     }
 
-    void SpriteNode::moveTo(float x, float y)
+    void SpriteNode::move(float x, float y)
     {
         sprite.move(sf::Vector2f(x, y));
     }
