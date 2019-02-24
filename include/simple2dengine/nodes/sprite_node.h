@@ -35,15 +35,8 @@ namespace simple2dengine
          * @param filename Name of file with relative or full path
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
-        /**
-         * @brief Set the Position of Sprite.
-         *
-         * @param x X coordinate of the new position
-         * @param y Y coordinate of the new position
-         */
-        void setPosition(float x, float y);
-        const sf::Vector2f& getPosition() const;
-        void move(float x, float y);
+
+        virtual void setPosition(const sf::Vector2f &position) override;
 
       protected:
         virtual void render() override;

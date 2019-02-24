@@ -18,24 +18,20 @@ namespace simple2dengine
         sprite.setTexture(*texture);
     }
 
-    void SpriteNode::setPosition(float x, float y)
+    void SpriteNode::setPosition(const sf::Vector2f &_position)
     {
-        sprite.setPosition(sf::Vector2f(x, y));
-    }
+        Node::setPosition(_position);
 
-    const sf::Vector2f& SpriteNode::getPosition() const
-    {
-        return sprite.getPosition();
-    }
-
-    void SpriteNode::move(float x, float y)
-    {
-        sprite.move(sf::Vector2f(x, y));
+        sprite.setPosition(getAbsolutePosition());
     }
 
     void SpriteNode::render()
     {
-        engine.getRenderWindow().draw(sprite);
         Node::render();
+
+        if(isAbsoluteVisible())
+        {
+            engine.getRenderWindow().draw(sprite);
+        }
     }
 }

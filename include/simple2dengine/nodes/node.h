@@ -15,6 +15,8 @@
 #include <memory>
 #include <vector>
 
+#include "SFML/System/Vector2.hpp"
+
 namespace simple2dengine
 {
     class Engine;
@@ -22,7 +24,7 @@ namespace simple2dengine
      * @brief Base node class.
      *
      */
-    class Node
+    class Node : public std::enable_shared_from_this<Node>
     {
       public:
         /**
@@ -41,6 +43,18 @@ namespace simple2dengine
 
         void addChild(const std::shared_ptr<Node>& child);
         void removeChild(const std::shared_ptr<Node>& child);
+
+        std::shared_ptr<Node> getParent() const;
+        std::shared_ptr<Node> getRoot();
+
+        virtual void setPosition(const sf::Vector2f &position);
+        void move(const sf::Vector2f &position);
+        const sf::Vector2f& getPosition() const;
+        const sf::Vector2f& getAbsolutePosition() const;
+
+        void setVisible(bool isVisible);
+        bool isVisible() const;
+        bool isAbsoluteVisible() const;
 
       protected:
         /**
@@ -66,6 +80,12 @@ namespace simple2dengine
       private:
         // all child nodes
         std::vector<std::shared_ptr<Node>> children;
+        // parent node
+        std::weak_ptr<Node> parent;
+        // position
+        sf::Vector2f position;
+
+        bool visible = true;
 
         friend class SceneManager;
     };
