@@ -28,12 +28,12 @@ namespace simple2dengine
         text.setCharacterSize(size);
     }
 
-    void TextNode::setFillColor(const sf::Color& color)
+    void TextNode::setFillColor(const Color& color)
     {
         text.setFillColor(color);
     }
 
-    void TextNode::setPosition(const sf::Vector2f& _position)
+    void TextNode::setPosition(const Vector2f& _position)
     {
         Node::setPosition(_position);
 

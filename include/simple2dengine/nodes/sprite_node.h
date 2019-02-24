@@ -28,7 +28,7 @@ namespace simple2dengine
     class SpriteNode : public Node
     {
       public:
-        SpriteNode(Engine& engineRef) : Node(engineRef) { };
+        SpriteNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
         /**
          * @brief add Image to SpriteNode object.
          *
@@ -36,7 +36,7 @@ namespace simple2dengine
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
 
-        virtual void setPosition(const sf::Vector2f& position) final;
+        virtual void setPosition(const Vector2f& position) final;
 
       protected:
         virtual void render() override;

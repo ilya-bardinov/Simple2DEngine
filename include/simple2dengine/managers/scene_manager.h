@@ -41,7 +41,7 @@ namespace simple2dengine
          *
          * @param node Node
          */
-        void addScene(const std::string& name, const std::shared_ptr<Node>& scene);
+        void addScene(const std::string& name, std::shared_ptr<Node> scene);
         /**
          * @brief Remove last node.
          *

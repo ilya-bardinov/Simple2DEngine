@@ -21,6 +21,7 @@
 
 namespace simple2dengine
 {
+    typedef sf::Color Color;
     /**
      * @brief Text node.
     *
@@ -28,14 +29,14 @@ namespace simple2dengine
     class TextNode : public Node
     {
       public:
-        TextNode(Engine& engineRef) : Node(engineRef) { };
+        TextNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
 
         void setFont(const std::string& filename, bool isAssetLoaded = true);
         void setText(const std::string& textString);
         void setSize(unsigned int size);
-        void setFillColor(const sf::Color& color);
+        void setFillColor(const Color& color);
 
-        virtual void setPosition(const sf::Vector2f& position) override;
+        virtual void setPosition(const Vector2f& position) override;
 
       protected:
         virtual void render() override;

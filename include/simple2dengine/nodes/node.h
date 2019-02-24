@@ -14,11 +14,16 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "SFML/System/Vector2.hpp"
 
 namespace simple2dengine
 {
+    typedef sf::Vector2<int>          Vector2i;
+    typedef sf::Vector2<unsigned int> Vector2u;
+    typedef sf::Vector2<float>        Vector2f;
+
     class Engine;
     /**
      * @brief Base node class.
@@ -31,7 +36,7 @@ namespace simple2dengine
          * @brief Construct a new Node.
          *
          */
-        Node(Engine& engineRef) : engine(engineRef) { };
+        Node(Engine& engineRef, const std::string& nodeName) : engine(engineRef), name(nodeName) { };
 
         virtual ~Node() { };
 
@@ -44,13 +49,16 @@ namespace simple2dengine
         void addChild(std::shared_ptr<Node> child);
         void removeChild(std::shared_ptr<Node> child);
 
+        const std::string& getName() const;
+
         std::shared_ptr<Node> getParent() const;
         std::shared_ptr<Node> getRoot();
+        std::shared_ptr<Node> getNode(const std::string& path);
 
-        virtual void setPosition(const sf::Vector2f& position);
-        void move(const sf::Vector2f& position);
-        const sf::Vector2f& getPosition() const;
-        sf::Vector2f getAbsolutePosition() const;
+        virtual void setPosition(const Vector2f& position);
+        void move(const Vector2f& position);
+        const Vector2f& getPosition() const;
+        Vector2f getAbsolutePosition() const;
 
         void setVisible(bool isVisible);
         bool isVisible() const;
@@ -83,7 +91,9 @@ namespace simple2dengine
         // parent node
         std::weak_ptr<Node> parent;
         // position
-        sf::Vector2f position;
+        Vector2f position;
+        // name of node
+        std::string name;
 
         bool visible = true;
 

@@ -18,7 +18,7 @@ namespace simple2dengine
         sprite.setTexture(*texture);
     }
 
-    void SpriteNode::setPosition(const sf::Vector2f& _position)
+    void SpriteNode::setPosition(const Vector2f& _position)
     {
         Node::setPosition(_position);
 

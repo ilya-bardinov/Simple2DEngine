@@ -9,7 +9,7 @@ namespace simple2dengine
     {
         if(!child->parent.expired())
         {
-            std::cout << "Node::addChild - child already has a parent!" << std::endl;
+            std::cout << "Node::addChild - child '" << child->getName() << "' already has a parent!" << std::endl;
             return;
         }
         children.push_back(child);
@@ -27,8 +27,13 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "Node::removeChild - child not found in node!" << std::endl;
+            std::cout << "Node::removeChild - child '" << child->getName() << "' not found in node tree!" << std::endl;
         }
+    }
+
+    const std::string& Node::getName() const
+    {
+        return name;
     }
 
     std::shared_ptr<Node> Node::getParent() const
@@ -53,7 +58,72 @@ namespace simple2dengine
         return root;
     }
 
-    void Node::setPosition(const sf::Vector2f& _position)
+    std::shared_ptr<Node> Node::getNode(const std::string& path)
+    {
+        // taken from https://github.com/linkdd/sdl-game-engine/blob/master/src/node.cpp
+        if (path.empty())
+        {
+            return shared_from_this();
+        }
+        else if (path[0] == '/')
+        {
+            return getRoot()->getNode(path.substr(1));
+        }
+        else
+        {
+            size_t pos = path.find("/");
+            std::string childpath = path.substr(0, pos);
+
+            if (childpath == ".")
+            {
+                if (pos == std::string::npos)
+                {
+                    return shared_from_this();
+                }
+                else
+                {
+                    return getNode(path.substr(pos + 1));
+                }
+            }
+            else if (childpath == "..")
+            {
+                if (pos == std::string::npos)
+                {
+                    return getParent();
+                }
+                else
+                {
+                    return getParent()->getNode(path.substr(pos + 1));
+                }
+            }
+            else
+            {
+                std::shared_ptr<Node> child = nullptr;
+
+                for (auto& _child : children)
+                {
+                    if (_child->getName() == childpath)
+                    {
+                        child = _child;
+                        break;
+                    }
+                }
+
+                if (pos == std::string::npos)
+                {
+                    return child;
+                }
+                else
+                {
+                    return child->getNode(path.substr(pos + 1));
+                }
+            }
+        }
+
+        return nullptr;
+    }
+
+    void Node::setPosition(const Vector2f& _position)
     {
         this->position = _position;
 
@@ -63,17 +133,17 @@ namespace simple2dengine
         }
     }
 
-    void Node::move(const sf::Vector2f& _position)
+    void Node::move(const Vector2f& _position)
     {
         setPosition(position + _position);
     }
 
-    const sf::Vector2f& Node::getPosition() const
+    const Vector2f& Node::getPosition() const
     {
         return this->position;
     }
 
-    sf::Vector2f Node::getAbsolutePosition() const
+    Vector2f Node::getAbsolutePosition() const
     {
         if(parent.expired())
         {
@@ -81,7 +151,7 @@ namespace simple2dengine
         }
 
         auto root = shared_from_this();
-        sf::Vector2f ret_position = root->getPosition();
+        Vector2f ret_position = root->getPosition();
 
         while (root->getParent() != nullptr)
         {
@@ -161,21 +231,21 @@ namespace simple2dengine
 
     void Node::notifyExit()
     {
+        this->onExit();
+
         for(auto& child : children)
         {
             child->notifyExit();
         }
-
-        this->onExit();
     }
 
     void Node::notifyDestroy()
     {
+        this->onDestroy();
+
         for(auto& child : children)
         {
             child->notifyDestroy();
         }
-
-        this->onDestroy();
     }
 }
