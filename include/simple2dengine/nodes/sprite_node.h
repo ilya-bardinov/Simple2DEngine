@@ -36,7 +36,7 @@ namespace simple2dengine
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
 
-        virtual void setPosition(const sf::Vector2f &position) override;
+        virtual void setPosition(const sf::Vector2f &position) final;
 
       protected:
         virtual void render() override;

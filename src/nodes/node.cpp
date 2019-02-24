@@ -68,7 +68,7 @@ namespace simple2dengine
         return this->position;
     }
 
-    const sf::Vector2f& Node::getAbsolutePosition() const
+    sf::Vector2f Node::getAbsolutePosition() const
     {
         if(parent.expired())
         {

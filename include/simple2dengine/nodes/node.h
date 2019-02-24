@@ -50,7 +50,7 @@ namespace simple2dengine
         virtual void setPosition(const sf::Vector2f &position);
         void move(const sf::Vector2f &position);
         const sf::Vector2f& getPosition() const;
-        const sf::Vector2f& getAbsolutePosition() const;
+        sf::Vector2f getAbsolutePosition() const;
 
         void setVisible(bool isVisible);
         bool isVisible() const;
