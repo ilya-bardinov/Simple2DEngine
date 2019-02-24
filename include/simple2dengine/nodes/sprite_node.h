@@ -38,6 +38,8 @@ namespace simple2dengine
 
         virtual void setPosition(const Vector2f& position) final;
 
+        Vector2f getSize() const;
+
       protected:
         virtual void render() override;
 

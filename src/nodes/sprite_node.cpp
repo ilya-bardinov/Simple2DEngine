@@ -25,6 +25,13 @@ namespace simple2dengine
         sprite.setPosition(getAbsolutePosition());
     }
 
+    Vector2f SpriteNode::getSize() const
+    {
+        return Vector2f(
+            sprite.getTexture()->getSize().x * sprite.getScale().x,
+            sprite.getTexture()->getSize().y * sprite.getScale().y);
+    }
+
     void SpriteNode::render()
     {
         Node::render();
