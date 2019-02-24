@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SIMPLE2DENGINE_NODES_SPRITE_H_
-#define SIMPLE2DENGINE_NODES_SPRITE_H_
+#ifndef _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_
+#define _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_
 
 #include <string>
 
@@ -36,7 +36,7 @@ namespace simple2dengine
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
 
-        virtual void setPosition(const sf::Vector2f &position) final;
+        virtual void setPosition(const sf::Vector2f& position) final;
 
       protected:
         virtual void render() override;
@@ -46,4 +46,4 @@ namespace simple2dengine
     };
 } // namespace simple2dengine
 
-#endif // SIMPLE2DENGINE_NODES_SPRITE_H_
+#endif // _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_

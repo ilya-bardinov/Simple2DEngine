@@ -61,6 +61,7 @@ namespace simple2dengine
 
         friend class SpriteNode;
         friend class SoundNode;
+        friend class TextNode;
     };
 } // simple2dengine
 

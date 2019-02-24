@@ -17,6 +17,7 @@ set(
     ${simple2dengine_SOURCE_DIR}/src/nodes/node.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/sprite_node.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/sound_node.cpp
+    ${simple2dengine_SOURCE_DIR}/src/nodes/text_node.cpp
 )
 
 # Executable

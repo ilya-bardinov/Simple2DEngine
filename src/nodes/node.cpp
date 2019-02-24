@@ -5,7 +5,7 @@
 
 namespace simple2dengine
 {
-    void Node::addChild(const std::shared_ptr<Node>& child)
+    void Node::addChild(std::shared_ptr<Node> child)
     {
         if(!child->parent.expired())
         {
@@ -16,7 +16,7 @@ namespace simple2dengine
         child->parent = shared_from_this();
     }
 
-    void Node::removeChild(const std::shared_ptr<Node>& child)
+    void Node::removeChild(std::shared_ptr<Node> child)
     {
         auto it = std::find(children.begin(), children.end(), child);
         if (it != children.end())
@@ -53,12 +53,17 @@ namespace simple2dengine
         return root;
     }
 
-    void Node::setPosition(const sf::Vector2f &_position)
+    void Node::setPosition(const sf::Vector2f& _position)
     {
         this->position = _position;
+
+        for(auto& child : children)
+        {
+            child->setPosition(child->getPosition());
+        }
     }
 
-    void Node::move(const sf::Vector2f &_position)
+    void Node::move(const sf::Vector2f& _position)
     {
         setPosition(position + _position);
     }
@@ -156,21 +161,21 @@ namespace simple2dengine
 
     void Node::notifyExit()
     {
-        this->onExit();
-
         for(auto& child : children)
         {
             child->notifyExit();
         }
+
+        this->onExit();
     }
 
     void Node::notifyDestroy()
     {
-        this->onDestroy();
-
         for(auto& child : children)
         {
             child->notifyDestroy();
         }
+
+        this->onDestroy();
     }
 }

@@ -8,8 +8,10 @@ namespace simple2dengine
     {
         textureLoader = std::make_shared<TextureLoader>();
         soundLoader = std::make_shared<SoundLoader>();
+        fontLoader = std::make_shared<FontLoader>();
         assetManager.registerLoader(textureLoader, { "png", "jpg" } );
         assetManager.registerLoader(soundLoader, { "wav", "ogg" } );
+        assetManager.registerLoader(fontLoader, { "ttf" } );
 
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
 

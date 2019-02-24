@@ -24,6 +24,7 @@
 #include "simple2dengine/managers/asset_manager.h"
 #include "simple2dengine/managers/loaders/texture_loader.h"
 #include "simple2dengine/managers/loaders/sound_loader.h"
+#include "simple2dengine/managers/loaders/font_loader.h"
 
 /**
  * @brief Namespace for Simple2DEngine.
@@ -93,6 +94,7 @@ namespace simple2dengine
         AssetManager assetManager;
         // loaders
         std::shared_ptr<TextureLoader> textureLoader;
+        std::shared_ptr<FontLoader> fontLoader;
         std::shared_ptr<SoundLoader> soundLoader;
     };
 } // simple2dengine

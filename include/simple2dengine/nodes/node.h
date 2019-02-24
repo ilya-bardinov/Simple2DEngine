@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SIMPLE2DENGINE_NODES_NODE_H_
-#define SIMPLE2DENGINE_NODES_NODE_H_
+#ifndef _SIMPLE2DENGINE_NODES_NODE_H_
+#define _SIMPLE2DENGINE_NODES_NODE_H_
 
 #include <memory>
 #include <vector>
@@ -41,14 +41,14 @@ namespace simple2dengine
         virtual void onExit() { };
         virtual void onDestroy() { };
 
-        void addChild(const std::shared_ptr<Node>& child);
-        void removeChild(const std::shared_ptr<Node>& child);
+        void addChild(std::shared_ptr<Node> child);
+        void removeChild(std::shared_ptr<Node> child);
 
         std::shared_ptr<Node> getParent() const;
         std::shared_ptr<Node> getRoot();
 
-        virtual void setPosition(const sf::Vector2f &position);
-        void move(const sf::Vector2f &position);
+        virtual void setPosition(const sf::Vector2f& position);
+        void move(const sf::Vector2f& position);
         const sf::Vector2f& getPosition() const;
         sf::Vector2f getAbsolutePosition() const;
 
@@ -91,4 +91,4 @@ namespace simple2dengine
     };
 } // simple2dengine
 
-#endif // SIMPLE2DENGINE_NODES_NODE_H_
+#endif // _SIMPLE2DENGINE_NODES_NODE_H_
