@@ -6,13 +6,11 @@ namespace simple2dengine
 {
     Engine::Engine(const Configuration& config) : configuration(config)
     {
-        textureLoader = std::make_shared<TextureLoader>();
-        soundLoader = std::make_shared<SoundLoader>();
-        fontLoader = std::make_shared<FontLoader>();
-        assetManager.registerLoader(textureLoader, { "png", "jpg" } );
-        assetManager.registerLoader(soundLoader, { "wav", "ogg" } );
-        assetManager.registerLoader(fontLoader, { "ttf" } );
-
+        // we want to support different type of assets so registering loaders and file extensions
+        assetManager.registerLoader(std::make_shared<TextureLoader>(), { "png", "jpg" } );
+        assetManager.registerLoader(std::make_shared<SoundLoader>(), { "wav", "ogg" } );
+        assetManager.registerLoader(std::make_shared<FontLoader>(), { "ttf" } );
+        // window creating
         window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
 
         if (configuration.fps > 0)
@@ -26,8 +24,8 @@ namespace simple2dengine
         isRunning = true;
         while (isRunning)
         {
+            // we need delta for update
             sf::Time deltaTime = deltaClock.restart();
-
             update(deltaTime.asMilliseconds());
         }
     }
@@ -35,6 +33,7 @@ namespace simple2dengine
     void Engine::stop()
     {
         isRunning = false;
+        // when we decide to stop an engine we need nodes to exit from current scene
         sceneManager.clear();
     }
 
@@ -55,7 +54,6 @@ namespace simple2dengine
 
     void Engine::update(int delta)
     {
-
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
         while (window.pollEvent(event))
@@ -67,7 +65,6 @@ namespace simple2dengine
                 window.close();
             }
         }
-
         // update scenes in scene manager
         sceneManager.update(delta);
         // Now we should display in window all our graphics

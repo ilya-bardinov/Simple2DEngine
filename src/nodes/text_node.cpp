@@ -23,7 +23,7 @@ namespace simple2dengine
         text.setString(textString);
     }
 
-    void TextNode::setSize(unsigned int size)
+    void TextNode::setCharacterSize(unsigned int size)
     {
         text.setCharacterSize(size);
     }

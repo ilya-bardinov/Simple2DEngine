@@ -49,7 +49,6 @@ namespace simple2dengine
         }
 
         auto root = shared_from_this();
-
         while (root->getParent() != nullptr)
         {
             root = root->getParent();
@@ -125,8 +124,9 @@ namespace simple2dengine
 
     void Node::setPosition(const Vector2f& _position)
     {
-        this->position = _position;
+        position = _position;
 
+        // we need all children update their position
         for(auto& child : children)
         {
             child->setPosition(child->getPosition());
@@ -140,19 +140,19 @@ namespace simple2dengine
 
     const Vector2f& Node::getPosition() const
     {
-        return this->position;
+        return position;
     }
 
     Vector2f Node::getAbsolutePosition() const
     {
         if(parent.expired())
         {
-            return this->getPosition();
+            return getPosition();
         }
 
         auto root = shared_from_this();
         Vector2f ret_position = root->getPosition();
-
+        // now we need to get absolute position by summing position of all parents
         while (root->getParent() != nullptr)
         {
             root = root->getParent();
@@ -176,12 +176,13 @@ namespace simple2dengine
     {
         if(parent.expired())
         {
-            return this->isVisible();
+            return isVisible();
         }
 
         auto root = shared_from_this();
         bool ret_visible = root->isVisible();
-
+        // now we need to get absolute visibility checking all parents
+        // if we find that parent is invisible we should stop and return false
         while (root->getParent() != nullptr && ret_visible)
         {
             root = root->getParent();
@@ -193,7 +194,7 @@ namespace simple2dengine
 
     void Node::update(int deltaInMs)
     {
-        this->onUpdate(deltaInMs);
+        onUpdate(deltaInMs);
 
         for(auto& child : children)
         {
@@ -211,7 +212,7 @@ namespace simple2dengine
 
     void Node::notifyCreate()
     {
-        this->onCreate();
+        onCreate();
 
         for(auto& child : children)
         {
@@ -221,7 +222,7 @@ namespace simple2dengine
 
     void Node::notifyEnter()
     {
-        this->onEnter();
+        onEnter();
 
         for(auto& child : children)
         {
@@ -231,7 +232,7 @@ namespace simple2dengine
 
     void Node::notifyExit()
     {
-        this->onExit();
+        onExit();
 
         for(auto& child : children)
         {
@@ -241,7 +242,7 @@ namespace simple2dengine
 
     void Node::notifyDestroy()
     {
-        this->onDestroy();
+        onDestroy();
 
         for(auto& child : children)
         {
