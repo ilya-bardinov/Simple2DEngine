@@ -2,15 +2,14 @@
  * @file scene_manager.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
  * @brief Scene Manager
- * @version 0.1
  * @date 2019-02-17
  *
  * @copyright Copyright (c) 2019
  *
  */
 
-#ifndef SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
-#define SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
+#ifndef _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
+#define _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
 
 #include <unordered_map>
 #include <memory>
@@ -25,32 +24,34 @@ namespace simple2dengine
      * @brief Scene Manager.
      * You can get it from Engine.
      *
+     * @see Engine.
      */
     class SceneManager
     {
       public:
         /**
          * @brief Construct a new Scene Manager object.
-         * Used for internal purpose.
          *
          */
         SceneManager() : currentScene(nullptr) { };
         /**
-         * @brief Make Node as a current scene.
-         * Old Node will be paused.
+         * @brief Add node to scene manager.
          *
-         * @param node Node
+         * @param name Assign name to scene.
+         * @param node Node to add.
          */
         void addScene(const std::string& name, std::shared_ptr<Node> scene);
         /**
-         * @brief Remove last node.
+         * @brief Remove node with a name.
          *
+         * @param name Name of scene to delete.
          */
         void removeScene(const std::string& name);
         /**
-         * @brief Remove current Node and add a new one.
+         * @brief Activate scene with a name.
+         * Activated scene will be displaying on a next tick.
          *
-         * @param node new that will be added
+         * @param name Name of scene.
          */
         void activateScene(const std::string& name);
         /**
@@ -59,7 +60,10 @@ namespace simple2dengine
          * @return int Scenes Count
          */
         int getSceneCount() const;
-
+        /**
+         * @brief Safely remove and notify all scenes.
+         *
+         */
         void clear();
 
       private:
@@ -76,14 +80,12 @@ namespace simple2dengine
         void render();
 
       private:
-        // current scene
-        std::shared_ptr<Node> currentScene;
-        // map of nodes
-        std::unordered_map<std::string, std::shared_ptr<Node>> scenes;
-        std::vector<std::shared_ptr<Node>> destroyedScenes;
+        std::shared_ptr<Node> currentScene; // current scene
+        std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all nodes (scenes)
+        std::vector<std::shared_ptr<Node>> destroyedScenes; // nodes that will be destroyed on next tick
 
         friend class Engine;
     };
 } // simple2dengine
 
-#endif // SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
+#endif // _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_

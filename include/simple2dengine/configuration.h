@@ -1,33 +1,41 @@
 /**
  * @file configuration.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
- * @brief Starting class.
- * @version 0.1
+ * @brief Configuration class.
  * @date 2019-02-20
  *
  * @copyright Copyright (c) 2019
  *
  */
 
-#ifndef SIMPLE2DENGINE_CONFIGURATION_H_
-#define SIMPLE2DENGINE_CONFIGURATION_H_
+#ifndef _SIMPLE2DENGINE_CONFIGURATION_H_
+#define _SIMPLE2DENGINE_CONFIGURATION_H_
 
 #include <string>
 
 namespace simple2dengine
 {
-struct Window
-{
-    int width = 0;
-    int height = 0;
-    std::string name;
-};
+    /**
+     * @brief Window configuration
+     *
+     */
+    struct Window
+    {
+        int width = 0; /**< width of window */
+        int height = 0; /**< height of window */
+        std::string name; /**< name of window */
+    };
 
-struct Configuration
-{
-    int fps = 0;
-    Window window;
-};
+    /**
+     * @brief Configuration Struct
+     *
+     */
+    struct Configuration
+    {
+        int fps = 0; /**< fps in engine */
+        Window window; /**< @see Window. */
+    };
+
 } // simple2dengine
 
-#endif // SIMPLE2DENGINE_CONFIGURATION_H_
+#endif // _SIMPLE2DENGINE_CONFIGURATION_H_

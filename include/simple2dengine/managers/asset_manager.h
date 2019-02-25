@@ -2,15 +2,14 @@
  * @file asset_manager.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
  * @brief Asset Manager
- * @version 0.1
  * @date 2019-02-20
  *
  * @copyright Copyright (c) 2019
  *
  */
 
-#ifndef SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
-#define SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
+#ifndef _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
+#define _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
 
 #include <memory>
 #include <string>
@@ -26,16 +25,37 @@ namespace simple2dengine
      * @brief Asset Manager.
      * You can get it from Engine.
      *
+     * @see Engine.
      */
     class AssetManager
     {
       public:
+        /**
+         * @brief Register loader for specific file extension.
+         *
+         * @param loader loader
+         * @param extensions vector of extensions
+         *
+         * @see Loader.
+         */
         void registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions);
-
+        /**
+         * @brief Load an Asset
+         *
+         * @param filename path to asset
+         */
         void load(const std::string& filename);
+        /**
+         * @brief Unload an Asset
+         *
+         * @param filename path to asset
+         */
         void unload(const std::string& filename);
 
       private:
+        /**
+         * @brief Get loaded Asset.
+         */
         template <class T>
         T* getAsset(const std::string& filename) const
         {
@@ -54,10 +74,18 @@ namespace simple2dengine
             return nullptr;
         }
 
+        /**
+         * @brief Get the Loader object
+         *
+         * @param filename loader for a specific file extensions
+         * @return loader
+         *
+         * @see Loader
+         */
         std::shared_ptr<Loader> getLoader(const std::string& filename) const;
 
       private:
-        std::unordered_map<std::string, std::shared_ptr<Loader>> loaders;
+        std::unordered_map<std::string, std::shared_ptr<Loader>> loaders; // all loaders
 
         friend class SpriteNode;
         friend class SoundNode;
@@ -65,4 +93,4 @@ namespace simple2dengine
     };
 } // simple2dengine
 
-#endif // SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
+#endif // _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
