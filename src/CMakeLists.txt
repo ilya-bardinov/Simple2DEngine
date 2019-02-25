@@ -10,6 +10,7 @@ set(
     ${simple2dengine_SOURCE_DIR}/src/engine.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/scene_manager.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/asset_manager.cpp
+    ${simple2dengine_SOURCE_DIR}/src/managers/input_manager.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/loaders/loader.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/loaders/texture_loader.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/loaders/sound_loader.cpp

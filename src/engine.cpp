@@ -47,6 +47,11 @@ namespace simple2dengine
         return assetManager;
     }
 
+    InputManager& Engine::getInputManager()
+    {
+        return inputManager;
+    }
+
     sf::RenderWindow& Engine::getRenderWindow()
     {
         return window;

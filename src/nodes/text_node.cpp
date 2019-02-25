@@ -12,7 +12,7 @@ namespace simple2dengine
         sf::Font* font = engine.getAssetManager().getAsset<sf::Font>(filename);
         if(font == nullptr)
         {
-            std::cout << "TextNode::setFont - error when loading file " << filename << std::endl;
+            std::cout << "TextNode::setFont - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
         text.setFont(*font);

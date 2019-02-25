@@ -21,6 +21,7 @@
 #include "simple2dengine/configuration.h"
 #include "simple2dengine/managers/scene_manager.h"
 #include "simple2dengine/managers/asset_manager.h"
+#include "simple2dengine/managers/input_manager.h"
 #include "simple2dengine/managers/loaders/texture_loader.h"
 #include "simple2dengine/managers/loaders/sound_loader.h"
 #include "simple2dengine/managers/loaders/font_loader.h"
@@ -72,6 +73,12 @@ namespace simple2dengine
          */
         AssetManager& getAssetManager();
         /**
+         * @brief Get input manager.
+         * @see InputManager.
+         *
+         */
+        InputManager& getInputManager();
+        /**
          * @brief Get render window.
          * It is used by SFML and needed for drawing objects.
          *
@@ -97,6 +104,7 @@ namespace simple2dengine
         // managers
         SceneManager sceneManager;      // used by getSceneManager() method
         AssetManager assetManager;      // used by getAssetManager() method
+        InputManager inputManager;      // used by getInputManager() method
     };
 } // simple2dengine
 
