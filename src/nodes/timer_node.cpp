@@ -42,7 +42,7 @@ namespace simple2dengine
         timeoutFunc = std::move(function);
     }
 
-    void TimerNode::update(unsigned int deltaInMs)
+    void TimerNode::update(int deltaInMs)
     {
         if(!paused && finishTime > 0)
         {
