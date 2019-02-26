@@ -63,7 +63,7 @@ namespace simple2dengine
         if((textAnchor & Anchor::Center) == Anchor::Center)
         {
             anchorPosition.x = text.getLocalBounds().width  / 2.0f;
-            anchorPosition.y = text.getLocalBounds().height / 1.4f;
+            anchorPosition.y = text.getLocalBounds().height / 2.0f;
         }
         if((textAnchor & Anchor::Left) == Anchor::Left)
         {
