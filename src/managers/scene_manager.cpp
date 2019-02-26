@@ -12,8 +12,8 @@ namespace simple2dengine
             std::cout << "SceneManager::addScene - scene '" << name << "' already exist!" << std::endl;
             return;
         }
-        scenes[name] = scene;
         scene->notifyCreate();
+        scenes[name] = std::move(scene);
     }
 
     void SceneManager::removeScene(const std::string& name)

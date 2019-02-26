@@ -12,7 +12,7 @@ namespace simple2dengine
                 std::cout << "Error when register loader with extension '" << extension << "': extensions has already added!" << std::endl;
                 continue;
             }
-            loaders[extension] = loader;
+            loaders[extension] = std::move(loader);
         }
     }
 

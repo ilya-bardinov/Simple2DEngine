@@ -12,8 +12,8 @@ namespace simple2dengine
             std::cout << "Node::addChild - child '" << child->getName() << "' already has a parent!" << std::endl;
             return;
         }
-        children.push_back(child);
         child->parent = shared_from_this();
+        children.push_back(std::move(child));
     }
 
     void Node::removeChild(std::shared_ptr<Node> child)
