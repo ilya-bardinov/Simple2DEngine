@@ -22,8 +22,8 @@
 
 namespace simple2dengine
 {
-    typedef sf::Keyboard Keyboard;
-    typedef sf::Mouse Mouse;
+    using Keyboard = sf::Keyboard;
+    using Mouse = sf::Mouse;
     /**
      * @brief Scene Manager.
      * You can get it from Engine.

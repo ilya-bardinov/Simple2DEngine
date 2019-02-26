@@ -70,13 +70,30 @@ namespace simple2dengine
     {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
-        while (window.pollEvent(event))
+        while(window.pollEvent(event))
         {
             // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
+            switch(event.type)
             {
-                stop();
-                window.close();
+                case sf::Event::Closed:
+                {
+                    stop();
+                    window.close();
+                }
+                    break;
+                case sf::Event::TextEntered:
+                case sf::Event::KeyPressed:
+                case sf::Event::KeyReleased:
+                case sf::Event::MouseWheelScrolled:
+                case sf::Event::MouseButtonPressed:
+                case sf::Event::MouseButtonReleased:
+                case sf::Event::MouseMoved:
+                {
+                    sceneManager.input(event);
+                }
+                    break;
+                default:
+                    break;
             }
         }
         // update scenes in scene manager

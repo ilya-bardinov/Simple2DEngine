@@ -20,7 +20,7 @@
 
 namespace simple2dengine
 {
-    typedef sf::Color Color;
+    using Color = sf::Color;
     /**
      * @brief Text node.
      * Used to draw text strings.

@@ -94,4 +94,12 @@ namespace simple2dengine
             currentScene->render();
         }
     }
+
+    void SceneManager::input(Event event)
+    {
+        if (currentScene)
+        {
+            currentScene->notifyInput(event);
+        }
+    }
 }

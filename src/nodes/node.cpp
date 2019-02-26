@@ -223,6 +223,16 @@ namespace simple2dengine
         }
     }
 
+    void Node::notifyInput(Event event)
+    {
+        onInput(event);
+
+        for(auto& child : children)
+        {
+            child->notifyInput(event);
+        }
+    }
+
     void Node::notifyCreate()
     {
         onCreate();

@@ -78,6 +78,12 @@ namespace simple2dengine
          *
          */
         void render();
+        /**
+         * @brief Process input events from SFML.
+         *
+         * @param event input event.
+         */
+        void input(Event event);
 
       private:
         std::shared_ptr<Node> currentScene; // current scene

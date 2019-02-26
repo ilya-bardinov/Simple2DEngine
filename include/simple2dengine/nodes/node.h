@@ -16,13 +16,16 @@
 #include <string>
 
 #include "SFML/System/Vector2.hpp"
+#include "SFML/Window/Event.hpp"
 
 namespace simple2dengine
 {
     // it will be more convenient
-    typedef sf::Vector2<int>          Vector2i;
-    typedef sf::Vector2<unsigned int> Vector2u;
-    typedef sf::Vector2<float>        Vector2f;
+    using Vector2i = sf::Vector2<int>;
+    using Vector2u = sf::Vector2<unsigned int>;
+    using Vector2f = sf::Vector2<float>;
+    // for input event
+    using Event = sf::Event;
 
     /**
      * @brief Anchor bit flags for setAnchor.
@@ -97,6 +100,15 @@ namespace simple2dengine
          *
          */
         virtual void onUpdate(unsigned int /*deltaInMs*/) { };
+        /**
+         * @brief Process input events like mouse movement, key press and release, etc.
+         *
+         * @param event input event.
+         *
+         * @see SceneManager
+         *
+         */
+        virtual void onInput(Event /*event*/) { };
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent became inactive in scene manager.
@@ -224,9 +236,9 @@ namespace simple2dengine
 
       protected:
         /**
-         * @brief Update logic of engine
+         * @brief Update logic of engine.
          *
-         * @param deltaInMs delta time from previous update in milliseconds
+         * @param deltaInMs delta time from previous update in milliseconds.
          */
         virtual void update(unsigned int deltaInMs);
         /**
@@ -234,7 +246,6 @@ namespace simple2dengine
          *
          */
         virtual void render();
-
         /**
          * @brief Notification methods.
          * Used by scene manager.
@@ -249,6 +260,16 @@ namespace simple2dengine
          * @see onEnter().
          */
         void notifyEnter();
+        /**
+         * @brief Notification methods.
+         * Used by scene manager.
+         *
+         * @param event input event.
+         *
+         * @see onInput().
+         *
+         */
+        void notifyInput(Event event);
         /**
          * @brief Notification methods.
          * Used by scene manager.
