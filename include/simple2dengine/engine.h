@@ -79,6 +79,12 @@ namespace simple2dengine
          */
         InputManager& getInputManager();
         /**
+         * @brief Get current configuration.
+         * @see Configuration.
+         *
+         */
+        const Configuration& getConfiguration();
+        /**
          * @brief Get render window.
          * It is used by SFML and needed for drawing objects.
          *

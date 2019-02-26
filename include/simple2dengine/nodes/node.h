@@ -24,6 +24,29 @@ namespace simple2dengine
     typedef sf::Vector2<unsigned int> Vector2u;
     typedef sf::Vector2<float>        Vector2f;
 
+    /**
+     * @brief Anchor bit flags for setAnchor.
+     *
+     * @see SpriteNode.
+     */
+    enum class Anchor : unsigned int
+    {
+        None = 0,
+        Top = 1 << 0,
+        Left = 1 << 1,
+        Bottom = 1 << 2,
+        Right = 1 << 3,
+        Center = 1 << 4
+    };
+    constexpr enum Anchor operator | (const enum Anchor a, const enum Anchor b)
+    {
+        return static_cast<enum Anchor>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
+    }
+    constexpr enum Anchor operator & (const enum Anchor a, const enum Anchor b)
+    {
+        return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
+    }
+
     class Engine;
     /**
      * @brief Base node class.
@@ -140,7 +163,7 @@ namespace simple2dengine
          *
          * @param position x and y coordinates relative to its parent.
          */
-        virtual void setPosition(const Vector2f& position);
+        void setPosition(const Vector2f& position);
         /**
          * @brief Move Node on specified coordinates.
          *
@@ -180,6 +203,24 @@ namespace simple2dengine
          * @return bool visibility of Node or its parents.
          */
         bool isAbsoluteVisible() const;
+        /**
+         * @brief Set Node anchor.
+         *
+         * @param anchor anchor.
+         */
+        void setAnchor(const Anchor anchor);
+        /**
+         * @brief Get anchor of Node.
+         *
+         * @return Anchor.
+         */
+        Anchor getAnchor();
+        /**
+         * @brief Get size of Node.
+         *
+         * @return Vector2f width and height of node.
+         */
+        virtual Vector2f getSize() const;
 
       protected:
         /**
@@ -222,6 +263,11 @@ namespace simple2dengine
          * @see onDestroy().
          */
         void notifyDestroy();
+        /**
+         * @brief Update position when node parameters was changed
+         *
+         */
+        virtual void updatePosition();
 
         Engine& engine; // engine reference
 
@@ -232,6 +278,7 @@ namespace simple2dengine
         Vector2f position; // position that relative to parents
         std::string name; // name of node
         bool visible = true; // visibility of node
+        Anchor anchor = Anchor::Top | Anchor::Left; // anchor of node
 
         friend class SceneManager;
     };

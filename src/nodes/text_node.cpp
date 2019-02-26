@@ -16,16 +16,22 @@ namespace simple2dengine
             return;
         }
         text.setFont(*font);
+        // we need to update anchor due to possible text size change
+        updatePosition();
     }
 
     void TextNode::setText(const std::string& textString)
     {
         text.setString(textString);
+        // we need to update anchor due to possible text size change
+        updatePosition();
     }
 
     void TextNode::setCharacterSize(unsigned int size)
     {
         text.setCharacterSize(size);
+        // we need to update anchor due to possible text size change
+        updatePosition();
     }
 
     void TextNode::setFillColor(const Color& color)
@@ -33,11 +39,11 @@ namespace simple2dengine
         text.setFillColor(color);
     }
 
-    void TextNode::setPosition(const Vector2f& _position)
+    Vector2f TextNode::getSize() const
     {
-        Node::setPosition(_position);
-
-        text.setPosition(getAbsolutePosition());
+        return Vector2f(
+            text.getLocalBounds().width * text.getScale().x,
+            text.getLocalBounds().height * text.getScale().y);
     }
 
     void TextNode::render()
@@ -48,5 +54,37 @@ namespace simple2dengine
         {
             engine.getRenderWindow().draw(text);
         }
+    }
+
+    void TextNode::updatePosition()
+    {
+        Node::updatePosition();
+
+        Anchor textAnchor = getAnchor();
+        Vector2f anchorPosition(0.0f, 0.0f);
+        if((textAnchor & Anchor::Center) == Anchor::Center)
+        {
+            anchorPosition.x = text.getLocalBounds().width  / 2.0f;
+            anchorPosition.y = text.getLocalBounds().height / 1.4f;
+        }
+        if((textAnchor & Anchor::Left) == Anchor::Left)
+        {
+            anchorPosition.x = 0.0f;
+        }
+        if((textAnchor & Anchor::Top) == Anchor::Top)
+        {
+            anchorPosition.y = 0.0f;
+        }
+        if((textAnchor & Anchor::Bottom) == Anchor::Bottom)
+        {
+            anchorPosition.y = text.getLocalBounds().height;
+        }
+        if((textAnchor & Anchor::Right) == Anchor::Right)
+        {
+            anchorPosition.x = text.getLocalBounds().width ;
+        }
+
+        text.setOrigin(anchorPosition);
+        text.setPosition(getAbsolutePosition());
     }
 }

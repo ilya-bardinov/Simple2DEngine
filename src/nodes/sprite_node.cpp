@@ -15,14 +15,10 @@ namespace simple2dengine
             std::cout << "SpriteNode::setImage - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
+
         sprite.setTexture(*texture);
-    }
-
-    void SpriteNode::setPosition(const Vector2f& _position)
-    {
-        Node::setPosition(_position);
-
-        sprite.setPosition(getAbsolutePosition());
+        // we need to update anchor due to possible sprite size change
+        updatePosition();
     }
 
     Vector2f SpriteNode::getSize() const
@@ -40,5 +36,37 @@ namespace simple2dengine
         {
             engine.getRenderWindow().draw(sprite);
         }
+    }
+
+    void SpriteNode::updatePosition()
+    {
+        Node::updatePosition();
+
+        Anchor spriteAnchor = getAnchor();
+        Vector2f anchorPosition(0.0f, 0.0f);
+        if((spriteAnchor & Anchor::Center) == Anchor::Center)
+        {
+            anchorPosition.x = sprite.getTexture()->getSize().x / 2.0f;
+            anchorPosition.y = sprite.getTexture()->getSize().y / 2.0f;
+        }
+        if((spriteAnchor & Anchor::Left) == Anchor::Left)
+        {
+            anchorPosition.x = 0.0f;
+        }
+        if((spriteAnchor & Anchor::Top) == Anchor::Top)
+        {
+            anchorPosition.y = 0.0f;
+        }
+        if((spriteAnchor & Anchor::Bottom) == Anchor::Bottom)
+        {
+            anchorPosition.y = sprite.getTexture()->getSize().y;
+        }
+        if((spriteAnchor & Anchor::Right) == Anchor::Right)
+        {
+            anchorPosition.x = sprite.getTexture()->getSize().x;
+        }
+
+        sprite.setOrigin(anchorPosition);
+        sprite.setPosition(getAbsolutePosition());
     }
 }

@@ -48,19 +48,11 @@ namespace simple2dengine
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
         /**
-         * @brief Set position of Node.
-         *
-         * @param position relative to parent.
-         *
-         * @see Node.
-         */
-        virtual void setPosition(const Vector2f& position) final;
-        /**
          * @brief Get size of SpriteNode.
          *
          * @return Vector2f width and height of Node.
          */
-        Vector2f getSize() const;
+        virtual Vector2f getSize() const final;
 
       protected:
         /**
@@ -70,6 +62,11 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
+        /**
+         * @brief Update position when node parameters was changed
+         *
+         */
+        virtual void updatePosition() final;
 
       private:
         sf::Sprite sprite;

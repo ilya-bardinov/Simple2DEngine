@@ -69,13 +69,11 @@ namespace simple2dengine
          */
         void setFillColor(const Color& color);
         /**
-         * @brief Set position of Text Node.
+         * @brief Get size of text.
          *
-         * @param position relative to parent.
-         *
-         * @see Node.
+         * @return Vector2f width and height of text.
          */
-        virtual void setPosition(const Vector2f& position) override;
+        virtual Vector2f getSize() const final;
 
       protected:
         /**
@@ -85,6 +83,11 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
+        /**
+         * @brief Update position when node parameters was changed
+         *
+         */
+        virtual void updatePosition() final;
 
       private:
         sf::Text text;

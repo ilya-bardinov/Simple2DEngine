@@ -126,11 +126,7 @@ namespace simple2dengine
     {
         position = _position;
 
-        // we need all children update their position
-        for(auto& child : children)
-        {
-            child->setPosition(child->getPosition());
-        }
+        updatePosition();
     }
 
     void Node::move(const Vector2f& _position)
@@ -192,6 +188,23 @@ namespace simple2dengine
         return ret_visible;
     }
 
+    void Node::setAnchor(const Anchor nodeAnchor)
+    {
+        anchor = nodeAnchor;
+
+        updatePosition();
+    }
+
+    Anchor Node::getAnchor()
+    {
+        return anchor;
+    }
+
+    Vector2f Node::getSize() const
+    {
+        return Vector2f(0.0f, 0.0f);
+    }
+
     void Node::update(int deltaInMs)
     {
         onUpdate(deltaInMs);
@@ -247,6 +260,15 @@ namespace simple2dengine
         for(auto& child : children)
         {
             child->notifyDestroy();
+        }
+    }
+
+    void Node::updatePosition()
+    {
+        // we need all children update their position
+        for(auto& child : children)
+        {
+            child->updatePosition();
         }
     }
 }

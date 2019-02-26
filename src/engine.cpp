@@ -52,6 +52,11 @@ namespace simple2dengine
         return inputManager;
     }
 
+    const Configuration& Engine::getConfiguration()
+    {
+        return configuration;
+    }
+
     sf::RenderWindow& Engine::getRenderWindow()
     {
         return window;
