@@ -99,7 +99,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onUpdate(unsigned int /*deltaInMs*/) { };
+        virtual void onUpdate(int /*deltaInMs*/) { };
         /**
          * @brief Process input events like mouse movement, key press and release, etc.
          *
@@ -240,7 +240,7 @@ namespace simple2dengine
          *
          * @param deltaInMs delta time from previous update in milliseconds.
          */
-        virtual void update(unsigned int deltaInMs);
+        virtual void update(int deltaInMs);
         /**
          * @brief Render and Display scene.
          *

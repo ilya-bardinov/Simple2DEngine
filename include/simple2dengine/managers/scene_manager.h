@@ -72,7 +72,7 @@ namespace simple2dengine
          *
          * @param deltaInMs delta time from previous update in milliseconds
          */
-        void update(unsigned int deltaInMs);
+        void update(int deltaInMs);
         /**
          * @brief Render and Display scene.
          *

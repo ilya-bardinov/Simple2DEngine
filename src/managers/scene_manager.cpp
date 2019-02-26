@@ -74,7 +74,7 @@ namespace simple2dengine
         }
     }
 
-    void SceneManager::update(unsigned int deltaInMs)
+    void SceneManager::update(int deltaInMs)
     {
         if(destroyedScenes.size() > 0)
         {
