@@ -96,7 +96,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onUpdate(int /*deltaInMs*/) { };
+        virtual void onUpdate(unsigned int /*deltaInMs*/) { };
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent became inactive in scene manager.
@@ -228,7 +228,7 @@ namespace simple2dengine
          *
          * @param deltaInMs delta time from previous update in milliseconds
          */
-        virtual void update(int deltaInMs);
+        virtual void update(unsigned int deltaInMs);
         /**
          * @brief Render and Display scene.
          *

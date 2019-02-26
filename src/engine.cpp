@@ -26,7 +26,11 @@ namespace simple2dengine
         {
             // we need delta for update
             sf::Time deltaTime = deltaClock.restart();
-            update(deltaTime.asMilliseconds());
+            sf::Int32 deltaTimeInMs = deltaTime.asMilliseconds();
+            if(deltaTimeInMs >= 0)
+            {
+                update(deltaTimeInMs);
+            }
         }
     }
 
@@ -62,7 +66,7 @@ namespace simple2dengine
         return window;
     }
 
-    void Engine::update(int delta)
+    void Engine::update(unsigned int delta)
     {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;

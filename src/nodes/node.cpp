@@ -205,7 +205,7 @@ namespace simple2dengine
         return Vector2f(0.0f, 0.0f);
     }
 
-    void Node::update(int deltaInMs)
+    void Node::update(unsigned int deltaInMs)
     {
         onUpdate(deltaInMs);
 

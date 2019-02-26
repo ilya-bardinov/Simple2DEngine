@@ -96,7 +96,7 @@ namespace simple2dengine
          * @brief Update logic of Engine and Nodes.
          *
          */
-        void update(int deltaInMs);
+        void update(unsigned int deltaInMs);
         /**
          * @brief Render Nodes.
          *
