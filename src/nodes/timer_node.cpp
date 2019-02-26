@@ -58,7 +58,8 @@ namespace simple2dengine
                 }
                 elapsedTime = 0;
 
-                timeoutFunc();
+                if(timeoutFunc)
+                    timeoutFunc();
             }
         }
 
