@@ -12,7 +12,7 @@ namespace simple2dengine
         sf::Texture* texture = engine.getAssetManager().getAsset<sf::Texture>(filename);
         if(texture == nullptr)
         {
-            std::cout << "SpriteNode::setImage - error when loading file " << filename << std::endl;
+            std::cout << "SpriteNode::setImage - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
         sprite.setTexture(*texture);
