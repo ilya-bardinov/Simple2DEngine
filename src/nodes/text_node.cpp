@@ -30,8 +30,6 @@ namespace simple2dengine
     void TextNode::setCharacterSize(unsigned int size)
     {
         text.setCharacterSize(size);
-        // we need to update anchor due to possible text size change
-        updatePosition();
     }
 
     void TextNode::setFillColor(const Color& color)

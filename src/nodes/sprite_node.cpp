@@ -46,8 +46,8 @@ namespace simple2dengine
         Vector2f anchorPosition(0.0f, 0.0f);
         if((spriteAnchor & Anchor::Center) == Anchor::Center)
         {
-            anchorPosition.x = sprite.getTexture()->getSize().x / 2.0f;
-            anchorPosition.y = sprite.getTexture()->getSize().y / 2.0f;
+            anchorPosition.x = sprite.getLocalBounds().width / 2.0f;
+            anchorPosition.y = sprite.getLocalBounds().height / 2.0f;
         }
         if((spriteAnchor & Anchor::Left) == Anchor::Left)
         {
@@ -59,11 +59,11 @@ namespace simple2dengine
         }
         if((spriteAnchor & Anchor::Bottom) == Anchor::Bottom)
         {
-            anchorPosition.y = sprite.getTexture()->getSize().y;
+            anchorPosition.y = sprite.getLocalBounds().height;
         }
         if((spriteAnchor & Anchor::Right) == Anchor::Right)
         {
-            anchorPosition.x = sprite.getTexture()->getSize().x;
+            anchorPosition.x = sprite.getLocalBounds().width;
         }
 
         sprite.setOrigin(anchorPosition);
