@@ -30,18 +30,16 @@ namespace simple2dengine
 
     void SpriteNode::render()
     {
-        Node::render();
-
         if(isAbsoluteVisible())
         {
             engine.getRenderWindow().draw(sprite);
         }
+
+        Node::render();
     }
 
     void SpriteNode::updatePosition()
     {
-        Node::updatePosition();
-
         Anchor spriteAnchor = getAnchor();
         Vector2f anchorPosition(0.0f, 0.0f);
         if((spriteAnchor & Anchor::Center) == Anchor::Center)
@@ -68,5 +66,7 @@ namespace simple2dengine
 
         sprite.setOrigin(anchorPosition);
         sprite.setPosition(getAbsolutePosition());
+
+        Node::updatePosition();
     }
 }

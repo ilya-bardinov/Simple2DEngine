@@ -46,18 +46,16 @@ namespace simple2dengine
 
     void TextNode::render()
     {
-        Node::render();
-
         if(isAbsoluteVisible())
         {
             engine.getRenderWindow().draw(text);
         }
+
+        Node::render();
     }
 
     void TextNode::updatePosition()
     {
-        Node::updatePosition();
-
         Anchor textAnchor = getAnchor();
         Vector2f anchorPosition(0.0f, 0.0f);
         if((textAnchor & Anchor::Center) == Anchor::Center)
@@ -84,5 +82,7 @@ namespace simple2dengine
 
         text.setOrigin(anchorPosition);
         text.setPosition(getAbsolutePosition());
+
+        Node::updatePosition();
     }
 }

@@ -70,7 +70,9 @@ namespace simple2dengine
         for (auto& scene : scenes)
         {
 	        if(scene.second)
+            {
                 scene.second->notifyDestroy();
+            }
         }
     }
 

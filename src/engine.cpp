@@ -7,7 +7,7 @@ namespace simple2dengine
     Engine::Engine(const Configuration& config) : configuration(config)
     {
         // we want to support different type of assets so registering loaders and file extensions
-        assetManager.registerLoader(std::make_shared<TextureLoader>(), { "png", "jpg" } );
+        assetManager.registerLoader(std::make_shared<TextureLoader>(), { "png", "jpg", "bmp", "dds", "tga", "psd", "gif" } );
         assetManager.registerLoader(std::make_shared<SoundLoader>(), { "wav", "ogg" } );
         assetManager.registerLoader(std::make_shared<FontLoader>(), { "ttf" } );
         // window creating
@@ -75,6 +75,13 @@ namespace simple2dengine
                 {
                     stop();
                     window.close();
+                }
+                    break;
+                case Event::Resized:
+                {
+                    //windowView.setSize(event.size.width, event.size.height);
+                    sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+                    window.setView(sf::View(visibleArea));
                 }
                     break;
                 case sf::Event::TextEntered:
