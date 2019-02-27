@@ -1,35 +1,35 @@
 /**
- * @file sound_node.h
+ * @file music_node.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
- * @brief Sound Node
- * @date 2019-02-22
+ * @brief Music Node
+ * @date 2019-02-27
  *
  * @copyright Copyright (c) 2019
  *
  */
 
-#ifndef _SIMPLE2DENGINE_NODES_SOUND_NODE_H_
-#define _SIMPLE2DENGINE_NODES_SOUND_NODE_H_
+#ifndef _SIMPLE2DENGINE_NODES_MUSIC_NODE_H_
+#define _SIMPLE2DENGINE_NODES_MUSIC_NODE_H_
 
 #include <string>
 
-#include "SFML/Audio/Sound.hpp"
+#include "SFML/Audio/Music.hpp"
 
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/node.h"
+#include "simple2dengine/nodes/sound_node.h"
 
 namespace simple2dengine
 {
-    using Status = sf::Sound::Status;
     /**
-     * @brief Regular sound node that can be played in the audio environment.
+     * @brief Streamed music played from an audio file.
      *
      */
-    class SoundNode : public Node
+    class MusicNode : public Node
     {
       public:
         /**
-         * @brief Construct a new Sound Node.
+         * @brief Construct a new Music Node.
          *
          * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
@@ -37,16 +37,21 @@ namespace simple2dengine
          * @see Engine.
          * @see Node.
          */
-        SoundNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
+        MusicNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
         /**
-         * @brief Set the source file containing the audio data to play.
+         * @brief Open a music from an audio file.
          *
          * @param filename Name of file with relative or full path.
-         * @param isAssetLoaded If true - we assume that file is already loaded in asset manager, if false - asset manager will load it before using.
          *
-         * @see AssetManager.
          */
-        void setSound(const std::string& filename, bool isAssetLoaded = true);
+        void setMusic(const std::string& filename);
+        /**
+         * @brief Get the total duration of the music
+         *
+         * @return Music duration
+         *
+         */
+        sf::Time getDuration() const;
         /**
          * @brief Start or resume playing the sound.
          *
@@ -113,8 +118,8 @@ namespace simple2dengine
         Status getStatus() const;
 
       private:
-        sf::Sound sound;
+        sf::Music music;
     };
 } // namespace simple2dengine
 
-#endif // _SIMPLE2DENGINE_NODES_SOUND_NODE_H_
+#endif // _SIMPLE2DENGINE_NODES_MUSIC_NODE_H_
