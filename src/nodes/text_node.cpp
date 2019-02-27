@@ -46,12 +46,12 @@ namespace simple2dengine
 
     void TextNode::render()
     {
+        Node::render();
+
         if(isAbsoluteVisible())
         {
             engine.getRenderWindow().draw(text);
         }
-
-        Node::render();
     }
 
     void TextNode::updatePosition()

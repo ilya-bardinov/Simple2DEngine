@@ -30,12 +30,12 @@ namespace simple2dengine
 
     void SpriteNode::render()
     {
+        Node::render();
+
         if(isAbsoluteVisible())
         {
             engine.getRenderWindow().draw(sprite);
         }
-
-        Node::render();
     }
 
     void SpriteNode::updatePosition()
