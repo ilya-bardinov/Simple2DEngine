@@ -80,7 +80,7 @@ namespace simple2dengine
                 case Event::Resized:
                 {
                     //windowView.setSize(event.size.width, event.size.height);
-                    sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+                    sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width), static_cast<float>(event.size.height));
                     window.setView(sf::View(visibleArea));
                 }
                     break;

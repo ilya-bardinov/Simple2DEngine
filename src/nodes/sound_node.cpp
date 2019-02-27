@@ -32,4 +32,19 @@ namespace simple2dengine
     {
         sound.stop();
     }
+
+    void SoundNode::setLoop(bool loop)
+    {
+        sound.setLoop(loop);
+    }
+
+    bool SoundNode::getLoop() const
+    {
+        return sound.getLoop();
+    }
+
+    Status SoundNode::getStatus() const
+    {
+        return sound.getStatus();
+    }
 }
