@@ -13,6 +13,7 @@ namespace simple2dengine
             return;
         }
         child->parent = shared_from_this();
+        updateState(child);
         children.push_back(std::move(child));
     }
 
@@ -22,6 +23,10 @@ namespace simple2dengine
         if (it != children.end())
         {
             child->parent = std::shared_ptr<Node>(nullptr);
+            if(state != NodeState::Destroying)
+            {
+                child->notifyExit();
+            }
             child->notifyDestroy();
             children.erase(it);
         }
@@ -235,6 +240,7 @@ namespace simple2dengine
 
     void Node::notifyCreate()
     {
+        state = NodeState::Creating;
         onCreate();
 
         for(auto& child : children)
@@ -245,16 +251,20 @@ namespace simple2dengine
 
     void Node::notifyEnter()
     {
+        state = NodeState::Entering;
         onEnter();
 
         for(auto& child : children)
         {
             child->notifyEnter();
         }
+
+        state = NodeState::Updating;
     }
 
     void Node::notifyExit()
     {
+        state = NodeState::Exiting;
         onExit();
 
         for(auto& child : children)
@@ -265,6 +275,7 @@ namespace simple2dengine
 
     void Node::notifyDestroy()
     {
+        state = NodeState::Destroying;
         onDestroy();
 
         for(auto& child : children)
@@ -279,6 +290,27 @@ namespace simple2dengine
         for(auto& child : children)
         {
             child->updatePosition();
+        }
+    }
+
+    void Node::updateState(std::shared_ptr<Node> child)
+    {
+        switch(state)
+        {
+            case NodeState::Entering:
+                child->notifyCreate();
+                break;
+            case NodeState::Updating:
+            case NodeState::Exiting:
+                child->notifyCreate();
+                child->notifyEnter();
+                break;
+            case NodeState::Destroying: // is there any reason to call create and enter
+                child->notifyCreate();  // if we wanna exit and destroy?
+                child->notifyEnter();
+                child->notifyExit();
+            default:
+                break;
         }
     }
 }

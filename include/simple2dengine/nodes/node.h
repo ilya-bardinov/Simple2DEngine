@@ -50,6 +50,23 @@ namespace simple2dengine
         return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
     }
 
+    /**
+     * @brief Current state of Node in Scene Manager.
+     *
+     * @see SceneManager
+     * @see Node
+     *
+     */
+    enum class NodeState : unsigned int
+    {
+        None,
+        Creating,
+        Entering,
+        Updating,
+        Exiting,
+        Destroying
+    };
+
     class Engine;
     /**
      * @brief Base node class.
@@ -236,6 +253,11 @@ namespace simple2dengine
 
       protected:
         /**
+         * @brief Update position when node parameters was changed
+         *
+         */
+        virtual void updatePosition();
+        /**
          * @brief Update logic of engine.
          *
          * @param deltaInMs delta time from previous update in milliseconds.
@@ -246,6 +268,10 @@ namespace simple2dengine
          *
          */
         virtual void render();
+
+        Engine& engine; // engine reference
+
+      private:
         /**
          * @brief Notification methods.
          * Used by scene manager.
@@ -285,12 +311,11 @@ namespace simple2dengine
          */
         void notifyDestroy();
         /**
-         * @brief Update position when node parameters was changed
+         * @brief Update child's node state.
          *
+         * @param child child to notify.
          */
-        virtual void updatePosition();
-
-        Engine& engine; // engine reference
+        void updateState(std::shared_ptr<Node> child);
 
       private:
         std::vector<std::shared_ptr<Node>> children; // all child nodes
@@ -300,6 +325,8 @@ namespace simple2dengine
         std::string name; // name of node
         bool visible = true; // visibility of node
         Anchor anchor = Anchor::Top | Anchor::Left; // anchor of node
+
+        NodeState state = NodeState::None; // current state of node
 
         friend class SceneManager;
     };
