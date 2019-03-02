@@ -307,8 +307,9 @@ namespace simple2dengine
                 break;
             case NodeState::Destroying: // is there any reason to call create and enter
                 child->notifyCreate();  // if we wanna exit and destroy?
-                child->notifyEnter();
-                child->notifyExit();
+                child->notifyEnter();   // there may be some node creating
+                child->notifyExit();    // and deleting on exit
+                break;
             default:
                 break;
         }
