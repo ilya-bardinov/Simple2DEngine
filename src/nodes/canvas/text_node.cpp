@@ -1,4 +1,4 @@
-#include "simple2dengine/nodes/text_node.h"
+#include "simple2dengine/nodes/canvas/text_node.h"
 #include "simple2dengine/managers/asset_manager.h"
 
 namespace simple2dengine
@@ -17,44 +17,39 @@ namespace simple2dengine
         }
         text.setFont(*font);
         // we need to update anchor due to possible text size change
-        updatePosition();
+        updateTransform();
     }
 
     void TextNode::setText(const std::string& textString)
     {
         text.setString(textString);
         // we need to update anchor due to possible text size change
-        updatePosition();
+        updateTransform();
     }
 
     void TextNode::setCharacterSize(unsigned int size)
     {
         text.setCharacterSize(size);
+        // we need to update anchor due to possible text size change
+        updateTransform();
     }
 
-    void TextNode::setFillColor(const Color& color)
+    void TextNode::setFillColor(const sf::Color& color)
     {
         text.setFillColor(color);
     }
 
-    Vector2f TextNode::getSize() const
-    {
-        return Vector2f(
-            text.getLocalBounds().width * text.getScale().x,
-            text.getLocalBounds().height * text.getScale().y);
-    }
-
     void TextNode::render()
     {
-        Node::render();
-
-        if(isAbsoluteVisible())
+        if(isVisibleInTree())
         {
             engine.getRenderWindow().draw(text);
         }
+
+        CanvasNode::render();
     }
 
-    void TextNode::updatePosition()
+    void TextNode::updateTransform()
     {
         Anchor textAnchor = getAnchor();
         Vector2f anchorPosition(0.0f, 0.0f);
@@ -81,8 +76,8 @@ namespace simple2dengine
         }
 
         text.setOrigin(anchorPosition);
-        text.setPosition(getAbsolutePosition());
+        text.setPosition(getGlobalPosition());
 
-        Node::updatePosition();
+        CanvasNode::updateTransform();
     }
 }

@@ -8,15 +8,15 @@
  *
  */
 
-#ifndef _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_
-#define _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_
+#ifndef _SIMPLE2DENGINE_NODES_CANVAS_SPRITE_NODE_H_
+#define _SIMPLE2DENGINE_NODES_CANVAS_SPRITE_NODE_H_
 
 #include <string>
 
 #include "SFML/Graphics/Sprite.hpp"
 
 #include "simple2dengine/engine.h"
-#include "simple2dengine/nodes/node.h"
+#include "simple2dengine/nodes/canvas/canvas_node.h"
 
 namespace simple2dengine
 {
@@ -25,7 +25,7 @@ namespace simple2dengine
      * Used to draw different images.
      *
      */
-    class SpriteNode : public Node
+    class SpriteNode : public CanvasNode
     {
       public:
         /**
@@ -37,7 +37,7 @@ namespace simple2dengine
          * @see Engine.
          * @see Node.
          */
-        SpriteNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
+        SpriteNode(Engine& engineRef, const std::string& nodeName) : CanvasNode(engineRef, nodeName) { };
         /**
          * @brief Set image source to Node.
          *
@@ -48,11 +48,10 @@ namespace simple2dengine
          */
         void setImage(const std::string& filename, bool isAssetLoaded = true);
         /**
-         * @brief Get size of SpriteNode.
+         * @brief Update transform of the sprite to correctly display it.
          *
-         * @return Vector2f width and height of Node.
          */
-        virtual Vector2f getSize() const final;
+        virtual void updateTransform() override;
 
       protected:
         /**
@@ -62,15 +61,10 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
-        /**
-         * @brief Update position when node parameters was changed
-         *
-         */
-        virtual void updatePosition() final;
 
       private:
         sf::Sprite sprite;
     };
 } // namespace simple2dengine
 
-#endif // _SIMPLE2DENGINE_NODES_SPRITE_NODE_H_
+#endif // _SIMPLE2DENGINE_NODES_CANVAS_SPRITE_NODE_H_

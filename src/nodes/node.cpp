@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "simple2dengine/nodes/node.h"
+#include "simple2dengine/engine.h"
 
 namespace simple2dengine
 {
@@ -13,7 +14,6 @@ namespace simple2dengine
             return;
         }
         child->parent = shared_from_this();
-        updateState(child);
         children.push_back(std::move(child));
     }
 
@@ -23,10 +23,6 @@ namespace simple2dengine
         if (it != children.end())
         {
             child->parent = std::shared_ptr<Node>(nullptr);
-            if(state != NodeState::Destroying)
-            {
-                child->notifyExit();
-            }
             child->notifyDestroy();
             children.erase(it);
         }
@@ -60,6 +56,11 @@ namespace simple2dengine
         }
 
         return root;
+    }
+
+    const std::vector<std::shared_ptr<Node>>& Node::getChildren() const
+    {
+        return children;
     }
 
     std::shared_ptr<Node> Node::getNode(const std::string& path)
@@ -127,89 +128,6 @@ namespace simple2dengine
         return nullptr;
     }
 
-    void Node::setPosition(const Vector2f& _position)
-    {
-        position = _position;
-
-        updatePosition();
-    }
-
-    void Node::move(const Vector2f& _position)
-    {
-        setPosition(position + _position);
-    }
-
-    const Vector2f& Node::getPosition() const
-    {
-        return position;
-    }
-
-    Vector2f Node::getAbsolutePosition() const
-    {
-        if(parent.expired())
-        {
-            return getPosition();
-        }
-
-        auto root = shared_from_this();
-        Vector2f ret_position = root->getPosition();
-        // now we need to get absolute position by summing position of all parents
-        while (root->getParent() != nullptr)
-        {
-            root = root->getParent();
-            ret_position += root->getPosition();
-        }
-
-        return ret_position;
-    }
-
-    void Node::setVisible(bool isVisible)
-    {
-        this->visible = isVisible;
-    }
-
-    bool Node::isVisible() const
-    {
-        return visible;
-    }
-
-    bool Node::isAbsoluteVisible() const
-    {
-        if(parent.expired())
-        {
-            return isVisible();
-        }
-
-        auto root = shared_from_this();
-        bool ret_visible = root->isVisible();
-        // now we need to get absolute visibility checking all parents
-        // if we find that parent is invisible we should stop and return false
-        while (root->getParent() != nullptr && ret_visible)
-        {
-            root = root->getParent();
-            ret_visible = root->isVisible();
-        }
-
-        return ret_visible;
-    }
-
-    void Node::setAnchor(const Anchor nodeAnchor)
-    {
-        anchor = nodeAnchor;
-
-        updatePosition();
-    }
-
-    Anchor Node::getAnchor()
-    {
-        return anchor;
-    }
-
-    Vector2f Node::getSize() const
-    {
-        return Vector2f(0.0f, 0.0f);
-    }
-
     void Node::update(int deltaInMs)
     {
         onUpdate(deltaInMs);
@@ -265,53 +183,26 @@ namespace simple2dengine
     void Node::notifyExit()
     {
         state = NodeState::Exiting;
-        onExit();
 
         for(auto& child : children)
         {
             child->notifyExit();
         }
+
+        onExit();
     }
 
     void Node::notifyDestroy()
     {
         state = NodeState::Destroying;
-        onDestroy();
 
         for(auto& child : children)
         {
             child->notifyDestroy();
         }
-    }
 
-    void Node::updatePosition()
-    {
-        // we need all children update their position
-        for(auto& child : children)
-        {
-            child->updatePosition();
-        }
-    }
+        onDestroy();
 
-    void Node::updateState(std::shared_ptr<Node> child)
-    {
-        switch(state)
-        {
-            case NodeState::Entering:
-                child->notifyCreate();
-                break;
-            case NodeState::Updating:
-            case NodeState::Exiting:
-                child->notifyCreate();
-                child->notifyEnter();
-                break;
-            case NodeState::Destroying: // is there any reason to call create and enter
-                child->notifyCreate();  // if we wanna exit and destroy?
-                child->notifyEnter();   // there may be some node creating
-                child->notifyExit();    // and deleting on exit
-                break;
-            default:
-                break;
-        }
+        state = NodeState::None;
     }
 }

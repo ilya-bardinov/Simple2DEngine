@@ -1,4 +1,4 @@
-#include "simple2dengine/nodes/sprite_node.h"
+#include "simple2dengine/nodes/canvas/sprite_node.h"
 #include "simple2dengine/managers/asset_manager.h"
 
 namespace simple2dengine
@@ -18,27 +18,20 @@ namespace simple2dengine
 
         sprite.setTexture(*texture);
         // we need to update anchor due to possible sprite size change
-        updatePosition();
-    }
-
-    Vector2f SpriteNode::getSize() const
-    {
-        return Vector2f(
-            sprite.getTexture()->getSize().x * sprite.getScale().x,
-            sprite.getTexture()->getSize().y * sprite.getScale().y);
+        updateTransform();
     }
 
     void SpriteNode::render()
     {
-        Node::render();
-
-        if(isAbsoluteVisible())
+        if(isVisibleInTree())
         {
             engine.getRenderWindow().draw(sprite);
         }
+
+        CanvasNode::render();
     }
 
-    void SpriteNode::updatePosition()
+    void SpriteNode::updateTransform()
     {
         Anchor spriteAnchor = getAnchor();
         Vector2f anchorPosition(0.0f, 0.0f);
@@ -65,8 +58,8 @@ namespace simple2dengine
         }
 
         sprite.setOrigin(anchorPosition);
-        sprite.setPosition(getAbsolutePosition());
+        sprite.setPosition(getGlobalPosition());
 
-        Node::updatePosition();
+        CanvasNode::updateTransform();
     }
 }

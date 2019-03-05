@@ -17,6 +17,7 @@
 
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Window/Event.hpp"
+#include "SFML/Graphics/Rect.hpp"
 
 namespace simple2dengine
 {
@@ -26,29 +27,6 @@ namespace simple2dengine
     using Vector2f = sf::Vector2<float>;
     // for input event
     using Event = sf::Event;
-
-    /**
-     * @brief Anchor bit flags for setAnchor.
-     *
-     * @see SpriteNode.
-     */
-    enum class Anchor : unsigned int
-    {
-        None = 0,
-        Top = 1 << 0,
-        Left = 1 << 1,
-        Bottom = 1 << 2,
-        Right = 1 << 3,
-        Center = 1 << 4
-    };
-    constexpr enum Anchor operator | (const enum Anchor a, const enum Anchor b)
-    {
-        return static_cast<enum Anchor>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
-    }
-    constexpr enum Anchor operator & (const enum Anchor a, const enum Anchor b)
-    {
-        return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
-    }
 
     /**
      * @brief Current state of Node in Scene Manager.
@@ -176,6 +154,12 @@ namespace simple2dengine
          */
         std::shared_ptr<Node> getRoot();
         /**
+         * @brief Get all children of Node.
+         *
+         * @return std::vector<std::shared_ptr<Node>> children.
+         */
+        const std::vector<std::shared_ptr<Node>>& getChildren() const;
+        /**
          * @brief Get node from scene tree by the provided path.
          * Path example: "../player", "../..", "..", "player/sprite", "."
          * ".." - it is a parent of node.
@@ -187,76 +171,7 @@ namespace simple2dengine
          */
         std::shared_ptr<Node> getNode(const std::string& path);
 
-        /**
-         * @brief Set position of Node.
-         *
-         * @param position x and y coordinates relative to its parent.
-         */
-        void setPosition(const Vector2f& position);
-        /**
-         * @brief Move Node on specified coordinates.
-         *
-         * @param position x and y coordinate relative to its parent.
-         */
-        void move(const Vector2f& position);
-        /**
-         * @brief Get position of Node.
-         *
-         * @return const Vector2f& x and y coordinate relative to its parent.
-         */
-        const Vector2f& getPosition() const;
-        /**
-         * @brief Get position of Node.
-         *
-         * @return const Vector2f& x and y coordinate relative to window (so named global position).
-         */
-        Vector2f getAbsolutePosition() const;
-
-        /**
-         * @brief Set visibility of Node.
-         * If parent is invisible, curent Node will be invisible too.
-         *
-         * @param isVisible visibility of Node.
-         */
-        void setVisible(bool isVisible);
-        /**
-         * @brief Check if Node is visible or not.
-         *
-         * @return bool visibility of Node.
-         */
-        bool isVisible() const;
-        /**
-         * @brief Check if Node or its parents are visible or not.
-         * If someone of Node or its parents is invisible - return value will be false.
-         *
-         * @return bool visibility of Node or its parents.
-         */
-        bool isAbsoluteVisible() const;
-        /**
-         * @brief Set Node anchor.
-         *
-         * @param anchor anchor.
-         */
-        void setAnchor(const Anchor anchor);
-        /**
-         * @brief Get anchor of Node.
-         *
-         * @return Anchor.
-         */
-        Anchor getAnchor();
-        /**
-         * @brief Get size of Node.
-         *
-         * @return Vector2f width and height of node.
-         */
-        virtual Vector2f getSize() const;
-
       protected:
-        /**
-         * @brief Update position when node parameters was changed
-         *
-         */
-        virtual void updatePosition();
         /**
          * @brief Update logic of engine.
          *
@@ -310,21 +225,12 @@ namespace simple2dengine
          * @see onDestroy().
          */
         void notifyDestroy();
-        /**
-         * @brief Update child's node state.
-         *
-         * @param child child to notify.
-         */
-        void updateState(std::shared_ptr<Node> child);
 
       private:
         std::vector<std::shared_ptr<Node>> children; // all child nodes
         std::weak_ptr<Node> parent; // parent node
 
-        Vector2f position; // position that relative to parents
         std::string name; // name of node
-        bool visible = true; // visibility of node
-        Anchor anchor = Anchor::Top | Anchor::Left; // anchor of node
 
         NodeState state = NodeState::None; // current state of node
 

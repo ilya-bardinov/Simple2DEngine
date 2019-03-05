@@ -16,11 +16,12 @@ set(
     ${simple2dengine_SOURCE_DIR}/src/managers/loaders/sound_loader.cpp
     ${simple2dengine_SOURCE_DIR}/src/managers/loaders/font_loader.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/node.cpp
-    ${simple2dengine_SOURCE_DIR}/src/nodes/sprite_node.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/sound_node.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/music_node.cpp
-    ${simple2dengine_SOURCE_DIR}/src/nodes/text_node.cpp
     ${simple2dengine_SOURCE_DIR}/src/nodes/timer_node.cpp
+    ${simple2dengine_SOURCE_DIR}/src/nodes/canvas/canvas_node.cpp
+    ${simple2dengine_SOURCE_DIR}/src/nodes/canvas/sprite_node.cpp
+    ${simple2dengine_SOURCE_DIR}/src/nodes/canvas/text_node.cpp
 )
 
 # Executable

@@ -8,25 +8,24 @@
  *
  */
 
-#ifndef _SIMPLE2DENGINE_NODES_TEXT_NODE_H_
-#define _SIMPLE2DENGINE_NODES_TEXT_NODE_H_
+#ifndef _SIMPLE2DENGINE_NODES_CANVAS_TEXT_NODE_H_
+#define _SIMPLE2DENGINE_NODES_CANVAS_TEXT_NODE_H_
 
 #include <string>
 
 #include "SFML/Graphics/Text.hpp"
 
 #include "simple2dengine/engine.h"
-#include "simple2dengine/nodes/node.h"
+#include "simple2dengine/nodes/canvas/canvas_node.h"
 
 namespace simple2dengine
 {
-    using Color = sf::Color;
     /**
      * @brief Text node.
      * Used to draw text strings.
      *
      */
-    class TextNode : public Node
+    class TextNode : public CanvasNode
     {
       public:
         /**
@@ -38,7 +37,7 @@ namespace simple2dengine
          * @see Engine.
          * @see Node.
          */
-        TextNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
+        TextNode(Engine& engineRef, const std::string& nodeName) : CanvasNode(engineRef, nodeName) { };
         /**
          * @brief Set font source of Text Node.
          *
@@ -67,13 +66,12 @@ namespace simple2dengine
          *
          * @see Color.
          */
-        void setFillColor(const Color& color);
+        void setFillColor(const sf::Color& color);
         /**
-         * @brief Get size of text.
+         * @brief Update transform of the text to correctly display it.
          *
-         * @return Vector2f width and height of text.
          */
-        virtual Vector2f getSize() const final;
+        virtual void updateTransform() override;
 
       protected:
         /**
@@ -83,15 +81,10 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
-        /**
-         * @brief Update position when node parameters was changed
-         *
-         */
-        virtual void updatePosition() final;
 
       private:
         sf::Text text;
     };
 } // namespace simple2dengine
 
-#endif // _SIMPLE2DENGINE_NODES_TEXT_NODE_H_
+#endif // _SIMPLE2DENGINE_NODES_CANVAS_TEXT_NODE_H_
