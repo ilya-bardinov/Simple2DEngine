@@ -58,7 +58,7 @@ namespace simple2dengine
          * @see Engine.
          * @see Node.
          */
-        CanvasNode(Engine& engineRef, const std::string& nodeName);
+        CanvasNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
         /**
          * @brief Set position of Node.
          *

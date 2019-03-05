@@ -2,22 +2,6 @@
 
 namespace simple2dengine
 {
-    CanvasNode::CanvasNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName)
-    {
-        if(!getParent())
-        {
-            return;
-        }
-
-        const CanvasNode* parentPtr = dynamic_cast<CanvasNode *>(getParent().get());
-        globalPosition = sf::Vector2f(0.0f, 0.0f);
-
-        if(parentPtr)
-        {
-		    globalPosition = parentPtr->globalPosition;
-	    }
-    }
-
     void CanvasNode::setPosition(const sf::Vector2f& _position)
     {
         globalPosition = globalPosition - this->position + _position;
