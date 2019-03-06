@@ -36,14 +36,14 @@ namespace simple2dengine
         }
     }
 
-    std::shared_ptr<Asset> TextureLoader::getAsset(const std::string& filename) const
+    BaseAsset* TextureLoader::getAsset(const std::string& filename) const
     {
         auto position = textures.find(filename);
         if (position != textures.end())
         {
-            auto asset = std::make_shared<Asset>();
-            asset->nativeAsset = (void *)&position->second;
-            return asset;
+            Asset<sf::Texture>* loadedAsset = new Asset<sf::Texture>();
+            loadedAsset->asset = &(position->second);
+            return loadedAsset;
         }
         else
         {

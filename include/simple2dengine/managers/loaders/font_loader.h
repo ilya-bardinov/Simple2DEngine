@@ -46,7 +46,7 @@ namespace simple2dengine
          * @param filename name of asset.
          * @return laoded asset
          */
-        virtual std::shared_ptr<Asset> getAsset(const std::string& filename) const final;
+        virtual BaseAsset* getAsset(const std::string& filename) const final;
 
       private:
         std::unordered_map<std::string, sf::Font> fonts; // Loaded fonts

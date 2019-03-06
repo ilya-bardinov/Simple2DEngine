@@ -15,7 +15,7 @@ namespace simple2dengine
         {
             engine.getAssetManager().load(filename);
         }
-        sf::SoundBuffer* buffer = engine.getAssetManager().getAsset<sf::SoundBuffer>(filename);
+        const sf::SoundBuffer* buffer = engine.getAssetManager().getAsset<sf::SoundBuffer>(filename);
         if(buffer == nullptr)
         {
             std::cout << "SoundNode::setSound - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;

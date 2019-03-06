@@ -36,14 +36,14 @@ namespace simple2dengine
         }
     }
 
-    std::shared_ptr<Asset> FontLoader::getAsset(const std::string& filename) const
+    BaseAsset* FontLoader::getAsset(const std::string& filename) const
     {
         auto position = fonts.find(filename);
         if (position != fonts.end())
         {
-            auto asset = std::make_shared<Asset>();
-            asset->nativeAsset = (void *)&position->second;
-            return asset;
+            Asset<sf::Font>* loadedAsset = new Asset<sf::Font>();
+            loadedAsset->asset = &(position->second);
+            return loadedAsset;
         }
         else
         {

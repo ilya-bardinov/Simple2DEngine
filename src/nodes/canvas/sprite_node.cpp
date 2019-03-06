@@ -15,7 +15,7 @@ namespace simple2dengine
         {
             engine.getAssetManager().load(filename);
         }
-        sf::Texture* texture = engine.getAssetManager().getAsset<sf::Texture>(filename);
+        const sf::Texture* texture = engine.getAssetManager().getAsset<sf::Texture>(filename);
         if(texture == nullptr)
         {
             std::cout << "SpriteNode::setImage - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;

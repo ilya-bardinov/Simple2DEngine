@@ -51,13 +51,15 @@ namespace simple2dengine
          * @param filename path to asset
          */
         void unload(const std::string& filename);
-
-      private:
         /**
          * @brief Get loaded Asset.
+         *
+         * @param filename path to asset
+         *
+         * @return loaded asset
          */
         template <class T>
-        T* getAsset(const std::string& filename) const
+        const T* getAsset(const std::string& filename) const
         {
             std::shared_ptr<Loader> loader = getLoader(filename);
             if(!loader)
@@ -66,14 +68,18 @@ namespace simple2dengine
                 return nullptr;
             }
 
-            std::shared_ptr<Asset> asset = loader->getAsset(filename);
-            if(asset != nullptr)
+            BaseAsset* asset = loader->getAsset(filename);
+            if(asset)
             {
-                return static_cast<T *>(asset->nativeAsset);
+                Asset<T>* loadedAsset = static_cast<Asset<T>*>(asset);
+                if(loadedAsset != nullptr)
+                {
+                    return loadedAsset->asset;
+                }
             }
+
             return nullptr;
         }
-
         /**
          * @brief Get the Loader object
          *
@@ -86,10 +92,6 @@ namespace simple2dengine
 
       private:
         std::unordered_map<std::string, std::shared_ptr<Loader>> loaders; // all loaders
-
-        friend class SpriteNode;
-        friend class SoundNode;
-        friend class TextNode;
     };
 } // simple2dengine
 

@@ -36,14 +36,14 @@ namespace simple2dengine
         }
     }
 
-    std::shared_ptr<Asset> SoundLoader::getAsset(const std::string& filename) const
+    BaseAsset* SoundLoader::getAsset(const std::string& filename) const
     {
         auto position = buffers.find(filename);
         if (position != buffers.end())
         {
-            auto asset = std::make_shared<Asset>();
-            asset->nativeAsset = (void *)&position->second;
-            return asset;
+            Asset<sf::SoundBuffer>* loadedAsset = new Asset<sf::SoundBuffer>();
+            loadedAsset->asset = &(position->second);
+            return loadedAsset;
         }
         else
         {

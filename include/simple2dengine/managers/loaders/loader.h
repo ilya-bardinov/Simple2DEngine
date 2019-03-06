@@ -20,11 +20,17 @@ namespace simple2dengine
      * @brief Base Asset for loader.
      *
      */
-    struct Asset
+    struct BaseAsset { };
+    /**
+     * @brief Asset struct for loader.
+     *
+     * @tparam T - loaded resource.
+     */
+    template <typename T>
+    struct Asset : public BaseAsset
     {
-        void *nativeAsset;
+        const T* asset;
     };
-
     /**
      * @brief Base Loader
      *
@@ -55,7 +61,7 @@ namespace simple2dengine
          * @param filename name of asset.
          * @return loaded asset.
          */
-        virtual std::shared_ptr<Asset> getAsset(const std::string& filename) const = 0;
+        virtual BaseAsset* getAsset(const std::string& filename) const = 0;
     };
 } // simple2dengine
 
