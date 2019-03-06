@@ -74,7 +74,9 @@ namespace simple2dengine
                 Asset<T>* loadedAsset = static_cast<Asset<T>*>(asset);
                 if(loadedAsset != nullptr)
                 {
-                    return loadedAsset->asset;
+                    const T* ret_asset = loadedAsset->asset;
+                    delete asset;
+                    return ret_asset;
                 }
             }
 
