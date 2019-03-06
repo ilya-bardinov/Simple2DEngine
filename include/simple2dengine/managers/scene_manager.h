@@ -42,7 +42,17 @@ namespace simple2dengine
          */
         void addScene(const std::string& name, std::shared_ptr<Node> scene);
         /**
-         * @brief Remove node with a name.
+         * @brief Remove node with a name immediately.
+         * This method is not a safe for deleting.
+         *
+         * @param name Name of scene to delete.
+         */
+        void removeSceneImmediately(const std::string& name);
+        /**
+         * @brief Add node to erasing queue.
+         * Queues a node for deletion at the next frame.
+         * When deleted, all of its child nodes will be deleted as well.
+         * This method ensures it’s safe to delete the node.
          *
          * @param name Name of scene to delete.
          */
@@ -83,12 +93,12 @@ namespace simple2dengine
          *
          * @param event input event.
          */
-        void input(Event event);
+        void input(sf::Event event);
 
       private:
         std::shared_ptr<Node> currentScene; // current scene
         std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all nodes (scenes)
-        std::vector<std::shared_ptr<Node>> destroyedScenes; // nodes that will be destroyed on next tick
+        std::vector<std::shared_ptr<Node>> deletionQueue; // nodes that will be destroyed on next tick
 
         friend class Engine;
     };

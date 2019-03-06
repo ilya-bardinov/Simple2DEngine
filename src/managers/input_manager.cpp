@@ -4,12 +4,12 @@
 
 namespace simple2dengine
 {
-    void InputManager::registerAction(const std::string& action, const Keyboard::Key keyboardKey)
+    void InputManager::registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey)
     {
         auto it = keyboardActions.find(action);
         if (it != keyboardActions.end())
         {
-            std::vector<Keyboard::Key> keyVector = it->second;
+            std::vector<sf::Keyboard::Key> keyVector = it->second;
             for(const auto& key : keyVector)
             {
                 if(key == keyboardKey)
@@ -23,12 +23,12 @@ namespace simple2dengine
         keyboardActions[action].push_back(keyboardKey);
     }
 
-    void InputManager::registerAction(const std::string& action, const Mouse::Button mouseButton)
+    void InputManager::registerAction(const std::string& action, const sf::Mouse::Button mouseButton)
     {
         auto it = mouseActions.find(action);
         if (it != mouseActions.end())
         {
-            std::vector<Mouse::Button> button = it->second;
+            std::vector<sf::Mouse::Button> button = it->second;
             for(const auto& key : button)
             {
                 if(key == mouseButton)
@@ -63,10 +63,10 @@ namespace simple2dengine
         auto itKeyboard = keyboardActions.find(action);
         if (itKeyboard != keyboardActions.end())
         {
-            std::vector<Keyboard::Key> keyVector = itKeyboard->second;
+            std::vector<sf::Keyboard::Key> keyVector = itKeyboard->second;
             for(const auto& key : keyVector)
             {
-                if(Keyboard::isKeyPressed(key))
+                if(sf::Keyboard::isKeyPressed(key))
                 {
                     return true;
                 }
@@ -76,10 +76,10 @@ namespace simple2dengine
         auto itMouse = mouseActions.find(action);
         if (itMouse != mouseActions.end())
         {
-            std::vector<Mouse::Button> button = itMouse->second;
+            std::vector<sf::Mouse::Button> button = itMouse->second;
             for(const auto& key : button)
             {
-                if(Mouse::isButtonPressed(key))
+                if(sf::Mouse::isButtonPressed(key))
                 {
                     return true;
                 }
@@ -89,8 +89,8 @@ namespace simple2dengine
         return false;
     }
 
-    Vector2i InputManager::getMousePosition(const sf::Window& relativeTo) const
+    sf::Vector2i InputManager::getMousePosition(const sf::Window& relativeTo) const
     {
-        return Mouse::getPosition(relativeTo);
+        return sf::Mouse::getPosition(relativeTo);
     }
 } // simple2dengine

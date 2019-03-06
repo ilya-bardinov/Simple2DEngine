@@ -25,19 +25,22 @@ namespace simple2dengine
      * Used to draw different images.
      *
      */
-    class SpriteNode : public CanvasNode
+    class SpriteNode : public CanvasNode, public sf::Sprite
     {
       public:
+        using CanvasNode::CanvasNode;
         /**
-         * @brief Construct a new Sprite Node.
+         * @brief Construct a new Sprite Node with a texture applied.
          *
          * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
+         * @param filename Name of file with relative or full path.
          *
          * @see Engine.
          * @see Node.
+         * @see sf::Sprite.
          */
-        SpriteNode(Engine& engineRef, const std::string& nodeName) : CanvasNode(engineRef, nodeName) { };
+        SpriteNode(Engine& engineRef, const std::string& nodeName, const std::string& filename);
         /**
          * @brief Set image source to Node.
          *
@@ -53,6 +56,10 @@ namespace simple2dengine
          */
         virtual void updateTransform() override;
 
+        using CanvasNode::setPosition;
+        using CanvasNode::getPosition;
+        using CanvasNode::move;
+
       protected:
         /**
          * @brief Override base render().
@@ -61,9 +68,6 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
-
-      private:
-        sf::Sprite sprite;
     };
 } // namespace simple2dengine
 

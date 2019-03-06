@@ -13,34 +13,12 @@
 
 #include <string>
 
+#include "simple2dengine/core/anchor.h"
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/node.h"
 
 namespace simple2dengine
 {
-    /**
-     * @brief Anchor bit flags for setAnchor.
-     *
-     * @see CanvasNode.
-     */
-    enum class Anchor : unsigned int
-    {
-        None = 0,
-        Top = 1 << 0,
-        Left = 1 << 1,
-        Bottom = 1 << 2,
-        Right = 1 << 3,
-        Center = 1 << 4
-    };
-    constexpr enum Anchor operator | (const enum Anchor a, const enum Anchor b)
-    {
-        return static_cast<enum Anchor>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
-    }
-    constexpr enum Anchor operator & (const enum Anchor a, const enum Anchor b)
-    {
-        return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
-    }
-
     /**
      * @brief Canvas node.
      * Used for drawing, transforming, positioning.
@@ -49,16 +27,15 @@ namespace simple2dengine
     class CanvasNode : public Node
     {
       public:
+        using Node::Node;
         /**
-         * @brief Construct a new Canvas Node.
+         * @brief Add child to canvas node tree.
          *
-         * @param engineRef reference to Engine object.
-         * @param nodeName name of the node.
+         * @param child will be added to node tree.
          *
-         * @see Engine.
-         * @see Node.
+         * @return true if successfully add a node, otherwise return false.
          */
-        CanvasNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
+        bool addChild(std::shared_ptr<CanvasNode> child);
         /**
          * @brief Set position of Node.
          *

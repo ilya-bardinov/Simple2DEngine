@@ -3,6 +3,12 @@
 
 namespace simple2dengine
 {
+    SpriteNode::SpriteNode(Engine& engineRef, const std::string& nodeName, const std::string& filename)
+    : CanvasNode(engineRef, nodeName)
+    {
+        setImage(filename);
+    }
+
     void SpriteNode::setImage(const std::string& filename, bool isAssetLoaded/* = true*/)
     {
         if(!isAssetLoaded)
@@ -16,7 +22,7 @@ namespace simple2dengine
             return;
         }
 
-        sprite.setTexture(*texture);
+        setTexture(*texture, true);
         // we need to update anchor due to possible sprite size change
         updateTransform();
     }
@@ -25,7 +31,7 @@ namespace simple2dengine
     {
         if(isVisibleInTree())
         {
-            engine.getRenderWindow().draw(sprite);
+            engine.getRenderWindow().draw(*this);
         }
 
         CanvasNode::render();
@@ -34,11 +40,11 @@ namespace simple2dengine
     void SpriteNode::updateTransform()
     {
         Anchor spriteAnchor = getAnchor();
-        Vector2f anchorPosition(0.0f, 0.0f);
+        sf::Vector2f anchorPosition(0.0f, 0.0f);
         if((spriteAnchor & Anchor::Center) == Anchor::Center)
         {
-            anchorPosition.x = sprite.getLocalBounds().width / 2.0f;
-            anchorPosition.y = sprite.getLocalBounds().height / 2.0f;
+            anchorPosition.x = getLocalBounds().width / 2.0f;
+            anchorPosition.y = getLocalBounds().height / 2.0f;
         }
         if((spriteAnchor & Anchor::Left) == Anchor::Left)
         {
@@ -50,15 +56,15 @@ namespace simple2dengine
         }
         if((spriteAnchor & Anchor::Bottom) == Anchor::Bottom)
         {
-            anchorPosition.y = sprite.getLocalBounds().height;
+            anchorPosition.y = getLocalBounds().height;
         }
         if((spriteAnchor & Anchor::Right) == Anchor::Right)
         {
-            anchorPosition.x = sprite.getLocalBounds().width;
+            anchorPosition.x = getLocalBounds().width;
         }
 
-        sprite.setOrigin(anchorPosition);
-        sprite.setPosition(getGlobalPosition());
+        setOrigin(anchorPosition);
+        Sprite::setPosition(getGlobalPosition());
 
         CanvasNode::updateTransform();
     }

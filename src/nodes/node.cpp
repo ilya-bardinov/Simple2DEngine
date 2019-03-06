@@ -6,19 +6,43 @@
 
 namespace simple2dengine
 {
-    void Node::addChild(std::shared_ptr<Node> child)
+    bool Node::addChild(std::shared_ptr<Node> child)
     {
+        if(!child)
+        {
+            return false;
+        }
+
         if(!child->parent.expired())
         {
             std::cout << "Node::addChild - child '" << child->getName() << "' already has a parent!" << std::endl;
-            return;
+            return false;
         }
+
         child->parent = shared_from_this();
+
+        if(state == NodeState::Entering && child->state == NodeState::None)
+        {
+            child->notifyCreate();
+        }
+        if(state == NodeState::Updating && child->state == NodeState::None)
+        {
+            child->notifyCreate();
+            child->notifyEnter();
+        }
+
         children.push_back(std::move(child));
+
+        return true;
     }
 
-    void Node::removeChild(std::shared_ptr<Node> child)
+    bool Node::removeChild(std::shared_ptr<Node> child)
     {
+        if(!child)
+        {
+            return false;
+        }
+
         auto it = std::find(children.begin(), children.end(), child);
         if (it != children.end())
         {
@@ -29,7 +53,10 @@ namespace simple2dengine
         else
         {
             std::cout << "Node::removeChild - child '" << child->getName() << "' not found in node tree!" << std::endl;
+            return false;
         }
+
+        return true;
     }
 
     const std::string& Node::getName() const
@@ -44,11 +71,6 @@ namespace simple2dengine
 
     std::shared_ptr<Node> Node::getRoot()
     {
-        if(parent.expired())
-        {
-            return nullptr;
-        }
-
         auto root = shared_from_this();
         while (root->getParent() != nullptr)
         {
@@ -146,7 +168,7 @@ namespace simple2dengine
         }
     }
 
-    void Node::notifyInput(Event event)
+    void Node::notifyInput(sf::Event event)
     {
         onInput(event);
 
@@ -184,9 +206,9 @@ namespace simple2dengine
     {
         state = NodeState::Exiting;
 
-        for(auto& child : children)
+        for (auto it = children.rbegin(); it != children.rend(); ++it)
         {
-            child->notifyExit();
+            (*it)->notifyExit();
         }
 
         onExit();
@@ -196,9 +218,9 @@ namespace simple2dengine
     {
         state = NodeState::Destroying;
 
-        for(auto& child : children)
+        for (auto it = children.rbegin(); it != children.rend(); ++it)
         {
-            child->notifyDestroy();
+            (*it)->notifyDestroy();
         }
 
         onDestroy();

@@ -2,6 +2,20 @@
 
 namespace simple2dengine
 {
+    bool CanvasNode::addChild(std::shared_ptr<CanvasNode> child)
+    {
+        bool result = Node::addChild(child);
+        if(!result)
+        {
+            return false;
+        }
+
+        child->globalPosition += globalPosition;
+        setPosition(getPosition());
+
+        return true;
+    }
+
     void CanvasNode::setPosition(const sf::Vector2f& _position)
     {
         globalPosition = globalPosition - this->position + _position;

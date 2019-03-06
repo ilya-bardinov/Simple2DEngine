@@ -20,24 +20,25 @@
 
 namespace simple2dengine
 {
-    using Status = sf::Sound::Status;
     /**
      * @brief Regular sound node that can be played in the audio environment.
      *
      */
-    class SoundNode : public Node
+    class SoundNode : public Node, public sf::Sound
     {
       public:
+        using Node::Node;
         /**
          * @brief Construct a new Sound Node.
          *
          * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
+         * @param soundFileName Name of sound file with relative or full path.
          *
          * @see Engine.
          * @see Node.
          */
-        SoundNode(Engine& engineRef, const std::string& nodeName) : Node(engineRef, nodeName) { };
+        SoundNode(Engine& engineRef, const std::string& nodeName, const std::string& soundFileName);
         /**
          * @brief Set the source file containing the audio data to play.
          *
@@ -47,73 +48,6 @@ namespace simple2dengine
          * @see AssetManager.
          */
         void setSound(const std::string& filename, bool isAssetLoaded = true);
-        /**
-         * @brief Start or resume playing the sound.
-         *
-         * This function starts the stream if it was stopped, resumes
-         * it if it was paused, and restarts it from beginning if it
-         * was it already playing.
-         * This function uses its own thread so that it doesn't block
-         * the rest of the program while the sound is played.
-         *
-         * @see pause, stop
-         *
-         */
-        void play();
-        /**
-         * @brief Pause the sound.
-         *
-         * This function pauses the sound if it was playing,
-         * otherwise (sound already paused or stopped) it has no effect.
-         *
-         * @see play, stop
-         *
-         */
-        void pause();
-        /**
-         * @brief stop playing the sound.
-         *
-         * This function stops the sound if it was playing or paused,
-         * and does nothing if it was already stopped.
-         * It also resets the playing position (unlike pause()).
-         *
-         * @see play, pause.
-         *
-         */
-        void stop();
-        /**
-         * @brief Set whether or not the sound should loop after reaching the end.
-         *
-         * If set, the sound will restart from beginning after
-         * reaching the end and so on, until it is stopped or
-         * setLoop(false) is called.
-         * The default looping state for sound is false.
-         *
-         * @param loop True to play in loop, false to play once.
-         *
-         * @see getLoop
-         *
-         */
-        void setLoop(bool loop);
-        /**
-         * @brief Tell whether or not the sound is in loop mode.
-         *
-         * @return True if the sound is looping, false otherwise.
-         *
-         * @see setLoop
-         *
-         */
-        bool getLoop() const;
-        /**
-         * @brief Get the current status of the sound (stopped, paused, playing).
-         *
-         * @return Current status of the sound
-         *
-         */
-        Status getStatus() const;
-
-      private:
-        sf::Sound sound;
     };
 } // namespace simple2dengine
 

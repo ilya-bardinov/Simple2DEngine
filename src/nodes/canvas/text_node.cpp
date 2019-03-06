@@ -3,6 +3,12 @@
 
 namespace simple2dengine
 {
+    TextNode::TextNode(Engine& engineRef, const std::string& nodeName, const std::string& filename)
+    : CanvasNode(engineRef, nodeName)
+    {
+        setFont(filename);
+    }
+
     void TextNode::setFont(const std::string& filename, bool isAssetLoaded/* = true*/)
     {
         if(!isAssetLoaded)
@@ -15,35 +21,30 @@ namespace simple2dengine
             std::cout << "TextNode::setFont - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
-        text.setFont(*font);
+        Text::setFont(*font);
         // we need to update anchor due to possible text size change
         updateTransform();
     }
 
-    void TextNode::setText(const std::string& textString)
+    void TextNode::setString(const std::string& textString)
     {
-        text.setString(textString);
+        Text::setString(textString);
         // we need to update anchor due to possible text size change
         updateTransform();
     }
 
     void TextNode::setCharacterSize(unsigned int size)
     {
-        text.setCharacterSize(size);
+        Text::setCharacterSize(size);
         // we need to update anchor due to possible text size change
         updateTransform();
-    }
-
-    void TextNode::setFillColor(const sf::Color& color)
-    {
-        text.setFillColor(color);
     }
 
     void TextNode::render()
     {
         if(isVisibleInTree())
         {
-            engine.getRenderWindow().draw(text);
+            engine.getRenderWindow().draw(*this);
         }
 
         CanvasNode::render();
@@ -52,11 +53,11 @@ namespace simple2dengine
     void TextNode::updateTransform()
     {
         Anchor textAnchor = getAnchor();
-        Vector2f anchorPosition(0.0f, 0.0f);
+        sf::Vector2f anchorPosition(0.0f, 0.0f);
         if((textAnchor & Anchor::Center) == Anchor::Center)
         {
-            anchorPosition.x = text.getLocalBounds().width  / 2.0f;
-            anchorPosition.y = text.getLocalBounds().height / 2.0f;
+            anchorPosition.x = getLocalBounds().width  / 2.0f;
+            anchorPosition.y = getLocalBounds().height / 2.0f;
         }
         if((textAnchor & Anchor::Left) == Anchor::Left)
         {
@@ -68,15 +69,15 @@ namespace simple2dengine
         }
         if((textAnchor & Anchor::Bottom) == Anchor::Bottom)
         {
-            anchorPosition.y = text.getLocalBounds().height;
+            anchorPosition.y = getLocalBounds().height;
         }
         if((textAnchor & Anchor::Right) == Anchor::Right)
         {
-            anchorPosition.x = text.getLocalBounds().width ;
+            anchorPosition.x = getLocalBounds().width ;
         }
 
-        text.setOrigin(anchorPosition);
-        text.setPosition(getGlobalPosition());
+        setOrigin(anchorPosition);
+        Text::setPosition(getGlobalPosition());
 
         CanvasNode::updateTransform();
     }

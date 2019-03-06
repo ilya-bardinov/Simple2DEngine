@@ -16,13 +16,32 @@ namespace simple2dengine
         scenes[name] = std::move(scene);
     }
 
+    void SceneManager::removeSceneImmediately(const std::string& name)
+    {
+        auto it = scenes.find(name);
+        if (it != scenes.end() && it->second)
+        {
+            if(currentScene == it->second)
+            {
+                currentScene->notifyExit();
+                currentScene = nullptr;
+            }
+            it->second->notifyDestroy();
+            scenes.erase(it);
+        }
+        else
+        {
+            std::cout << "SceneManager::removeScene - scene '" << name << "' doesn't exist!" << std::endl;
+        }
+    }
+
     void SceneManager::removeScene(const std::string& name)
     {
         auto it = scenes.find(name);
         if (it != scenes.end() && it->second)
         {
-            destroyedScenes.push_back(it->second);
-            if(currentScene && currentScene == it->second)
+            deletionQueue.push_back(it->second);
+            if(currentScene == it->second)
             {
                 currentScene->notifyExit();
                 currentScene = nullptr;
@@ -74,13 +93,23 @@ namespace simple2dengine
                 scene.second->notifyDestroy();
             }
         }
+
+        for (auto& scene : deletionQueue)
+        {
+	        if(scene)
+            {
+                scene->notifyDestroy();
+            }
+        }
+
+        currentScene = nullptr;
     }
 
     void SceneManager::update(int deltaInMs)
     {
-        if(destroyedScenes.size() > 0)
+        if(deletionQueue.size() > 0)
         {
-            destroyedScenes.clear();
+            deletionQueue.clear();
         }
 
         if (currentScene)
@@ -97,7 +126,7 @@ namespace simple2dengine
         }
     }
 
-    void SceneManager::input(Event event)
+    void SceneManager::input(sf::Event event)
     {
         if (currentScene)
         {

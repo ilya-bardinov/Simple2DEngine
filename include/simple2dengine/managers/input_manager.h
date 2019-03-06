@@ -22,8 +22,6 @@
 
 namespace simple2dengine
 {
-    using Keyboard = sf::Keyboard;
-    using Mouse = sf::Mouse;
     /**
      * @brief Scene Manager.
      * You can get it from Engine.
@@ -39,14 +37,14 @@ namespace simple2dengine
          * @param actionName - name of action.
          * @param keyboardKey - keyboard key from SFML.
          */
-        void registerAction(const std::string& action, const Keyboard::Key keyboardKey);
+        void registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey);
         /**
          * @brief Attach Action to mouse button.
          *
          * @param actionName - name of action.
          * @param keyboardKey - mouse button from SFML.
          */
-        void registerAction(const std::string& action, const Mouse::Button mouseButton);
+        void registerAction(const std::string& action, const sf::Mouse::Button mouseButton);
         /**
          * @brief Remove Action.
          *
@@ -68,11 +66,11 @@ namespace simple2dengine
          * @param relativeTo - Coordinates from window.
          * @return Current position of the mouse.
          */
-        Vector2i getMousePosition(const sf::Window& relativeTo) const;
+        sf::Vector2i getMousePosition(const sf::Window& relativeTo) const;
 
       private:
-        std::unordered_map<std::string, std::vector<Keyboard::Key>> keyboardActions; // actions for keyboard buttons
-        std::unordered_map<std::string, std::vector<Mouse::Button>> mouseActions; // actions for mouse buttons
+        std::unordered_map<std::string, std::vector<sf::Keyboard::Key>> keyboardActions; // actions for keyboard buttons
+        std::unordered_map<std::string, std::vector<sf::Mouse::Button>> mouseActions; // actions for mouse buttons
     };
 
 } // simple2dengine

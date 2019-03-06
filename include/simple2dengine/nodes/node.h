@@ -21,13 +21,6 @@
 
 namespace simple2dengine
 {
-    // it will be more convenient
-    using Vector2i = sf::Vector2<int>;
-    using Vector2u = sf::Vector2<unsigned int>;
-    using Vector2f = sf::Vector2<float>;
-    // for input event
-    using Event = sf::Event;
-
     /**
      * @brief Current state of Node in Scene Manager.
      *
@@ -103,7 +96,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onInput(Event /*event*/) { };
+        virtual void onInput(sf::Event /*event*/) { };
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent became inactive in scene manager.
@@ -125,14 +118,20 @@ namespace simple2dengine
          * @brief Add child to node tree.
          *
          * @param child will be added to node tree.
+         *
+         * @return true if successfully add a node, otherwise return false.
+         *
          */
-        void addChild(std::shared_ptr<Node> child);
+        bool addChild(std::shared_ptr<Node> child);
         /**
          * @brief Remove child from node tree.
          *
          * @param child will be removed from node tree.
+         *
+         * @return true if successfully add a node, otherwise return false.
+         *
          */
-        void removeChild(std::shared_ptr<Node> child);
+        bool removeChild(std::shared_ptr<Node> child);
 
         /**
          * @brief Get the Name of Node.
@@ -210,7 +209,7 @@ namespace simple2dengine
          * @see onInput().
          *
          */
-        void notifyInput(Event event);
+        void notifyInput(sf::Event event);
         /**
          * @brief Notification methods.
          * Used by scene manager.

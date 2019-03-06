@@ -25,19 +25,22 @@ namespace simple2dengine
      * Used to draw text strings.
      *
      */
-    class TextNode : public CanvasNode
+    class TextNode : public CanvasNode, public sf::Text
     {
       public:
+        using CanvasNode::CanvasNode;
         /**
-         * @brief Construct a new Text Node.
+         * @brief Construct a new Text Node with a font applied.
          *
          * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
+         * @param filename Name of font file with relative or full path.
          *
          * @see Engine.
          * @see Node.
+         * @see sf::Text.
          */
-        TextNode(Engine& engineRef, const std::string& nodeName) : CanvasNode(engineRef, nodeName) { };
+        TextNode(Engine& engineRef, const std::string& nodeName, const std::string& filename);
         /**
          * @brief Set font source of Text Node.
          *
@@ -52,7 +55,7 @@ namespace simple2dengine
          *
          * @param textString - text to display.
          */
-        void setText(const std::string& textString);
+        void setString(const std::string& textString);
         /**
          * @brief Set size.
          *
@@ -60,18 +63,14 @@ namespace simple2dengine
          */
         void setCharacterSize(unsigned int size);
         /**
-         * @brief Set color.
-         *
-         * @param color RGBA color of text.
-         *
-         * @see Color.
-         */
-        void setFillColor(const sf::Color& color);
-        /**
          * @brief Update transform of the text to correctly display it.
          *
          */
         virtual void updateTransform() override;
+
+        using CanvasNode::setPosition;
+        using CanvasNode::getPosition;
+        using CanvasNode::move;
 
       protected:
         /**
@@ -81,9 +80,6 @@ namespace simple2dengine
          * @see Node.
          */
         virtual void render() override;
-
-      private:
-        sf::Text text;
     };
 } // namespace simple2dengine
 

@@ -3,6 +3,12 @@
 
 namespace simple2dengine
 {
+    SoundNode::SoundNode(Engine& engineRef, const std::string& nodeName, const std::string& soundFileName)
+    : Node(engineRef, nodeName)
+    {
+        setSound(soundFileName);
+    }
+
     void SoundNode::setSound(const std::string& filename, bool isAssetLoaded/* = true*/)
     {
         if(!isAssetLoaded)
@@ -15,36 +21,6 @@ namespace simple2dengine
             std::cout << "SoundNode::setSound - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
-        sound.setBuffer(*buffer);
+        setBuffer(*buffer);
     }
-
-    void SoundNode::play()
-    {
-        sound.play();
-    }
-
-    void SoundNode::pause()
-    {
-        sound.pause();
-    }
-
-    void SoundNode::stop()
-    {
-        sound.stop();
-    }
-
-    void SoundNode::setLoop(bool loop)
-    {
-        sound.setLoop(loop);
-    }
-
-    bool SoundNode::getLoop() const
-    {
-        return sound.getLoop();
-    }
-
-    Status SoundNode::getStatus() const
-    {
-        return sound.getStatus();
-    }
-}
+} // simple2dengine
