@@ -1,44 +1,35 @@
-# https://cmake.org/cmake/help/latest/manual/ctest.1.html
-# https://cmake.org/Wiki/CMake/Testing_With_CTest
-# https://cmake.org/cmake/help/latest/command/add_test.html?
+add_executable(unittests
+    unittests/main.cpp
+    unittests/node_test.cpp
+)
+add_dependencies(unittests Catch simple2dengine) # Catch is needed for unit tests, located in ../external
+add_compile_options(/std:c++14 )
+target_compile_definitions(unittests PRIVATE UNIT_TESTS) # add -DUNIT_TESTS define
+target_include_directories(unittests PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(unittests SYSTEM PRIVATE 
+    ${EXTERNAL_CATCH_INCLUDE_DIR}
+)
 
-include(CTest)
+target_link_libraries(
+    unittests
+    simple2dengine
+)
 
-# Unit tests
-add_subdirectory(unittest)
+install(
+    TARGETS unittests
+    RUNTIME DESTINATION bin
+)
 
-# Convenience targets for fast testing, they depends on binaries (so the build
-# is triggered, when sources were changed).
-add_custom_target(check
-    COMMAND echo [----] Running tests
-    USES_TERMINAL
-    COMMAND ${CMAKE_CTEST_COMMAND}  --output-on-failure -C Debug
-    DEPENDS simple2dengine unittests)
-
-add_custom_target(checkVerbose
-    COMMAND echo [----] Running tests
-    USES_TERMINAL
-    COMMAND ${CMAKE_CTEST_COMMAND}  -V --output-on-failure -C Debug
-    DEPENDS simple2dengine unittests)
-
-#------------------------------------------------------------------------------
-# CTest test suite
-#
-# Test suite is defined here, when executed test fails (returns not 0), test
-# failed. There are more options, check CMake documentation. 
-#
-# Good to use to integration test, run whole program with parameters,
-# check if it will crash, produce correct results, etc.
-
-
-# Basic runable tests
-add_test(NAME "Is_Runable "
-    COMMAND $<TARGET_FILE:unittests>)
-
-# Add unit test to CTest suite as one of the tests
-# unit test build is located in test/unittest/CMakeLists.txt
-add_test(NAME "catch_unit_tests"
+# convenience target for running only the unit tests
+add_custom_target(unit
+    #this way we can use faux data from /test dir (if we have any):
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
     COMMAND $<TARGET_FILE:unittests>
-    USES_TERMINAL
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
+    DEPENDS unittests
+)
+# Verbose printing of results
+add_custom_target(unitVerbose
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
+    COMMAND $<TARGET_FILE:unittests> -s -a -r=compact
+    DEPENDS unittests
+)

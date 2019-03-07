@@ -1,4 +1,3 @@
-
 # SFML dependencies
 set(SFML_MIN_VERSION 2.5.1)
 find_package(SFML COMPONENTS window system graphics audio REQUIRED)

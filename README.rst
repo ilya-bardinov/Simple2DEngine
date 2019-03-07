@@ -41,14 +41,13 @@ First of all you need ``exhale`` python package that can be install by
 
    pip install exhale
 
-After installation use this if you want build documentation.
+In ``CMake`` configuration step set ``BUILD_DOCS`` to ``YES``. Documentation will be build by default and will be in ``docs`` folder.
 
 ::
 
    mkdir build 
    cd build
-   cmake ..
-   cmake --build . --target doc
+   cmake -DBUILD_DOCS=YES ..
 
 If you want to install documentation you can use this after doc building.
 
@@ -67,7 +66,6 @@ Prerequisites
 -  ``CMake 3.2`` or newer
 -  ``SFML 2.5.1`` or newer
 -  Compiler with ``C++14`` support 
--  ``git`` - for downloading Catch2 for Unit Testing
 
 Targets
 ~~~~~~~
@@ -77,12 +75,10 @@ Targets
    -  *all*
    -  *clean*
    -  *install* - install binaries and docs (if builded) into *CMAKE_INSTALL_PREFIX*
-   -  *Simple2DEngine* - build Simple2DEngine libraries
+   -  *simple2dengine* - build Simple2DEngine libraries
 
--  Testing
+-  Testing (if ``BUILD_UNITTESTS`` set to ``YES``)
 
-   -  *check* - run whole test suite
-   -  *checkVerbose* - run whole test suite with verbose
    -  *unit* - build and run unit tests only
    -  *unitVerbose* - build and run unit tests only with verbose
 
@@ -99,6 +95,8 @@ CMake Variables
 
 -  ``-DCMAKE_INSTALL_PREFIX`` - location for installation
 -  ``-DCMAKE_BUILD_TYPE`` - for build type
+-  ``-DBUILD_UNITTESTS`` - boolean for Unit Tests building
+-  ``-DBUILD_DOCS`` - boolean for documentation building
 
 Build example
 ~~~~~~~~~~~~~

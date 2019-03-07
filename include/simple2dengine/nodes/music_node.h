@@ -24,7 +24,7 @@ namespace simple2dengine
      * @brief Streamed music node played from an audio file.
      *
      */
-    class MusicNode : public Node, sf::Music
+    class MusicNode : public Node, public sf::Music
     {
       public:
         using Node::Node;

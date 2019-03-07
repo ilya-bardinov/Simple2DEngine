@@ -3,6 +3,10 @@ language: cpp
 notifications:
   email: false
 
+env:
+  global:
+    - secure: "ekraHTlosriLY93mD0efjfGaNqmkvxwpyUBVVucszdrrXZpqskw6Suj2vTPMqGKYzXdIlA4NNTL4gDmBeVA6tkv28LXzKJKy/2uj7JiGYd+U2z78A6dnruj42LShH0E3dx9ZRQO0re7rArQfhGu0wl45lJ5CkVsQXbEOT1Ir+H7VBIj8MrwxpxdSYHIjoXIZlTMrTKWHXIJ828gK//Ex0WY2scR0oAZwp/DYFEXnoDlnWRwTghZsoLFx37XlpGi/PodFDCL1/vWX46bDrGyIoE2kfl7q41dIePRL+J8JwOZwOQoTXglsvHG1N7MInkIImoD4GrSWpDQD/9k4sx/WkUp3Jbi97jgm542e6W5OWah3WfFWM9a9JxtMd1OnxyOFSukH1Xi3As8+PyvxHbBKeva2T564wcgyLuc6lpbLJuG5FjFp2ioWOqfG4DA3jP4rq4AaXXe2xwnocL9r7FkSImuhuvd2ADm/NQucKaxjUuZJvoooE8sE8lJAXvk606Nvzzf53OMmcohdgrIJV0wuh3aIuXtRoCdSxlrlFpQumfdXaZe6dVJI7uHKqsWmPg8WCpfK6+Qd0g2ES+jq/94H9Oi2s+uVCqcXo/1ALNlRPl7BXiHIeAXvuAFtcLgFMjWTrh0Nf/sNTrrpKRfhcE9aXCoDfIkfssDILDhR7ZcfMCU="
+
 addons:
   apt_packages:
     - cmake
@@ -12,6 +16,9 @@ addons:
     - libflac-dev
     - libvorbis-dev
     - libgl1-mesa-dev
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 before_script:
 - git clone -b '2.5.1' --depth 1 https://github.com/SFML/SFML.git sfml && cd sfml && mkdir build && cd build
@@ -44,3 +51,13 @@ matrix:
 
   - name: "Windows"
     os: windows
+
+addons:
+  coverity_scan:
+    project:
+      name: "ilya-bardinov/Simple2DEngine"
+      description: "Simple 2D Engine based on SFML"
+    notification_email: ilya.bardinov@gmail.com
+    build_command_prepend: ""
+    build_command: "cmake --build ."
+    branch_pattern: coverity_scan

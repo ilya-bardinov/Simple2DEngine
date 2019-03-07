@@ -1,10 +1,14 @@
-
 find_package(Doxygen 1.8.0)
-message(STATUS "Can build doc?   ${DOXYGEN_FOUND}")
+
+if(NOT DOXYGEN_FOUND)
+    message(WARNING "Doxygen not found. Skip doc building.")
+endif()
+
 if(DOXYGEN_FOUND)
     # doc build only target, target is not in default build, so it must be
     # triggered explicitly
     add_custom_target(doc
+        ALL
         COMMAND sphinx-build -M html . _build 
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating documentation"
