@@ -36,23 +36,21 @@ namespace simple2dengine
         return true;
     }
 
-    bool Node::removeChild(std::shared_ptr<Node> child)
+    bool Node::removeChild(const std::string& childName)
     {
-        if(!child)
-        {
-            return false;
-        }
+        auto it = std::find_if(children.begin(), children.end(), [&] (const std::shared_ptr<Node>& child) {
+            return child->getName() == childName;
+        });
 
-        auto it = std::find(children.begin(), children.end(), child);
         if (it != children.end())
         {
-            child->parent = std::shared_ptr<Node>(nullptr);
-            child->notifyDestroy();
+            (*it)->parent = std::shared_ptr<Node>(nullptr);
+            (*it)->notifyDestroy();
             children.erase(it);
         }
         else
         {
-            std::cout << "Node::removeChild - child '" << child->getName() << "' not found in node tree!" << std::endl;
+            std::cout << "Node::removeChild - child '" << childName << "' not found in node tree!" << std::endl;
             return false;
         }
 

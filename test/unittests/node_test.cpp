@@ -34,8 +34,8 @@ SCENARIO("Scenes can be added, activated and deleted") {
         }
 
         WHEN("Clear scene") {
-            auto node = std::make_shared<simple2dengine::Node>(engine, "simple_node");
-            scenemanager.addScene("test_scene", node);
+            auto node = std::make_shared<simple2dengine::Node>(engine, "test_scene");
+            scenemanager.addScene(node);
             scenemanager.activateScene("test_scene");
             scenemanager.clear();
 
@@ -45,8 +45,8 @@ SCENARIO("Scenes can be added, activated and deleted") {
         }
 
         WHEN("Add and delete scene") {
-            auto node = std::make_shared<simple2dengine::Node>(engine, "simple_node");
-            scenemanager.addScene("test_scene", node);
+            auto node = std::make_shared<simple2dengine::Node>(engine, "test_scene");
+            scenemanager.addScene(node);
             scenemanager.activateScene("test_scene");
 
             THEN( "the size changes when added" ) {
@@ -60,13 +60,13 @@ SCENARIO("Scenes can be added, activated and deleted") {
                 REQUIRE(scenemanager.getSceneCount() == 0);
             }
 
-            scenemanager.addScene("test_scene_2", node);
+            scenemanager.addScene(node);
 
             THEN( "the size changes when added" ) {
                 REQUIRE(scenemanager.getSceneCount() == 1);
             }
 
-            scenemanager.removeScene("test_scene_2");
+            scenemanager.removeScene("test_scene");
 
             THEN( "the size changes when deleted" ) {
                 REQUIRE(scenemanager.getSceneCount() == 0);
@@ -74,8 +74,8 @@ SCENARIO("Scenes can be added, activated and deleted") {
         }
 
         WHEN("Add multiple nodes to scene") {
-            auto scene = std::make_shared<simple2dengine::Node>(engine, "simple_node");
-            scenemanager.addScene("simple_scene", scene);
+            auto scene = std::make_shared<simple2dengine::Node>(engine, "simple_scene");
+            scenemanager.addScene(scene);
             scenemanager.activateScene("simple_scene");
 
             auto layer_1_node_1 = std::make_shared<simple2dengine::Node>(engine, "layer_1_node_1");
@@ -105,7 +105,7 @@ SCENARIO("Scenes can be added, activated and deleted") {
             }
 
             THEN( "name is correct" ) {
-                REQUIRE(scene->getName() == "simple_node");
+                REQUIRE(scene->getName() == "simple_scene");
                 REQUIRE(layer_1_node_3->getName() == "layer_1_node_3");
                 REQUIRE(layer_1_node_2->getName() == "layer_1_node_2");
             }
@@ -152,7 +152,7 @@ SCENARIO("Scenes can be added, activated and deleted") {
                 REQUIRE(layer_3_node_1->isVisibleInTree() ==false);
             }
 
-            layer_1_node_2->removeChild(layer_2_node_2);
+            layer_1_node_2->removeChild("layer_2_node_2");
 
             THEN( "the size changes" ) {
                 REQUIRE(scenemanager.getSceneCount() == 1);
@@ -179,13 +179,13 @@ SCENARIO("Scenes can be added, activated and deleted") {
 
         WHEN("Add multiple scenes") {
             auto scene_1 = std::make_shared<simple2dengine::Node>(engine, "scene_1");
-            scenemanager.addScene("scene_1", scene_1);
+            scenemanager.addScene(scene_1);
             auto scene_2 = std::make_shared<simple2dengine::Node>(engine, "scene_2");
-            scenemanager.addScene("scene_2", scene_2);
+            scenemanager.addScene(scene_2);
             auto scene_3 = std::make_shared<simple2dengine::Node>(engine, "scene_3");
-            scenemanager.addScene("scene_3", scene_3);
+            scenemanager.addScene(scene_3);
             auto scene_4 = std::make_shared<simple2dengine::Node>(engine, "scene_4");
-            scenemanager.addScene("scene_4", scene_4);
+            scenemanager.addScene(scene_4);
 
             THEN( "the size changes" ) {
                 REQUIRE(scenemanager.getSceneCount() == 4);

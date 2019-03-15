@@ -113,7 +113,6 @@ namespace simple2dengine
          *
          */
         virtual void onDestroy() { };
-
         /**
          * @brief Add child to node tree.
          *
@@ -126,12 +125,12 @@ namespace simple2dengine
         /**
          * @brief Remove child from node tree.
          *
-         * @param child will be removed from node tree.
+         * @param childName name of child to remove from node tree.
          *
          * @return true if successfully add a node, otherwise return false.
          *
          */
-        bool removeChild(std::shared_ptr<Node> child);
+        bool removeChild(const std::string& childName);
 
         /**
          * @brief Get the Name of Node.

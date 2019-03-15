@@ -4,16 +4,17 @@
 
 namespace simple2dengine
 {
-    void SceneManager::addScene(const std::string& name, std::shared_ptr<Node> scene)
+    void SceneManager::addScene(std::shared_ptr<Node> scene)
     {
+        std::string name = scene->getName();
         auto it = scenes.find(name);
         if (it != scenes.end() && it->second)
         {
             std::cout << "SceneManager::addScene - scene '" << name << "' already exist!" << std::endl;
             return;
         }
-        scene->notifyCreate();
         scenes[name] = std::move(scene);
+        scenes[name]->notifyCreate();
     }
 
     void SceneManager::removeSceneImmediately(const std::string& name)

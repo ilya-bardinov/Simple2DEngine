@@ -37,10 +37,9 @@ namespace simple2dengine
         /**
          * @brief Add node to scene manager.
          *
-         * @param name Assign name to scene.
          * @param node Node to add.
          */
-        void addScene(const std::string& name, std::shared_ptr<Node> scene);
+        void addScene(std::shared_ptr<Node> scene);
         /**
          * @brief Remove node with a name immediately.
          * This method is not a safe for deleting.
