@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.2)
 
 # Project setup, versioning stuff here, change when changing the version
-project (simple2dengine VERSION 0.0.2)
+project (simple2dengine VERSION 0.1.0)
 
 message(STATUS "")
 message(STATUS "    == ${PROJECT_NAME} Project configuration ==")
@@ -31,15 +31,16 @@ endif()
 
 #------------------------------------------------------------------------------
 
-option(BUILD_DOCS               "Build documentation." OFF )
+option(BUILD_DOCS               "Build documentation."          OFF)
 option(BUILD_UNITTESTS          "Enable Unittests with Catch2." OFF)
+option(BUILD_DEMO               "Build demo project."           OFF)
 
 #------------------------------------------------------------------------------
 
 # External resources/repositories are downloaded here
 add_subdirectory(external)
 
-# Documentation build
+# Documentation
 if(BUILD_DOCS)
     add_subdirectory(docs)
 endif()
@@ -48,6 +49,11 @@ endif()
 if(BUILD_UNITTESTS)
     enable_testing()
     add_subdirectory(test)
+endif()
+
+# Demo project
+if(BUILD_DEMO)
+    add_subdirectory(demo)
 endif()
 
 # Source code
@@ -63,4 +69,5 @@ message(STATUS "Compiler:             ${CMAKE_CXX_COMPILER}")
 message(STATUS "Build Type:           ${CMAKE_BUILD_TYPE}")
 message(STATUS "Build Documentation:  ${BUILD_DOCS}")
 message(STATUS "Build Unit Tests:     ${BUILD_UNITTESTS}")
+message(STATUS "Build Demo:           ${BUILD_DEMO}")
 message(STATUS "")

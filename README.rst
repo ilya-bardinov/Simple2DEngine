@@ -97,6 +97,7 @@ CMake Variables
 -  ``-DCMAKE_BUILD_TYPE`` - for build type
 -  ``-DBUILD_UNITTESTS`` - boolean for Unit Tests building
 -  ``-DBUILD_DOCS`` - boolean for documentation building
+-  ``-DBUILD_DEMO`` - boolean for demo building
 
 Build example
 ~~~~~~~~~~~~~
