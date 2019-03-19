@@ -131,7 +131,11 @@ namespace simple2dengine
          *
          */
         bool removeChild(const std::string& childName);
-
+        /**
+         * @brief Remove all children from node tree.
+         *
+         */
+        void clear();
         /**
          * @brief Get the Name of Node.
          *

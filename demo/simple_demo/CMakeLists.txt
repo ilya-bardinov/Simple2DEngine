@@ -8,6 +8,8 @@ set(
     SOURCES
     ${simple_demo_SOURCE_DIR}/src/main.cpp
     ${simple_demo_SOURCE_DIR}/src/GameScene.cpp
+    ${simple_demo_SOURCE_DIR}/src/GridNode.cpp
+    ${simple_demo_SOURCE_DIR}/src/GridElementNode.cpp
 )
 
 # Executable

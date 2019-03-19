@@ -21,10 +21,6 @@ namespace simple2dengine
 
         child->parent = shared_from_this();
 
-        if(state == NodeState::Entering && child->state == NodeState::None)
-        {
-            child->notifyCreate();
-        }
         if(state == NodeState::Updating && child->state == NodeState::None)
         {
             child->notifyCreate();
@@ -55,6 +51,16 @@ namespace simple2dengine
         }
 
         return true;
+    }
+
+    void Node::clear()
+    {
+        for(const auto& child : children)
+        {
+            child->parent = std::shared_ptr<Node>(nullptr);
+            child->notifyDestroy();
+        }
+        children.clear();
     }
 
     const std::string& Node::getName() const
@@ -194,6 +200,11 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
+            if(child->state == NodeState::None)
+            {
+                child->notifyCreate();
+            }
+
             child->notifyEnter();
         }
 
@@ -204,9 +215,15 @@ namespace simple2dengine
     {
         state = NodeState::Exiting;
 
-        for (auto it = children.rbegin(); it != children.rend(); ++it)
+        for(auto& child : children)
         {
-            (*it)->notifyExit();
+            if(child->state == NodeState::None)
+            {
+                child->notifyCreate();
+                child->notifyEnter();
+            }
+
+            child->notifyExit();
         }
 
         onExit();
@@ -216,9 +233,14 @@ namespace simple2dengine
     {
         state = NodeState::Destroying;
 
-        for (auto it = children.rbegin(); it != children.rend(); ++it)
+        for(auto& child : children)
         {
-            (*it)->notifyDestroy();
+            if(child->state == NodeState::None)
+            {
+                child->notifyCreate();
+            }
+
+            child->notifyDestroy();
         }
 
         onDestroy();
