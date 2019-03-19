@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.2)
 
 # project name
 project(simple_demo VERSION 0.0.1 LANGUAGES CXX)
