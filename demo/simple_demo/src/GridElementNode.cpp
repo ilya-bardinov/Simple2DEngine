@@ -6,7 +6,7 @@ void GridElementNode::onInput(sf::Event event)
     {
         if(event.mouseButton.button == sf::Mouse::Button::Left)
         {
-            if(getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+            if(getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
             {
                 if(selected)
                 {

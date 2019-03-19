@@ -5,7 +5,7 @@ void GridNode::generate()
 {
     printf("GridNode - generate\n");
 
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(0)));
 
     clear();
 
