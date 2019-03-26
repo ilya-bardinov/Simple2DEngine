@@ -20,21 +20,22 @@ namespace simple2dengine
         }
 
         child->parent = shared_from_this();
+        child->index = children.size();
+        children.push_back(child);
+
+        child->notifyCreate();
 
         if(state == NodeState::Updating && child->state == NodeState::None)
         {
-            child->notifyCreate();
             child->notifyEnter();
         }
-
-        children.push_back(std::move(child));
 
         return true;
     }
 
     bool Node::removeChild(const std::string& childName)
     {
-        auto it = std::find_if(children.begin(), children.end(), [&] (const std::shared_ptr<Node>& child) {
+        const auto it = std::find_if(children.begin(), children.end(), [&] (const std::shared_ptr<Node>& child) {
             return child->getName() == childName;
         });
 
@@ -61,6 +62,11 @@ namespace simple2dengine
             child->notifyDestroy();
         }
         children.clear();
+    }
+
+    int Node::getIndex() const
+    {
+        return index;
     }
 
     const std::string& Node::getName() const
@@ -102,8 +108,8 @@ namespace simple2dengine
         }
         else
         {
-            size_t pos = path.find("/");
-            std::string childpath = path.substr(0, pos);
+            const size_t pos = path.find("/");
+            const std::string childpath = path.substr(0, pos);
 
             if (childpath == ".")
             {
@@ -189,7 +195,10 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            child->notifyCreate();
+            if(child->state < NodeState::Creating)
+            {
+                child->notifyCreate();
+            }
         }
     }
 
@@ -200,12 +209,10 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            if(child->state == NodeState::None)
+            if(child->state < NodeState::Entering)
             {
-                child->notifyCreate();
+                child->notifyEnter();
             }
-
-            child->notifyEnter();
         }
 
         state = NodeState::Updating;

@@ -137,6 +137,13 @@ namespace simple2dengine
          */
         void clear();
         /**
+         * @brief Return Index of Node in its parent.
+         * If node has no parent, return 0.
+         *
+         * @return int Index of Node in its parent.
+         */
+        int getIndex() const;
+        /**
          * @brief Get the Name of Node.
          *
          * @return const std::string& name of Node.
@@ -233,6 +240,7 @@ namespace simple2dengine
         std::weak_ptr<Node> parent; // parent node
 
         std::string name; // name of node
+        int index = 0;        // index of node in its parent
 
         NodeState state = NodeState::None; // current state of node
 

@@ -6,7 +6,7 @@ namespace simple2dengine
 {
     void TextureLoader::load(const std::string& filename)
     {
-        auto position = textures.find(filename);
+        const auto position = textures.find(filename);
         if (position != textures.end())
         {
             std::cout << "TextureLoader::load - file '" << filename << "' already loaded!" << std::endl;
@@ -25,7 +25,7 @@ namespace simple2dengine
 
     void TextureLoader::unload(const std::string& filename)
     {
-        auto position = textures.find(filename);
+        const auto position = textures.find(filename);
         if (position != textures.end())
         {
             textures.erase(position);
@@ -38,7 +38,7 @@ namespace simple2dengine
 
     BaseAsset* TextureLoader::getAsset(const std::string& filename) const
     {
-        auto position = textures.find(filename);
+        const auto position = textures.find(filename);
         if (position != textures.end())
         {
             Asset<sf::Texture>* loadedAsset = new Asset<sf::Texture>();

@@ -2,25 +2,71 @@
 
 void GridElementNode::onInput(sf::Event event)
 {
+    if(!onActivate || _isMoving)
+        return;
+
     if(event.type == sf::Event::EventType::MouseButtonPressed)
     {
         if(event.mouseButton.button == sf::Mouse::Button::Left)
         {
             if(getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
             {
-                if(selected)
-                {
-                    this->setScale(1.0f, 1.0f);
-                    this->setColor(sf::Color(255, 255, 255, 255));
-                    selected = false;
-                }
-                else
-                {
-                    this->setScale(0.9f, 0.9f);
-                    this->setColor(sf::Color(255, 255, 255, 128));
-                    selected = true;
-                }
+                onActivate(this);
             }
         }
     }
+}
+
+void GridElementNode::onUpdate(int deltaInMs)
+{
+    if(_isMoving)
+    {
+        const sf::Vector2f newPositionDiff = getPosition() - newPosition;
+        const int8_t signOfX = (newPositionDiff.x > 0) ? 1 : ((newPositionDiff.x < 0) ? -1 : 0);
+        const int8_t signOfY = (newPositionDiff.y > 0) ? 1 : ((newPositionDiff.y < 0) ? -1 : 0);
+        const float posDiff = speed * deltaInMs;
+
+        if(newPositionDiff.x * signOfX <= posDiff && newPositionDiff.y * signOfY <= posDiff)
+        {
+            _isMoving = false;
+            setPosition(newPosition);
+            return;
+        }
+
+        const sf::Vector2f vec(posDiff * signOfX, posDiff * signOfY);
+
+        setPosition(getPosition() - vec);
+    }
+}
+
+void GridElementNode::setOnActivate(std::function<void(GridElementNode *)> activateAction)
+{
+    onActivate = std::move(activateAction);
+}
+
+void GridElementNode::setSelected(const bool isSelected)
+{
+    if(isSelected)
+    {
+        setScale(0.9f, 0.9f);
+        setColor(sf::Color(255, 255, 255, 128));
+    }
+    else
+    {
+        setScale(1.0f, 1.0f);
+        setColor(sf::Color(255, 255, 255, 255));
+    }
+
+    this->_isSelected = isSelected;
+}
+
+bool GridElementNode::isSelected() const
+{
+    return _isSelected;
+}
+
+void GridElementNode::slideTo(const sf::Vector2f& position)
+{
+    newPosition = position;
+    _isMoving = true;
 }

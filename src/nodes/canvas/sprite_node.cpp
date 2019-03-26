@@ -39,7 +39,7 @@ namespace simple2dengine
 
     void SpriteNode::updateTransform()
     {
-        Anchor spriteAnchor = getAnchor();
+        const Anchor spriteAnchor = getAnchor();
         sf::Vector2f anchorPosition(0.0f, 0.0f);
         if((spriteAnchor & Anchor::Center) == Anchor::Center)
         {

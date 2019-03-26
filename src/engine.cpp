@@ -108,7 +108,7 @@ namespace simple2dengine
     void Engine::render()
     {
         // clear the window with black color
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::White);
         // render scenes in scene manager
         sceneManager.render();
         // end the current frame

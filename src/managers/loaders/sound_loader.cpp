@@ -6,7 +6,7 @@ namespace simple2dengine
 {
     void SoundLoader::load(const std::string& filename)
     {
-        auto position = buffers.find(filename);
+        const auto position = buffers.find(filename);
         if (position != buffers.end())
         {
             std::cout << "SoundLoader::load - file '" << filename << "' already loaded!" << std::endl;
@@ -25,7 +25,7 @@ namespace simple2dengine
 
     void SoundLoader::unload(const std::string& filename)
     {
-        auto position = buffers.find(filename);
+        const auto position = buffers.find(filename);
         if (position != buffers.end())
         {
             buffers.erase(position);
@@ -38,7 +38,7 @@ namespace simple2dengine
 
     BaseAsset* SoundLoader::getAsset(const std::string& filename) const
     {
-        auto position = buffers.find(filename);
+        const auto position = buffers.find(filename);
         if (position != buffers.end())
         {
             Asset<sf::SoundBuffer>* loadedAsset = new Asset<sf::SoundBuffer>();

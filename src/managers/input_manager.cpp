@@ -6,10 +6,10 @@ namespace simple2dengine
 {
     void InputManager::registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey)
     {
-        auto it = keyboardActions.find(action);
+        const auto it = keyboardActions.find(action);
         if (it != keyboardActions.end())
         {
-            std::vector<sf::Keyboard::Key> keyVector = it->second;
+            const std::vector<sf::Keyboard::Key> keyVector = it->second;
             for(const auto& key : keyVector)
             {
                 if(key == keyboardKey)
@@ -25,10 +25,10 @@ namespace simple2dengine
 
     void InputManager::registerAction(const std::string& action, const sf::Mouse::Button mouseButton)
     {
-        auto it = mouseActions.find(action);
+        const auto it = mouseActions.find(action);
         if (it != mouseActions.end())
         {
-            std::vector<sf::Mouse::Button> button = it->second;
+            const std::vector<sf::Mouse::Button> button = it->second;
             for(const auto& key : button)
             {
                 if(key == mouseButton)
@@ -44,13 +44,13 @@ namespace simple2dengine
 
     void InputManager::unregisterAction(const std::string& action)
     {
-        auto keyboardIt = keyboardActions.find(action);
+        const auto keyboardIt = keyboardActions.find(action);
         if (keyboardIt != keyboardActions.end())
         {
             keyboardActions.erase(keyboardIt);
         }
 
-        auto mouseIt = mouseActions.find(action);
+        const auto mouseIt = mouseActions.find(action);
         if (mouseIt != mouseActions.end())
         {
             mouseActions.erase(mouseIt);
@@ -60,10 +60,10 @@ namespace simple2dengine
     bool InputManager::isActionPressed(const std::string& action) const
     {
         // check keyboard buttons
-        auto itKeyboard = keyboardActions.find(action);
+        const auto itKeyboard = keyboardActions.find(action);
         if (itKeyboard != keyboardActions.end())
         {
-            std::vector<sf::Keyboard::Key> keyVector = itKeyboard->second;
+            const std::vector<sf::Keyboard::Key> keyVector = itKeyboard->second;
             for(const auto& key : keyVector)
             {
                 if(sf::Keyboard::isKeyPressed(key))
@@ -73,10 +73,10 @@ namespace simple2dengine
             }
         }
         // check mouse buttons
-        auto itMouse = mouseActions.find(action);
+        const auto itMouse = mouseActions.find(action);
         if (itMouse != mouseActions.end())
         {
-            std::vector<sf::Mouse::Button> button = itMouse->second;
+            const std::vector<sf::Mouse::Button> button = itMouse->second;
             for(const auto& key : button)
             {
                 if(sf::Mouse::isButtonPressed(key))

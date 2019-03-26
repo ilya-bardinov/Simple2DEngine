@@ -52,7 +52,7 @@ namespace simple2dengine
 
     void TextNode::updateTransform()
     {
-        Anchor textAnchor = getAnchor();
+        const Anchor textAnchor = getAnchor();
         sf::Vector2f anchorPosition(0.0f, 0.0f);
         if((textAnchor & Anchor::Center) == Anchor::Center)
         {

@@ -6,7 +6,7 @@ namespace simple2dengine
 {
     void FontLoader::load(const std::string& filename)
     {
-        auto position = fonts.find(filename);
+        const auto position = fonts.find(filename);
         if (position != fonts.end())
         {
             std::cout << "FontLoader::load - file '" << filename << "' already loaded!" << std::endl;
@@ -25,7 +25,7 @@ namespace simple2dengine
 
     void FontLoader::unload(const std::string& filename)
     {
-        auto position = fonts.find(filename);
+        const auto position = fonts.find(filename);
         if (position != fonts.end())
         {
             fonts.erase(position);
@@ -38,7 +38,7 @@ namespace simple2dengine
 
     BaseAsset* FontLoader::getAsset(const std::string& filename) const
     {
-        auto position = fonts.find(filename);
+        const auto position = fonts.find(filename);
         if (position != fonts.end())
         {
             Asset<sf::Font>* loadedAsset = new Asset<sf::Font>();

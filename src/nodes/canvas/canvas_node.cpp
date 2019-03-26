@@ -4,7 +4,7 @@ namespace simple2dengine
 {
     bool CanvasNode::addChild(std::shared_ptr<CanvasNode> child)
     {
-        bool result = Node::addChild(child);
+        const bool result = Node::addChild(child);
         if(!result)
         {
             return false;

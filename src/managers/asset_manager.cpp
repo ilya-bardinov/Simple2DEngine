@@ -6,7 +6,7 @@ namespace simple2dengine
     {
         for(const std::string& extension : extensions)
         {
-            auto loaderIterator = loaders.find(extension);
+            const auto loaderIterator = loaders.find(extension);
             if(loaderIterator != loaders.end())
             {
                 std::cout << "Error when register loader with extension '" << extension << "': extensions has already added!" << std::endl;
@@ -42,7 +42,7 @@ namespace simple2dengine
 
     std::shared_ptr<Loader> AssetManager::getLoader(const std::string& filename) const
     {
-        size_t found = filename.rfind(".");
+        const size_t found = filename.rfind(".");
         std::string extension("");
 
         if (found != std::string::npos)
@@ -50,7 +50,7 @@ namespace simple2dengine
             extension = filename.substr(found + 1);
         }
 
-        auto loaderIterator = loaders.find(extension);
+        const auto loaderIterator = loaders.find(extension);
         if(loaderIterator != loaders.end())
             return loaderIterator->second;
 
