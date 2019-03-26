@@ -19,7 +19,7 @@ void GridNode::generate(const uint8_t gridRows, const uint8_t gridColumns, const
     float positionY = 0.0f;
 
     const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    std::mt19937 mt_rand(seed);
+    std::mt19937 mt_rand(static_cast<unsigned int>(seed));
     auto dice_rand = std::bind(std::uniform_int_distribution<int>(0, elementsPathes.size() - 1), std::mt19937(seed));
 
     for(uint8_t row = 0; row < gridRows; ++row)
