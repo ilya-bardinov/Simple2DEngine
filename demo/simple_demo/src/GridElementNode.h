@@ -31,7 +31,7 @@ class GridElementNode : public simple2dengine::SpriteNode
         void setSelected(const bool isSelected);
         bool isSelected() const;
 
-        void slideTo(const sf::Vector2f& position);
+        void slideTo(const sf::Vector2f& whereToMovePosition);
 
     private:
         bool _isSelected = false;

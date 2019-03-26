@@ -65,8 +65,8 @@ bool GridElementNode::isSelected() const
     return _isSelected;
 }
 
-void GridElementNode::slideTo(const sf::Vector2f& position)
+void GridElementNode::slideTo(const sf::Vector2f& whereToMovePosition)
 {
-    newPosition = position;
+    newPosition = whereToMovePosition;
     _isMoving = true;
 }
