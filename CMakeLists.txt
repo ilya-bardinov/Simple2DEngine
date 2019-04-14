@@ -33,7 +33,7 @@ endif()
 
 option(BUILD_DOCS               "Build documentation."          OFF)
 option(BUILD_UNITTESTS          "Enable Unittests with Catch2." OFF)
-option(BUILD_DEMO               "Build demo project."           OFF)
+option(BUILD_EXAMPLES           "Build examples."           OFF)
 
 #------------------------------------------------------------------------------
 
@@ -52,8 +52,8 @@ if(BUILD_UNITTESTS)
 endif()
 
 # Demo project
-if(BUILD_DEMO)
-    add_subdirectory(demo)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
 endif()
 
 # Source code
@@ -69,5 +69,5 @@ message(STATUS "Compiler:             ${CMAKE_CXX_COMPILER}")
 message(STATUS "Build Type:           ${CMAKE_BUILD_TYPE}")
 message(STATUS "Build Documentation:  ${BUILD_DOCS}")
 message(STATUS "Build Unit Tests:     ${BUILD_UNITTESTS}")
-message(STATUS "Build Demo:           ${BUILD_DEMO}")
+message(STATUS "Build Examples:       ${BUILD_EXAMPLES}")
 message(STATUS "")

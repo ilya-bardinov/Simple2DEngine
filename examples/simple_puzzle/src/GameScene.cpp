@@ -6,13 +6,13 @@
 
 void GameScene::onCreate()
 {
-    engine->getAssetManager().load("demo/simple_demo/assets/font.ttf");
+    engine->getAssetManager().load("examples/simple_puzzle/assets/font.ttf");
 
     // grid creation
     gridNode = std::make_shared<GridNode>("grid");
-    gridNode->addElement("demo/simple_demo/assets/circle.png");
-    gridNode->addElement("demo/simple_demo/assets/square.png");
-    gridNode->addElement("demo/simple_demo/assets/triangle.png");
+    gridNode->addElement("examples/simple_puzzle/assets/circle.png");
+    gridNode->addElement("examples/simple_puzzle/assets/square.png");
+    gridNode->addElement("examples/simple_puzzle/assets/triangle.png");
     addChild(gridNode);
 
     gridNode->setPosition(sf::Vector2f(100, 100));
@@ -20,7 +20,7 @@ void GameScene::onCreate()
 
     // just fps text
     fpsText = std::make_shared<simple2dengine::TextNode>("fpsText");
-    fpsText->setFont(engine->getAssetManager(), "demo/simple_demo/assets/font.ttf");
+    fpsText->setFont(engine->getAssetManager(), "examples/simple_puzzle/assets/font.ttf");
     fpsText->setString("FPS: 0");
     fpsText->setPosition(sf::Vector2f(20, 20));
     fpsText->setFillColor(sf::Color(0, 0, 0));
@@ -51,5 +51,5 @@ void GameScene::onUpdate(int deltaInMs)
 
 void GameScene::onDestroy()
 {
-    engine->getAssetManager().unload("demo/simple_demo/assets/font.ttf");
+    engine->getAssetManager().unload("examples/simple_puzzle/assets/font.ttf");
 }

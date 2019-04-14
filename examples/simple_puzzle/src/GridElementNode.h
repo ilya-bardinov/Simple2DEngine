@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef _SIMPLE_DEMO_GRID_ELEMENT_NODE_H_
-#define _SIMPLE_DEMO_GRID_ELEMENT_NODE_H_
+#ifndef _SIMPLE_PUZZLE_GRID_ELEMENT_NODE_H_
+#define _SIMPLE_PUZZLE_GRID_ELEMENT_NODE_H_
 
 #include <functional>
 
@@ -43,4 +43,4 @@ class GridElementNode : public simple2dengine::SpriteNode
     std::function<void(GridElementNode*)> onActivate;
 };
 
-#endif // _SIMPLE_DEMO_GRID_ELEMENT_NODE_H_
+#endif // _SIMPLE_PUZZLE_GRID_ELEMENT_NODE_H_

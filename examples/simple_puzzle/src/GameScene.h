@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef _SIMPLE_DEMO_GAME_SCENE_H_
-#define _SIMPLE_DEMO_GAME_SCENE_H_
+#ifndef _SIMPLE_PUZZLE_GAME_SCENE_H_
+#define _SIMPLE_PUZZLE_GAME_SCENE_H_
 
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/canvas/text_node.h"
@@ -42,4 +42,4 @@ class GameScene : public Node
     uint16_t fpsUpdateTimer = fpsTimer;
 };
 
-#endif // _SIMPLE_DEMO_GAME_SCENE_H_
+#endif // _SIMPLE_PUZZLE_GAME_SCENE_H_

@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef _SIMPLE_DEMO_GRID_NODE_H_
-#define _SIMPLE_DEMO_GRID_NODE_H_
+#ifndef _SIMPLE_PUZZLE_GRID_NODE_H_
+#define _SIMPLE_PUZZLE_GRID_NODE_H_
 
 #include <string>
 #include <vector>
@@ -43,4 +43,4 @@ class GridNode : public simple2dengine::CanvasNode
     GridElementNode* selectedElement = nullptr;
 };
 
-#endif // _SIMPLE_DEMO_GRID_NODE_H_
+#endif // _SIMPLE_PUZZLE_GRID_NODE_H_
