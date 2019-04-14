@@ -96,7 +96,7 @@ namespace simple2dengine
          *
          * @see Node.
          */
-        virtual void update(int deltaInMs);
+        virtual void update(int deltaInMs) override;
 
       private:
         unsigned int finishTime = 0;  // amount of time need to send finish signal

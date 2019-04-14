@@ -25,8 +25,6 @@ namespace simple2dengine
         child->index = children.size();
         children.push_back(child);
 
-        child->onAddedToTree();
-
         child->notifyCreate();
 
         if(state == NodeState::Updating && child->state == NodeState::None)

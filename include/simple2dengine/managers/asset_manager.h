@@ -55,9 +55,9 @@ namespace simple2dengine
         /**
          * @brief Get loaded Asset.
          *
+         * @tparam T Asset class name
          * @param filename path to asset
-         *
-         * @return loaded asset
+         * @return const T* loaded asset
          */
         template<class T> const T* getAsset(const std::string& filename) const
         {

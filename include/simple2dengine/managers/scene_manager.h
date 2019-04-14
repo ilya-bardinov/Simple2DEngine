@@ -74,8 +74,6 @@ namespace simple2dengine
          *
          */
         void clear();
-
-      private:
         /**
          * @brief Update logic of engine
          *
@@ -95,8 +93,8 @@ namespace simple2dengine
         void input(sf::Event event);
 
       private:
-        std::shared_ptr<Node> currentScene;                            // current scene
-        std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all nodes (scenes)
+        std::shared_ptr<Node> currentScene = nullptr;                  // current scene
+        std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all scenes (nodes)
         std::vector<std::shared_ptr<Node>> deletionQueue; // nodes that will be destroyed on next tick
 
         Engine* engine = nullptr; // engine pointer

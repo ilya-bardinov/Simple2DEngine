@@ -2,9 +2,8 @@
 
 namespace simple2dengine
 {
-    MusicNode::MusicNode(const std::string& nodeName, const std::string& musicFileName)
-        : Node(nodeName)
+    void MusicNode::setMusic(const std::string& filename)
     {
-        openFromFile(musicFileName);
+        openFromFile(filename);
     }
 } // namespace simple2dengine

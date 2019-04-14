@@ -10,11 +10,12 @@ void GameScene::onCreate()
 
     // grid creation
     gridNode = std::make_shared<GridNode>("grid");
-    gridNode->setPosition(sf::Vector2f(100, 100));
     gridNode->addElement("demo/simple_demo/assets/circle.png");
     gridNode->addElement("demo/simple_demo/assets/square.png");
     gridNode->addElement("demo/simple_demo/assets/triangle.png");
     addChild(gridNode);
+
+    gridNode->setPosition(sf::Vector2f(100, 100));
     gridNode->generate(gridRows, gridColumns, gridMargin);
 
     // just fps text

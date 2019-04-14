@@ -192,12 +192,6 @@ namespace simple2dengine
          *
          */
         virtual void render();
-        /**
-         * @brief Called when addChild successfully added Node to tree.
-         *
-         * @see addChild
-         */
-        virtual void onAddedToTree(){};
 
         Engine* engine = nullptr; // engine pointer
 
