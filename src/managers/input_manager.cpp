@@ -7,14 +7,15 @@ namespace simple2dengine
     void InputManager::registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey)
     {
         const auto it = keyboardActions.find(action);
-        if (it != keyboardActions.end())
+        if(it != keyboardActions.end())
         {
             const std::vector<sf::Keyboard::Key> keyVector = it->second;
             for(const auto& key : keyVector)
             {
                 if(key == keyboardKey)
                 {
-                    std::cout << "InputManager::registerAction - action '" << action << "' already have key " << keyboardKey << std::endl;
+                    std::cout << "InputManager::registerAction - action '" << action
+                              << "' already have key " << keyboardKey << std::endl;
                     return;
                 }
             }
@@ -26,14 +27,15 @@ namespace simple2dengine
     void InputManager::registerAction(const std::string& action, const sf::Mouse::Button mouseButton)
     {
         const auto it = mouseActions.find(action);
-        if (it != mouseActions.end())
+        if(it != mouseActions.end())
         {
             const std::vector<sf::Mouse::Button> button = it->second;
             for(const auto& key : button)
             {
                 if(key == mouseButton)
                 {
-                    std::cout << "InputManager::registerAction - action '" << action << "' already have mouse button " << mouseButton << std::endl;
+                    std::cout << "InputManager::registerAction - action '" << action
+                              << "' already have mouse button " << mouseButton << std::endl;
                     return;
                 }
             }
@@ -45,13 +47,13 @@ namespace simple2dengine
     void InputManager::unregisterAction(const std::string& action)
     {
         const auto keyboardIt = keyboardActions.find(action);
-        if (keyboardIt != keyboardActions.end())
+        if(keyboardIt != keyboardActions.end())
         {
             keyboardActions.erase(keyboardIt);
         }
 
         const auto mouseIt = mouseActions.find(action);
-        if (mouseIt != mouseActions.end())
+        if(mouseIt != mouseActions.end())
         {
             mouseActions.erase(mouseIt);
         }
@@ -61,7 +63,7 @@ namespace simple2dengine
     {
         // check keyboard buttons
         const auto itKeyboard = keyboardActions.find(action);
-        if (itKeyboard != keyboardActions.end())
+        if(itKeyboard != keyboardActions.end())
         {
             const std::vector<sf::Keyboard::Key> keyVector = itKeyboard->second;
             for(const auto& key : keyVector)
@@ -74,7 +76,7 @@ namespace simple2dengine
         }
         // check mouse buttons
         const auto itMouse = mouseActions.find(action);
-        if (itMouse != mouseActions.end())
+        if(itMouse != mouseActions.end())
         {
             const std::vector<sf::Mouse::Button> button = itMouse->second;
             for(const auto& key : button)
@@ -93,4 +95,4 @@ namespace simple2dengine
     {
         return sf::Mouse::getPosition(relativeTo);
     }
-} // simple2dengine
+} // namespace simple2dengine

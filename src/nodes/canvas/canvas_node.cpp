@@ -22,12 +22,12 @@ namespace simple2dengine
 
         for(auto& child : getChildren())
         {
-            CanvasNode* childPtr = dynamic_cast<CanvasNode *>(child.get());
+            CanvasNode* childPtr = dynamic_cast<CanvasNode*>(child.get());
             if(childPtr)
             {
-		        childPtr->globalPosition = globalPosition + childPtr->position;
+                childPtr->globalPosition = globalPosition + childPtr->position;
                 childPtr->setPosition(childPtr->getPosition());
-	        }
+            }
         }
 
         this->position = _position;
@@ -66,10 +66,10 @@ namespace simple2dengine
 
         while(rootPtr)
         {
-		    if (!rootPtr->visible)
-			    return false;
-		    rootPtr = dynamic_cast<CanvasNode *>(rootPtr->getParent().get());
-	    }
+            if(!rootPtr->visible)
+                return false;
+            rootPtr = dynamic_cast<CanvasNode*>(rootPtr->getParent().get());
+        }
 
         return true;
     }
@@ -86,5 +86,5 @@ namespace simple2dengine
         return anchor;
     }
 
-    void CanvasNode::updateTransform() { }
-} // simple2dengine
+    void CanvasNode::updateTransform() {}
+} // namespace simple2dengine

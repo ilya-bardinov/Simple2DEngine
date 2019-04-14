@@ -1,7 +1,7 @@
 /**
  * @file engine.h
  * @author Ilya Bardinov (ilya.bardinov@gmail.com)
- * @brief Engine main class.
+ * @brief Engine class.
  * @date 2019-02-17
  *
  * @copyright Copyright (c) 2019
@@ -11,20 +11,20 @@
 #ifndef _SIMPLE2DENGINE_ENGINE_H_
 #define _SIMPLE2DENGINE_ENGINE_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 #include "simple2dengine/configuration.h"
-#include "simple2dengine/managers/scene_manager.h"
 #include "simple2dengine/managers/asset_manager.h"
 #include "simple2dengine/managers/input_manager.h"
-#include "simple2dengine/managers/loaders/texture_loader.h"
-#include "simple2dengine/managers/loaders/sound_loader.h"
 #include "simple2dengine/managers/loaders/font_loader.h"
+#include "simple2dengine/managers/loaders/sound_loader.h"
+#include "simple2dengine/managers/loaders/texture_loader.h"
+#include "simple2dengine/managers/scene_manager.h"
 
 /**
  * @brief main namespace of simple2dengine.
@@ -103,15 +103,15 @@ namespace simple2dengine
          */
         void render();
 
-        sf::RenderWindow window;        // SFML window
-        sf::Clock deltaClock;           // Help to calculate delta for update method
-        bool isRunning = false;         // Running state
-        Configuration configuration;    // Configuration object (window size, fps, etc)
+        sf::RenderWindow window;     // SFML window
+        sf::Clock deltaClock;        // Help to calculate delta for update method
+        bool isRunning = false;      // Running state
+        Configuration configuration; // Configuration object (window size, fps, etc)
         // managers
-        SceneManager sceneManager;      // used by getSceneManager() method
-        AssetManager assetManager;      // used by getAssetManager() method
-        InputManager inputManager;      // used by getInputManager() method
+        SceneManager sceneManager; // operates with scenes
+        AssetManager assetManager; // operates with assets
+        InputManager inputManager; // operates with input
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_ENGINE_H_

@@ -1,46 +1,58 @@
+#include <chrono>
 #include <functional>
 #include <random>
-#include <chrono>
 
-#include "GridNode.h"
 #include "GridElementNode.h"
+#include "GridNode.h"
 
 void GridNode::addElement(const std::string& pathToElement)
 {
-    engine.getAssetManager().load(pathToElement);
     elementsPathes.push_back(pathToElement);
 }
 
-void GridNode::generate(const uint8_t gridRows, const uint8_t gridColumns, const float gridElementsMargin)
+void GridNode::onCreate()
+{
+    for(const std::string& path : elementsPathes)
+    {
+        engine->getAssetManager().load(path);
+    }
+}
+
+void GridNode::generate(const uint8_t gridRows, const uint8_t gridColumns,
+                        const float gridElementsMargin)
 {
     clear();
 
     float positionX = 0.0f;
     float positionY = 0.0f;
 
+    // we need random element filling
     const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    auto dice_rand = std::bind(std::uniform_int_distribution<int>(0, elementsPathes.size() - 1), std::mt19937(static_cast<unsigned int>(seed)));
+    auto dice_rand = std::bind(std::uniform_int_distribution<int>(0, elementsPathes.size() - 1),
+                               std::mt19937(static_cast<unsigned int>(seed)));
 
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; column++)
         {
             const int elementNumber = gridColumns * row + column;
-            auto elementOfGrid = std::make_shared<GridElementNode>(engine, "element" + std::to_string(elementNumber));
+            auto elementOfGrid =
+                std::make_shared<GridElementNode>("element" + std::to_string(elementNumber));
 
-            elementOfGrid->setImage(elementsPathes[dice_rand()]);
+            elementOfGrid->setImage(engine->getAssetManager(), elementsPathes[dice_rand()]);
             elementOfGrid->setPosition(sf::Vector2f(positionX, positionY));
             elementOfGrid->setAnchor(simple2dengine::Anchor::Center);
-            elementOfGrid->setOnActivate(std::bind(&GridNode::onElementActivated, this, std::placeholders::_1));
+            elementOfGrid->setOnActivate(
+                std::bind(&GridNode::onElementActivated, this, std::placeholders::_1));
 
             if(column == gridColumns - 1)
             {
-                positionY = positionY + gridElementsMargin + elementOfGrid->getGlobalBounds().height;
+                positionY += gridElementsMargin + elementOfGrid->getGlobalBounds().height;
                 positionX = 0.0f;
             }
             else
             {
-                positionX = positionX + gridElementsMargin + elementOfGrid->getGlobalBounds().width;
+                positionX += gridElementsMargin + elementOfGrid->getGlobalBounds().width;
             }
 
             addChild(std::move(elementOfGrid));
@@ -85,6 +97,6 @@ void GridNode::onDestroy()
 {
     for(const std::string& path : elementsPathes)
     {
-        engine.getAssetManager().unload(path);
+        engine->getAssetManager().unload(path);
     }
 }

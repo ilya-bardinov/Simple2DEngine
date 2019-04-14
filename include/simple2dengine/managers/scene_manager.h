@@ -11,9 +11,9 @@
 #ifndef _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
 #define _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_
 
-#include <unordered_map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "simple2dengine/nodes/node.h"
@@ -33,7 +33,7 @@ namespace simple2dengine
          * @brief Construct a new Scene Manager object.
          *
          */
-        SceneManager() : currentScene(nullptr) { };
+        SceneManager() : currentScene(nullptr){};
         /**
          * @brief Add node to scene manager.
          *
@@ -95,12 +95,14 @@ namespace simple2dengine
         void input(sf::Event event);
 
       private:
-        std::shared_ptr<Node> currentScene; // current scene
+        std::shared_ptr<Node> currentScene;                            // current scene
         std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all nodes (scenes)
         std::vector<std::shared_ptr<Node>> deletionQueue; // nodes that will be destroyed on next tick
 
+        Engine* engine = nullptr; // engine pointer
+
         friend class Engine;
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_MANAGERS_SCENE_MANAGER_H_

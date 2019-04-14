@@ -11,8 +11,8 @@
 #ifndef _SIMPLE2DENGINE_MANAGERS_LOADERS_LOADER_H_
 #define _SIMPLE2DENGINE_MANAGERS_LOADERS_LOADER_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace simple2dengine
 {
@@ -20,14 +20,15 @@ namespace simple2dengine
      * @brief Base Asset for loader.
      *
      */
-    struct BaseAsset { };
+    struct BaseAsset
+    {
+    };
     /**
      * @brief Asset struct for loader.
      *
      * @tparam T - loaded resource.
      */
-    template <typename T>
-    struct Asset : public BaseAsset
+    template<typename T> struct Asset : public BaseAsset
     {
         const T* asset;
     };
@@ -63,6 +64,6 @@ namespace simple2dengine
          */
         virtual BaseAsset* getAsset(const std::string& filename) const = 0;
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_MANAGERS_LOADERS_LOADER_H_

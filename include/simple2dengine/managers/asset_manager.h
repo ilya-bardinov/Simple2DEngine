@@ -11,11 +11,11 @@
 #ifndef _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
 #define _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <iostream>
 
 #include "simple2dengine/managers/loaders/loader.h"
 
@@ -38,7 +38,8 @@ namespace simple2dengine
          *
          * @see Loader.
          */
-        void registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions);
+        void registerLoader(std::shared_ptr<Loader> loader,
+                            const std::vector<std::string>& extensions);
         /**
          * @brief Load an Asset
          *
@@ -58,13 +59,13 @@ namespace simple2dengine
          *
          * @return loaded asset
          */
-        template <class T>
-        const T* getAsset(const std::string& filename) const
+        template<class T> const T* getAsset(const std::string& filename) const
         {
             std::shared_ptr<Loader> loader = getLoader(filename);
             if(!loader)
             {
-                std::cout << "Error when getting asset '" << filename << "': no loaders found for extension!" << std::endl;
+                std::cout << "Error when getting asset '" << filename
+                          << "': no loaders found for extension!" << std::endl;
                 return nullptr;
             }
 
@@ -95,6 +96,6 @@ namespace simple2dengine
       private:
         std::unordered_map<std::string, std::shared_ptr<Loader>> loaders; // all loaders
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_MANAGERS_ASSET_MANAGER_H_

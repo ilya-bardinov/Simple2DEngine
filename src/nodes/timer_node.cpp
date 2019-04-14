@@ -65,4 +65,4 @@ namespace simple2dengine
 
         Node::update(deltaInMs);
     }
-} // simple2dengine
+} // namespace simple2dengine

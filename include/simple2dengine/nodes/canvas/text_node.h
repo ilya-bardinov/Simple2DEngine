@@ -30,26 +30,14 @@ namespace simple2dengine
       public:
         using CanvasNode::CanvasNode;
         /**
-         * @brief Construct a new Text Node with a font applied.
+         * @brief Set or load font.
          *
-         * @param engineRef reference to Engine object.
-         * @param nodeName name of the node.
-         * @param filename Name of font file with relative or full path.
-         *
-         * @see Engine.
-         * @see Node.
-         * @see sf::Text.
-         */
-        TextNode(Engine& engineRef, const std::string& nodeName, const std::string& filename);
-        /**
-         * @brief Set font source of Text Node.
-         *
+         * @param assetManager Asset Manager where asset should be stored.
          * @param filename Name of file with relative or full path.
-         * @param isAssetLoaded If true - we assume that file is already loaded in asset manager, if false - asset manager will load it before using.
          *
          * @see AssetManager.
          */
-        void setFont(const std::string& filename, bool isAssetLoaded = true);
+        void setFont(const AssetManager& assetManager, const std::string& filename);
         /**
          * @brief Set text string.
          *
@@ -68,9 +56,9 @@ namespace simple2dengine
          */
         virtual void updateTransform() override;
 
-        using CanvasNode::setPosition;
         using CanvasNode::getPosition;
         using CanvasNode::move;
+        using CanvasNode::setPosition;
 
       protected:
         /**

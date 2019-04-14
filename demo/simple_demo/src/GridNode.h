@@ -11,11 +11,11 @@
 #ifndef _SIMPLE_DEMO_GRID_NODE_H_
 #define _SIMPLE_DEMO_GRID_NODE_H_
 
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "simple2dengine/nodes/canvas/canvas_node.h"
 #include "simple2dengine/engine.h"
+#include "simple2dengine/nodes/canvas/canvas_node.h"
 
 #include "GridElementNode.h"
 
@@ -23,23 +23,24 @@ using namespace simple2dengine;
 
 class GridNode : public simple2dengine::CanvasNode
 {
-    public:
-        using CanvasNode::CanvasNode;
-        virtual ~GridNode() { };
+  public:
+    using CanvasNode::CanvasNode;
+    virtual ~GridNode(){};
 
-        virtual void onDestroy();
+    virtual void onCreate() override;
+    virtual void onDestroy() override;
 
-        // add texture to grid node
-        void addElement(const std::string& pathToElement);
-        // generate grid of elements
-        void generate(const uint8_t gridRows, const uint8_t gridColumns, const float gridElementsMargin);
+    // add texture to grid node
+    void addElement(const std::string& pathToElement);
+    // generate grid of elements
+    void generate(const uint8_t gridRows, const uint8_t gridColumns, const float gridElementsMargin);
 
-    private:
-        void onElementActivated(GridElementNode* element);
+  private:
+    void onElementActivated(GridElementNode* element);
 
-        std::vector<std::string> elementsPathes;
+    std::vector<std::string> elementsPathes;
 
-        GridElementNode* selectedElement = nullptr;
+    GridElementNode* selectedElement = nullptr;
 };
 
 #endif // _SIMPLE_DEMO_GRID_NODE_H_

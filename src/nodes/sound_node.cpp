@@ -3,24 +3,15 @@
 
 namespace simple2dengine
 {
-    SoundNode::SoundNode(Engine& engineRef, const std::string& nodeName, const std::string& soundFileName)
-    : Node(engineRef, nodeName)
+    void SoundNode::setSound(const AssetManager& assetManager, const std::string& filename)
     {
-        setSound(soundFileName);
-    }
-
-    void SoundNode::setSound(const std::string& filename, bool isAssetLoaded/* = true*/)
-    {
-        if(!isAssetLoaded)
-        {
-            engine.getAssetManager().load(filename);
-        }
-        const sf::SoundBuffer* buffer = engine.getAssetManager().getAsset<sf::SoundBuffer>(filename);
+        const sf::SoundBuffer* buffer = assetManager.getAsset<sf::SoundBuffer>(filename);
         if(buffer == nullptr)
         {
-            std::cout << "SoundNode::setSound - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
+            std::cout << "SoundNode::setSound - error in node '" << getName()
+                      << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
         setBuffer(*buffer);
     }
-} // simple2dengine
+} // namespace simple2dengine

@@ -11,9 +11,9 @@
 #ifndef _SIMPLE2DENGINE_MANAGERS_LOADERS_SOUND_LOADER_H_
 #define _SIMPLE2DENGINE_MANAGERS_LOADERS_SOUND_LOADER_H_
 
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <memory>
 
 #include "simple2dengine/managers/loaders/loader.h"
 
@@ -51,6 +51,6 @@ namespace simple2dengine
       private:
         std::unordered_map<std::string, sf::SoundBuffer> buffers; // loaded sound buffers
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_MANAGERS_LOADERS_SOUND_LOADER_H_

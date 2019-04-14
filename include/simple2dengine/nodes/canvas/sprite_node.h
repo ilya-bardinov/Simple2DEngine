@@ -30,35 +30,23 @@ namespace simple2dengine
       public:
         using CanvasNode::CanvasNode;
         /**
-         * @brief Construct a new Sprite Node with a texture applied.
+         * @brief Set or load image/texture.
          *
-         * @param engineRef reference to Engine object.
-         * @param nodeName name of the node.
+         * @param assetManager Asset Manager where asset should be stored.
          * @param filename Name of file with relative or full path.
-         *
-         * @see Engine.
-         * @see Node.
-         * @see sf::Sprite.
-         */
-        SpriteNode(Engine& engineRef, const std::string& nodeName, const std::string& filename);
-        /**
-         * @brief Set image source to Node.
-         *
-         * @param filename Name of file with relative or full path.
-         * @param isAssetLoaded If true - we assume that file is already loaded in asset manager, if false - asset manager will load it before using.
          *
          * @see AssetManager.
          */
-        void setImage(const std::string& filename, bool isAssetLoaded = true);
+        void setImage(const AssetManager& assetManager, const std::string& filename);
         /**
          * @brief Update transform of the sprite to correctly display it.
          *
          */
         virtual void updateTransform() override;
 
-        using CanvasNode::setPosition;
         using CanvasNode::getPosition;
         using CanvasNode::move;
+        using CanvasNode::setPosition;
 
       protected:
         /**

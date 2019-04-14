@@ -11,8 +11,8 @@
 #ifndef _SIMPLE2DENGINE_NODES_TIMER_NODE_H_
 #define _SIMPLE2DENGINE_NODES_TIMER_NODE_H_
 
-#include <string>
 #include <functional>
+#include <string>
 
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/node.h"
@@ -30,16 +30,13 @@ namespace simple2dengine
         /**
          * @brief Construct a new Time Node.
          *
-         * @param engineRef reference to Engine object
          * @param nodeName name of the node.
          *
          * @see Engine.
          * @see Node.
          */
-        TimerNode(Engine& engineRef,
-                const std::string& nodeName,
-                unsigned int time = 0,
-                bool isOneShot = true) : Node(engineRef, nodeName), finishTime(time), oneShot(isOneShot) { };
+        TimerNode(const std::string& nodeName, unsigned int time = 0, bool isOneShot = true)
+            : Node(nodeName), finishTime(time), oneShot(isOneShot){};
         /**
          * @brief Set finish time.
          *
@@ -102,13 +99,13 @@ namespace simple2dengine
         virtual void update(int deltaInMs);
 
       private:
-        unsigned int finishTime = 0; // amount of time need to send finish signal
+        unsigned int finishTime = 0;  // amount of time need to send finish signal
         unsigned int elapsedTime = 0; // current elapsed time
-        bool oneShot = true; // if true - timer will not restart
-        bool paused = false; // if pause if true - time will not elapse
+        bool oneShot = true;          // if true - timer will not restart
+        bool paused = false;          // if pause if true - time will not elapse
 
         std::function<void()> timeoutFunc; // signal on timeout
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_NODES_TIMER_NODE_H_

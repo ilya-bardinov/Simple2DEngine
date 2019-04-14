@@ -3,22 +3,13 @@
 
 namespace simple2dengine
 {
-    SpriteNode::SpriteNode(Engine& engineRef, const std::string& nodeName, const std::string& filename)
-    : CanvasNode(engineRef, nodeName)
+    void SpriteNode::setImage(const AssetManager& assetManager, const std::string& filename)
     {
-        setImage(filename);
-    }
-
-    void SpriteNode::setImage(const std::string& filename, bool isAssetLoaded/* = true*/)
-    {
-        if(!isAssetLoaded)
-        {
-            engine.getAssetManager().load(filename);
-        }
-        const sf::Texture* texture = engine.getAssetManager().getAsset<sf::Texture>(filename);
+        const sf::Texture* texture = assetManager.getAsset<sf::Texture>(filename);
         if(texture == nullptr)
         {
-            std::cout << "SpriteNode::setImage - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
+            std::cout << "SpriteNode::setImage - error in node '" << getName()
+                      << "' when loading file '" << filename << "'" << std::endl;
             return;
         }
 
@@ -31,7 +22,7 @@ namespace simple2dengine
     {
         if(isVisibleInTree())
         {
-            engine.getRenderWindow().draw(*this);
+            engine->getRenderWindow().draw(*this);
         }
 
         CanvasNode::render();
@@ -68,4 +59,4 @@ namespace simple2dengine
 
         CanvasNode::updateTransform();
     }
-}
+} // namespace simple2dengine

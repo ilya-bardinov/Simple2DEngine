@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <iostream>
 
-#include "simple2dengine/nodes/node.h"
 #include "simple2dengine/engine.h"
+#include "simple2dengine/nodes/node.h"
 
 namespace simple2dengine
 {
@@ -15,13 +15,17 @@ namespace simple2dengine
 
         if(!child->parent.expired())
         {
-            std::cout << "Node::addChild - child '" << child->getName() << "' already has a parent!" << std::endl;
+            std::cout << "Node::addChild - child '" << child->getName() << "' already has a parent!"
+                      << std::endl;
             return false;
         }
 
+        child->engine = this->engine;
         child->parent = shared_from_this();
         child->index = children.size();
         children.push_back(child);
+
+        child->onAddedToTree();
 
         child->notifyCreate();
 
@@ -35,11 +39,12 @@ namespace simple2dengine
 
     bool Node::removeChild(const std::string& childName)
     {
-        const auto it = std::find_if(children.begin(), children.end(), [&] (const std::shared_ptr<Node>& child) {
-            return child->getName() == childName;
-        });
+        const auto it =
+            std::find_if(children.begin(), children.end(), [&](const std::shared_ptr<Node>& child) {
+                return child->getName() == childName;
+            });
 
-        if (it != children.end())
+        if(it != children.end())
         {
             (*it)->parent = std::shared_ptr<Node>(nullptr);
             (*it)->notifyDestroy();
@@ -47,7 +52,8 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "Node::removeChild - child '" << childName << "' not found in node tree!" << std::endl;
+            std::cout << "Node::removeChild - child '" << childName << "' not found in node tree!"
+                      << std::endl;
             return false;
         }
 
@@ -82,7 +88,7 @@ namespace simple2dengine
     std::shared_ptr<Node> Node::getRoot()
     {
         auto root = shared_from_this();
-        while (root->getParent() != nullptr)
+        while(root->getParent() != nullptr)
         {
             root = root->getParent();
         }
@@ -97,12 +103,11 @@ namespace simple2dengine
 
     std::shared_ptr<Node> Node::getNode(const std::string& path)
     {
-        // taken from https://github.com/linkdd/sdl-game-engine/blob/master/src/node.cpp
-        if (path.empty())
+        if(path.empty())
         {
             return shared_from_this();
         }
-        else if (path[0] == '/')
+        else if(path[0] == '/')
         {
             return getRoot()->getNode(path.substr(1));
         }
@@ -111,9 +116,9 @@ namespace simple2dengine
             const size_t pos = path.find("/");
             const std::string childpath = path.substr(0, pos);
 
-            if (childpath == ".")
+            if(childpath == ".")
             {
-                if (pos == std::string::npos)
+                if(pos == std::string::npos)
                 {
                     return shared_from_this();
                 }
@@ -122,9 +127,9 @@ namespace simple2dengine
                     return getNode(path.substr(pos + 1));
                 }
             }
-            else if (childpath == "..")
+            else if(childpath == "..")
             {
-                if (pos == std::string::npos)
+                if(pos == std::string::npos)
                 {
                     return getParent();
                 }
@@ -137,16 +142,16 @@ namespace simple2dengine
             {
                 std::shared_ptr<Node> child = nullptr;
 
-                for (auto& _child : children)
+                for(auto& _child : children)
                 {
-                    if (_child->getName() == childpath)
+                    if(_child->getName() == childpath)
                     {
                         child = _child;
                         break;
                     }
                 }
 
-                if (pos == std::string::npos)
+                if(pos == std::string::npos)
                 {
                     return child;
                 }
@@ -254,4 +259,4 @@ namespace simple2dengine
 
         state = NodeState::None;
     }
-}
+} // namespace simple2dengine

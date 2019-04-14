@@ -2,5 +2,5 @@
 
 namespace simple2dengine
 {
-    Loader::~Loader() { }
-}
+    Loader::~Loader() {}
+} // namespace simple2dengine

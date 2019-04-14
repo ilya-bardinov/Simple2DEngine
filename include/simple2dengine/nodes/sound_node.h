@@ -29,25 +29,14 @@ namespace simple2dengine
       public:
         using Node::Node;
         /**
-         * @brief Construct a new Sound Node.
-         *
-         * @param engineRef reference to Engine object.
-         * @param nodeName name of the node.
-         * @param soundFileName Name of sound file with relative or full path.
-         *
-         * @see Engine.
-         * @see Node.
-         */
-        SoundNode(Engine& engineRef, const std::string& nodeName, const std::string& soundFileName);
-        /**
          * @brief Set the source file containing the audio data to play.
          *
+         * @param assetManager Asset Manager where asset should be stored.
          * @param filename Name of file with relative or full path.
-         * @param isAssetLoaded If true - we assume that file is already loaded in asset manager, if false - asset manager will load it before using.
          *
          * @see AssetManager.
          */
-        void setSound(const std::string& filename, bool isAssetLoaded = true);
+        void setSound(const AssetManager& assetManager, const std::string& filename);
     };
 } // namespace simple2dengine
 

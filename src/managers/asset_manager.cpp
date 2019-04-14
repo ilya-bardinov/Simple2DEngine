@@ -2,14 +2,16 @@
 
 namespace simple2dengine
 {
-    void AssetManager::registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions)
+    void AssetManager::registerLoader(std::shared_ptr<Loader> loader,
+                                      const std::vector<std::string>& extensions)
     {
         for(const std::string& extension : extensions)
         {
             const auto loaderIterator = loaders.find(extension);
             if(loaderIterator != loaders.end())
             {
-                std::cout << "Error when register loader with extension '" << extension << "': extensions has already added!" << std::endl;
+                std::cout << "Error when register loader with extension '" << extension
+                          << "': extensions has already added!" << std::endl;
                 continue;
             }
             loaders[extension] = std::move(loader);
@@ -21,7 +23,8 @@ namespace simple2dengine
         std::shared_ptr<Loader> loader = getLoader(filename);
         if(!loader)
         {
-            std::cout << "Error when loading asset '" << filename << "': no loaders found for extension!" << std::endl;
+            std::cout << "Error when loading asset '" << filename
+                      << "': no loaders found for extension!" << std::endl;
             return;
         }
 
@@ -33,7 +36,8 @@ namespace simple2dengine
         std::shared_ptr<Loader> loader = getLoader(filename);
         if(!loader)
         {
-            std::cout << "Error when unload asset '" << filename << "': no loaders found for extension!" << std::endl;
+            std::cout << "Error when unload asset '" << filename
+                      << "': no loaders found for extension!" << std::endl;
             return;
         }
 
@@ -45,7 +49,7 @@ namespace simple2dengine
         const size_t found = filename.rfind(".");
         std::string extension("");
 
-        if (found != std::string::npos)
+        if(found != std::string::npos)
         {
             extension = filename.substr(found + 1);
         }
@@ -56,4 +60,4 @@ namespace simple2dengine
 
         return nullptr;
     }
-}
+} // namespace simple2dengine

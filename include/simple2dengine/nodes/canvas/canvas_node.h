@@ -99,9 +99,9 @@ namespace simple2dengine
         virtual void updateTransform();
 
       private:
-        bool visible = true; // visibility of node
-        Anchor anchor = Anchor::Top | Anchor::Left; // anchor of node
-        sf::Vector2f position = sf::Vector2f(0.0f, 0.0f); // position that relative to parents
+        bool visible = true;                                    // visibility of node
+        Anchor anchor = Anchor::Top | Anchor::Left;             // anchor of node
+        sf::Vector2f position = sf::Vector2f(0.0f, 0.0f);       // position that relative to parents
         sf::Vector2f globalPosition = sf::Vector2f(0.0f, 0.0f); // global position
     };
 } // namespace simple2dengine

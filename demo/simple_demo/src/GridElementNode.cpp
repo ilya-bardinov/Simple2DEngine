@@ -9,7 +9,8 @@ void GridElementNode::onInput(sf::Event event)
     {
         if(event.mouseButton.button == sf::Mouse::Button::Left)
         {
-            if(getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+            if(getGlobalBounds().contains(static_cast<float>(event.mouseButton.x),
+                                          static_cast<float>(event.mouseButton.y)))
             {
                 onActivate(this);
             }
@@ -39,7 +40,7 @@ void GridElementNode::onUpdate(int deltaInMs)
     }
 }
 
-void GridElementNode::setOnActivate(std::function<void(GridElementNode *)> activateAction)
+void GridElementNode::setOnActivate(std::function<void(GridElementNode*)> activateAction)
 {
     onActivate = std::move(activateAction);
 }

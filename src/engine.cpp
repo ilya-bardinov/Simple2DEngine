@@ -7,13 +7,17 @@ namespace simple2dengine
     Engine::Engine(const Configuration& config) : configuration(config)
     {
         // we want to support different type of assets so registering loaders and file extensions
-        assetManager.registerLoader(std::make_shared<TextureLoader>(), { "png", "jpg", "bmp", "dds", "tga", "psd", "gif" } );
-        assetManager.registerLoader(std::make_shared<SoundLoader>(), { "wav", "ogg" } );
-        assetManager.registerLoader(std::make_shared<FontLoader>(), { "ttf" } );
+        assetManager.registerLoader(std::make_shared<TextureLoader>(),
+                                    {"png", "jpg", "bmp", "dds", "tga", "psd", "gif"});
+        assetManager.registerLoader(std::make_shared<SoundLoader>(), {"wav", "ogg"});
+        assetManager.registerLoader(std::make_shared<FontLoader>(), {"ttf"});
         // window creating
-        window.create(sf::VideoMode(configuration.window.width, configuration.window.height), configuration.window.name);
+        window.create(sf::VideoMode(configuration.window.width, configuration.window.height),
+                      configuration.window.name);
 
-        if (configuration.fps > 0)
+        sceneManager.engine = this;
+
+        if(configuration.fps > 0)
         {
             window.setFramerateLimit(configuration.fps);
         }
@@ -22,7 +26,7 @@ namespace simple2dengine
     void Engine::run()
     {
         isRunning = true;
-        while (isRunning)
+        while(isRunning)
         {
             // we need delta for update
             sf::Time deltaTime = deltaClock.restart();
@@ -72,18 +76,17 @@ namespace simple2dengine
             switch(event.type)
             {
                 case sf::Event::Closed:
-                {
                     stop();
                     window.close();
-                }
                     break;
                 case sf::Event::Resized:
                 {
-                    //windowView.setSize(event.size.width, event.size.height);
-                    sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width), static_cast<float>(event.size.height));
+                    // windowView.setSize(event.size.width, event.size.height);
+                    sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width),
+                                              static_cast<float>(event.size.height));
                     window.setView(sf::View(visibleArea));
                 }
-                    break;
+                break;
                 case sf::Event::TextEntered:
                 case sf::Event::KeyPressed:
                 case sf::Event::KeyReleased:
@@ -94,7 +97,7 @@ namespace simple2dengine
                 {
                     sceneManager.input(event);
                 }
-                    break;
+                break;
                 default:
                     break;
             }
@@ -114,4 +117,4 @@ namespace simple2dengine
         // end the current frame
         window.display();
     }
-} // simple2dengine
+} // namespace simple2dengine

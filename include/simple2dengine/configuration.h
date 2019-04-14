@@ -21,8 +21,8 @@ namespace simple2dengine
      */
     struct Window
     {
-        int width = 0; /**< width of window */
-        int height = 0; /**< height of window */
+        int width = 0;    /**< width of window */
+        int height = 0;   /**< height of window */
         std::string name; /**< name of window */
     };
 
@@ -32,10 +32,10 @@ namespace simple2dengine
      */
     struct Configuration
     {
-        int fps = 0; /**< fps in engine */
+        int fps = 0;   /**< fps in engine */
         Window window; /**< @see Window. */
     };
 
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_CONFIGURATION_H_

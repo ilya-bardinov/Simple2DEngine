@@ -28,15 +28,15 @@ namespace simple2dengine
         Center = 1 << 4
     };
 
-    constexpr enum Anchor operator | (const enum Anchor a, const enum Anchor b)
+    constexpr enum Anchor operator|(const enum Anchor a, const enum Anchor b)
     {
         return static_cast<enum Anchor>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
     }
 
-    constexpr enum Anchor operator & (const enum Anchor a, const enum Anchor b)
+    constexpr enum Anchor operator&(const enum Anchor a, const enum Anchor b)
     {
         return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
     }
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_CORE_ANCHOR_H_

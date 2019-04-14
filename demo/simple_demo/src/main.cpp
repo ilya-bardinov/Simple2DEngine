@@ -1,8 +1,8 @@
 #include "GameScene.h"
 #include "simple2dengine/configuration.h"
 #include "simple2dengine/engine.h"
-#include "simple2dengine/nodes/node.h"
 #include "simple2dengine/managers/input_manager.h"
+#include "simple2dengine/nodes/node.h"
 
 int main()
 {
@@ -14,10 +14,9 @@ int main()
 
     simple2dengine::Engine engine(config);
 
-    //engine.getInputManager().registerAction("reset", sf::Keyboard::Key::Space);
+    // engine.getInputManager().registerAction("reset", sf::Keyboard::Key::Space);
 
-    auto node = std::make_shared<GameScene>(engine, "game");
-    engine.getSceneManager().addScene(std::move(node));
+    engine.getSceneManager().addScene(std::make_shared<GameScene>("game"));
     engine.getSceneManager().activateScene("game");
 
     engine.run();

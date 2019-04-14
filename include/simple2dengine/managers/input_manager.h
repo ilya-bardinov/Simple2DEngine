@@ -12,8 +12,8 @@
 #define _SIMPLE2DENGINE_MANAGERS_INPUT_MANAGER_H_
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include "SFML/Window/Keyboard.hpp"
 #include "SFML/Window/Mouse.hpp"
@@ -61,7 +61,8 @@ namespace simple2dengine
         bool isActionPressed(const std::string& action) const;
         /**
          * @brief Get the current position of the mouse in window coordinates.
-         * This function returns the current position of the mouse cursor, relative to the given window.
+         * This function returns the current position of the mouse cursor, relative to the given
+         * window.
          *
          * @param relativeTo - Coordinates from window.
          * @return Current position of the mouse.
@@ -69,10 +70,12 @@ namespace simple2dengine
         sf::Vector2i getMousePosition(const sf::Window& relativeTo) const;
 
       private:
-        std::unordered_map<std::string, std::vector<sf::Keyboard::Key>> keyboardActions; // actions for keyboard buttons
-        std::unordered_map<std::string, std::vector<sf::Mouse::Button>> mouseActions; // actions for mouse buttons
+        std::unordered_map<std::string, std::vector<sf::Keyboard::Key>>
+            keyboardActions; // actions for keyboard buttons
+        std::unordered_map<std::string, std::vector<sf::Mouse::Button>>
+            mouseActions; // actions for mouse buttons
     };
 
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_MANAGERS_INPUT_MANAGER_H_

@@ -3,22 +3,13 @@
 
 namespace simple2dengine
 {
-    TextNode::TextNode(Engine& engineRef, const std::string& nodeName, const std::string& filename)
-    : CanvasNode(engineRef, nodeName)
+    void TextNode::setFont(const AssetManager& assetManager, const std::string& filename)
     {
-        setFont(filename);
-    }
-
-    void TextNode::setFont(const std::string& filename, bool isAssetLoaded/* = true*/)
-    {
-        if(!isAssetLoaded)
-        {
-            engine.getAssetManager().load(filename);
-        }
-        const sf::Font* font = engine.getAssetManager().getAsset<sf::Font>(filename);
+        const sf::Font* font = assetManager.getAsset<sf::Font>(filename);
         if(font == nullptr)
         {
-            std::cout << "TextNode::setFont - error in node '" << getName() << "' when loading file '" << filename << "'" << std::endl;
+            std::cout << "TextNode::setFont - error in node '" << getName() << "' when loading file '"
+                      << filename << "'" << std::endl;
             return;
         }
         Text::setFont(*font);
@@ -44,7 +35,7 @@ namespace simple2dengine
     {
         if(isVisibleInTree())
         {
-            engine.getRenderWindow().draw(*this);
+            engine->getRenderWindow().draw(*this);
         }
 
         CanvasNode::render();
@@ -56,7 +47,7 @@ namespace simple2dengine
         sf::Vector2f anchorPosition(0.0f, 0.0f);
         if((textAnchor & Anchor::Center) == Anchor::Center)
         {
-            anchorPosition.x = getLocalBounds().width  / 2.0f;
+            anchorPosition.x = getLocalBounds().width / 2.0f;
             anchorPosition.y = getLocalBounds().height / 2.0f;
         }
         if((textAnchor & Anchor::Left) == Anchor::Left)
@@ -73,7 +64,7 @@ namespace simple2dengine
         }
         if((textAnchor & Anchor::Right) == Anchor::Right)
         {
-            anchorPosition.x = getLocalBounds().width ;
+            anchorPosition.x = getLocalBounds().width;
         }
 
         setOrigin(anchorPosition);
@@ -81,4 +72,4 @@ namespace simple2dengine
 
         CanvasNode::updateTransform();
     }
-}
+} // namespace simple2dengine

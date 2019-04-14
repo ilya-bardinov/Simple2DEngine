@@ -12,12 +12,12 @@
 #define _SIMPLE2DENGINE_NODES_NODE_H_
 
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "SFML/Graphics/Rect.hpp"
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Window/Event.hpp"
-#include "SFML/Graphics/Rect.hpp"
 
 namespace simple2dengine
 {
@@ -51,18 +51,17 @@ namespace simple2dengine
         /**
          * @brief Construct a new Node with ref to engine and with name.
          *
-         * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
          *
          * @see Engine.
          */
-        Node(Engine& engineRef, const std::string& nodeName) : engine(engineRef), name(nodeName) { };
+        Node(const std::string& nodeName) : name(nodeName){};
 
         /**
          * @brief Destroy the Node object
          *
          */
-        virtual ~Node() { };
+        virtual ~Node(){};
 
         /**
          * @brief Notifier.
@@ -71,7 +70,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onCreate() { };
+        virtual void onCreate(){};
         /**
          * @brief Notifier.
          * Will be called when node or in parent activated (become current) in scene manager.
@@ -79,7 +78,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onEnter() { };
+        virtual void onEnter(){};
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent is active in scene manager.
@@ -87,7 +86,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onUpdate(int /*deltaInMs*/) { };
+        virtual void onUpdate(int /*deltaInMs*/){};
         /**
          * @brief Process input events like mouse movement, key press and release, etc.
          *
@@ -96,7 +95,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onInput(sf::Event /*event*/) { };
+        virtual void onInput(sf::Event /*event*/){};
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent became inactive in scene manager.
@@ -104,7 +103,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onExit() { };
+        virtual void onExit(){};
         /**
          * @brief Notifier.
          * Will be called on every tick when node or it parent was removed from scene manager.
@@ -112,7 +111,7 @@ namespace simple2dengine
          * @see SceneManager
          *
          */
-        virtual void onDestroy() { };
+        virtual void onDestroy(){};
         /**
          * @brief Add child to node tree.
          *
@@ -173,7 +172,8 @@ namespace simple2dengine
          * Path example: "../player", "../..", "..", "player/sprite", "."
          * ".." - it is a parent of node.
          * "." - current node.
-         * "player/sprite" - get child with name "player" in current node, in "player" try to find child with name "sprite".
+         * "player/sprite" - get child with name "player" in current node, in "player" try to find
+         * child with name "sprite".
          *
          * @param path path to Node.
          * @return std::shared_ptr<Node> node in path if it exist, otherwise return nullptr.
@@ -192,8 +192,14 @@ namespace simple2dengine
          *
          */
         virtual void render();
+        /**
+         * @brief Called when addChild successfully added Node to tree.
+         *
+         * @see addChild
+         */
+        virtual void onAddedToTree(){};
 
-        Engine& engine; // engine reference
+        Engine* engine = nullptr; // engine pointer
 
       private:
         /**
@@ -237,15 +243,15 @@ namespace simple2dengine
 
       private:
         std::vector<std::shared_ptr<Node>> children; // all child nodes
-        std::weak_ptr<Node> parent; // parent node
+        std::weak_ptr<Node> parent;                  // parent node
 
         std::string name; // name of node
-        int index = 0;        // index of node in its parent
+        int index = 0;    // index of node in its parent
 
         NodeState state = NodeState::None; // current state of node
 
         friend class SceneManager;
     };
-} // simple2dengine
+} // namespace simple2dengine
 
 #endif // _SIMPLE2DENGINE_NODES_NODE_H_

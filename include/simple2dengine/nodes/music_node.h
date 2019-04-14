@@ -31,14 +31,13 @@ namespace simple2dengine
         /**
          * @brief Construct a new Music Node.
          *
-         * @param engineRef reference to Engine object.
          * @param nodeName name of the node.
          * @param musicFileName Name of music file with relative or full path.
          *
          * @see Engine.
          * @see Node.
          */
-        MusicNode(Engine& engineRef, const std::string& nodeName, const std::string& musicFileName);
+        MusicNode(const std::string& nodeName, const std::string& musicFileName);
     };
 } // namespace simple2dengine
 
