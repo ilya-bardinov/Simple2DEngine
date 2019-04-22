@@ -18,6 +18,14 @@
 
 using namespace simple2dengine;
 
+enum class GridElementType : int
+{
+    None = -1,
+    Circle = 0,
+    Square = 1,
+    Triangle = 2
+};
+
 class GridElementNode : public simple2dengine::SpriteNode
 {
   public:
@@ -27,6 +35,9 @@ class GridElementNode : public simple2dengine::SpriteNode
     virtual void onInput(sf::Event event) override;
     virtual void onUpdate(int deltaInMs) override;
 
+    void setType(GridElementType type);
+    GridElementType getType();
+
     void setOnActivate(std::function<void(GridElementNode*)> activateAction);
     void setSelected(const bool isSelected);
     bool isSelected() const;
@@ -34,6 +45,7 @@ class GridElementNode : public simple2dengine::SpriteNode
     void slideTo(const sf::Vector2f& whereToMovePosition);
 
   private:
+    GridElementType elementType = GridElementType::None;
     bool _isSelected = false;
     bool _isMoving = false;
     sf::Vector2f newPosition;

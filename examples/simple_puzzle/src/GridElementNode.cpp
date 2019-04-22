@@ -40,6 +40,16 @@ void GridElementNode::onUpdate(int deltaInMs)
     }
 }
 
+void GridElementNode::setType(GridElementType type)
+{
+    elementType = type;
+}
+
+GridElementType GridElementNode::getType()
+{
+    return elementType;
+}
+
 void GridElementNode::setOnActivate(std::function<void(GridElementNode*)> activateAction)
 {
     onActivate = std::move(activateAction);
