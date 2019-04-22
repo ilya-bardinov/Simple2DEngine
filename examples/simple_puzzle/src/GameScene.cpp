@@ -15,7 +15,18 @@ void GameScene::onCreate()
     gridNode->addElement("examples/simple_puzzle/assets/triangle.png");
     addChild(gridNode);
 
-    gridNode->setPosition(sf::Vector2f(100, 100));
+    // calculate position of grid node
+    GridElementNode* elementOfGrid = new GridElementNode("element");
+    elementOfGrid->setImage(engine->getAssetManager(), "examples/simple_puzzle/assets/circle.png");
+    float gridPositionX =
+        (engine->getConfiguration().window.width / 2.0f) -
+        (((elementOfGrid->getGlobalBounds().width + gridMargin) * gridColumns - gridMargin) / 2.0f);
+    float gridPositionY =
+        (engine->getConfiguration().window.height / 2.0f) -
+        (((elementOfGrid->getGlobalBounds().height + gridMargin) * gridRows - gridMargin) / 2.0f);
+    delete elementOfGrid;
+
+    gridNode->setPosition(sf::Vector2f(gridPositionX, gridPositionY));
     gridNode->generate(gridRows, gridColumns, gridMargin);
 
     // just fps text
