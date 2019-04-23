@@ -20,10 +20,11 @@ using namespace simple2dengine;
 
 enum class GridElementType : int
 {
-    None = -1,
-    Circle = 0,
-    Square = 1,
-    Triangle = 2
+    None,
+    Circle,
+    Square,
+    Triangle,
+    Max
 };
 
 class GridElementNode : public simple2dengine::SpriteNode

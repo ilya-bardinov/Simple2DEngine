@@ -26,6 +26,7 @@ class GameScene : public Node
     virtual ~GameScene(){};
 
     virtual void onCreate() override;
+    virtual void onEnter() override;
     virtual void onInput(sf::Event event) override;
     virtual void onUpdate(int deltaInMs) override;
     virtual void onDestroy() override;
@@ -34,8 +35,8 @@ class GameScene : public Node
     std::shared_ptr<GridNode> gridNode;
     std::shared_ptr<TextNode> fpsText;
 
-    const uint8_t gridRows = 3;
-    const uint8_t gridColumns = 3;
+    const uint8_t gridRows = 6;
+    const uint8_t gridColumns = 5;
     const float gridMargin = 20.0f;
     const uint16_t fpsTimer = 1000;
 

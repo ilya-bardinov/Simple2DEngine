@@ -12,7 +12,7 @@
 #define _SIMPLE_PUZZLE_GRID_NODE_H_
 
 #include <string>
-#include <vector>
+#include <unordered_map>
 
 #include "simple2dengine/engine.h"
 #include "simple2dengine/nodes/canvas/canvas_node.h"
@@ -21,26 +21,41 @@
 
 using namespace simple2dengine;
 
+struct GridParameters
+{
+    GridParameters(const uint8_t gridRows, const uint8_t gridColumns, const float gridElementsMargin)
+        : rows(gridRows), columns(gridColumns), elementMargin(gridElementsMargin){};
+    uint8_t rows = 0;
+    uint8_t columns = 0;
+    float elementMargin = 0.0f;
+};
+
 class GridNode : public simple2dengine::CanvasNode
 {
   public:
     using CanvasNode::CanvasNode;
+    GridNode(const std::string& name, const GridParameters& parameters);
     virtual ~GridNode(){};
 
     virtual void onCreate() override;
     virtual void onDestroy() override;
 
     // add texture to grid node
-    void addElement(const std::string& pathToElement);
+    void addElement(GridElementType elementType, const std::string& pathToElement);
     // generate grid of elements
-    void generate(const uint8_t gridRows, const uint8_t gridColumns, const float gridElementsMargin);
+    void generate();
 
   private:
     void onElementActivated(GridElementNode* element);
 
-    std::vector<std::string> elementsPathes;
+    bool canSwapElements(GridElementNode* element1, GridElementNode* element2);
+
+    std::unordered_map<GridElementType, std::string> elementsPathes;
 
     GridElementNode* selectedElement = nullptr;
+    uint8_t gridRows = 0;
+    uint8_t gridColumns = 0;
+    float gridElementMargin = 0.0f;
 };
 
 #endif // _SIMPLE_PUZZLE_GRID_NODE_H_
