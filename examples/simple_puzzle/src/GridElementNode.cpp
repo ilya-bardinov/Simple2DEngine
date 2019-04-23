@@ -2,7 +2,7 @@
 
 void GridElementNode::onInput(sf::Event event)
 {
-    if(!onActivate || _isMoving)
+    if(!onActivate || _isMoving || _isCollapsing)
         return;
 
     if(event.type == sf::Event::EventType::MouseButtonPressed)
@@ -44,12 +44,12 @@ void GridElementNode::onUpdate(int deltaInMs)
     }
 }
 
-void GridElementNode::setType(GridElementType type)
+void GridElementNode::setType(const GridElementType type)
 {
     elementType = type;
 }
 
-GridElementType GridElementNode::getType()
+GridElementType GridElementNode::getType() const
 {
     return elementType;
 }
@@ -88,8 +88,13 @@ bool GridElementNode::isSelected() const
 
 void GridElementNode::collapse()
 {
-    setScale(0.5f, 0.5f);
-    setColor(sf::Color(255, 255, 255, 128));
+    setColor(sf::Color(255, 255, 255, 0));
+    _isCollapsing = true;
+}
+
+bool GridElementNode::isCollapsing() const
+{
+    return _isCollapsing;
 }
 
 void GridElementNode::slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack /* = true*/)

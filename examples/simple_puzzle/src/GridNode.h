@@ -50,7 +50,7 @@ class GridNode : public simple2dengine::CanvasNode
     void onMovementFinished(GridElementNode* element);
 
     bool canSwapElements(GridElementNode* element1, GridElementNode* element2) const;
-    bool collapseNearbyGems(GridElementNode* element);
+    bool collapseNearbyElements(GridElementNode* element);
 
     void swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack = true);
 

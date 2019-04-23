@@ -36,15 +36,16 @@ class GridElementNode : public simple2dengine::SpriteNode
     virtual void onInput(sf::Event event) override;
     virtual void onUpdate(int deltaInMs) override;
 
-    void setType(GridElementType type);
-    GridElementType getType();
+    void setType(const GridElementType type);
+    GridElementType getType() const;
 
-    void setOnActivate(std::function<void(GridElementNode*)> activateAction);
-    void setOnMovementFinished(std::function<void(GridElementNode*)> movementFinishedAction);
+    void setOnActivate(const std::function<void(GridElementNode*)> activateAction);
+    void setOnMovementFinished(const std::function<void(GridElementNode*)> movementFinishedAction);
     void setSelected(const bool isSelected);
     bool isSelected() const;
 
     void collapse();
+    bool isCollapsing() const;
 
     void slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack = true);
 
@@ -53,6 +54,7 @@ class GridElementNode : public simple2dengine::SpriteNode
     bool _isSelected = false;
     bool _isMoving = false;
     bool canMoveBack = false;
+    bool _isCollapsing = false;
     sf::Vector2f newPosition;
 
     const float speed = 0.7f;

@@ -40,6 +40,7 @@ void GridNode::generate()
                                                      static_cast<int>(GridElementType::Max) - 1),
                   std::mt19937(static_cast<unsigned int>(seed)));
 
+    // generate table with element's types
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
@@ -60,6 +61,7 @@ void GridNode::generate()
         }
     }
 
+    // geenrate nodes with type table from above
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
@@ -130,13 +132,13 @@ void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2
     swap(element1->getIndex(), element2->getIndex());
 }
 
-bool GridNode::collapseNearbyGems(GridElementNode* element)
+bool GridNode::collapseNearbyElements(GridElementNode* element)
 {
     bool canCollapse = false;
 
     const unsigned int index = element->getIndex();
-    std::list<unsigned int> listOfCollapseable;
-    listOfCollapseable.push_back(index);
+    std::list<unsigned int> listOfCollapsible;
+    listOfCollapsible.push_back(index);
 
     const unsigned int columnIndexStart = static_cast<int>(std::floor(index / gridColumns));
 
@@ -148,7 +150,7 @@ bool GridNode::collapseNearbyGems(GridElementNode* element)
         {
             if(elementTypeTable[indexByRow] == elementTypeTable[index])
             {
-                listOfCollapseable.push_back(indexByRow);
+                listOfCollapsible.push_back(indexByRow);
             }
             else
             {
@@ -161,7 +163,7 @@ bool GridNode::collapseNearbyGems(GridElementNode* element)
     {
         if(elementTypeTable[indexByRow] == elementTypeTable[index])
         {
-            listOfCollapseable.push_back(indexByRow);
+            listOfCollapsible.push_back(indexByRow);
         }
         else
         {
@@ -169,21 +171,41 @@ bool GridNode::collapseNearbyGems(GridElementNode* element)
         }
     }
 
-    if(listOfCollapseable.size() >= 3)
+    // collapse elements
+    if(listOfCollapsible.size() >= 3)
     {
         canCollapse = true;
-        while(listOfCollapseable.size() > 0)
+        while(listOfCollapsible.size() > 0)
         {
-            std::shared_ptr<GridElementNode> elementOfGrid =
-                std::dynamic_pointer_cast<GridElementNode>(getChild(listOfCollapseable.front()));
-            listOfCollapseable.pop_front();
-            if(elementOfGrid != nullptr)
+            const unsigned int collapsibleIndex = listOfCollapsible.front();
+            std::shared_ptr<GridElementNode> collapsibleElement =
+                std::dynamic_pointer_cast<GridElementNode>(getChild(collapsibleIndex));
+            listOfCollapsible.pop_front();
+            if(collapsibleElement != nullptr)
             {
-                elementOfGrid->collapse();
+                collapsibleElement->collapse();
+                unsigned int movementIndex = collapsibleIndex;
+                while(movementIndex >= gridColumns)
+                {
+                    movementIndex -= gridColumns;
+
+                    std::shared_ptr<GridElementNode> elementAbove =
+                        std::dynamic_pointer_cast<GridElementNode>(getChild(movementIndex));
+
+                    elementAbove->slideTo(collapsibleElement->getPosition(), false);
+                    collapsibleElement->setPosition(elementAbove->getPosition());
+
+                    GridElementType elementType1 = elementTypeTable[elementAbove->getIndex()];
+                    elementTypeTable[elementAbove->getIndex()] =
+                        elementTypeTable[collapsibleElement->getIndex()];
+                    elementTypeTable[collapsibleElement->getIndex()] = elementType1;
+
+                    swap(collapsibleElement->getIndex(), elementAbove->getIndex());
+                }
             }
         }
     }
-    listOfCollapseable.clear();
+    listOfCollapsible.clear();
 
     return canCollapse;
 }
@@ -231,7 +253,7 @@ void GridNode::onMovementFinished(GridElementNode* element)
     }
     else
     {
-        if(!collapseNearbyGems(movementFinishedElement) && !collapseNearbyGems(element))
+        if(!collapseNearbyElements(movementFinishedElement) && !collapseNearbyElements(element))
         {
             // swap their positions back
             swapElements(movementFinishedElement, element, false);
