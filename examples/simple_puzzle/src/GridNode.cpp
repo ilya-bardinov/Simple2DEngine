@@ -28,10 +28,15 @@ void GridNode::onCreate()
 
 void GridNode::generate()
 {
-    clear();
+    // generate table with random element's types
+    generateTypeTable();
+    // geenrate nodes with type table from above
+    generateNodes();
+}
+
+void GridNode::generateTypeTable()
+{
     elementTypeTable.clear();
-    float positionX = 0.0f;
-    float positionY = 0.0f;
 
     // we need random element filling
     const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -40,7 +45,6 @@ void GridNode::generate()
                                                      static_cast<int>(GridElementType::Max) - 1),
                   std::mt19937(static_cast<unsigned int>(seed)));
 
-    // generate table with element's types
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
@@ -60,8 +64,16 @@ void GridNode::generate()
             elementTypeTable.push_back(randType);
         }
     }
+}
 
-    // geenrate nodes with type table from above
+void GridNode::generateNodes()
+{
+    // remove all children
+    clear();
+
+    float positionX = 0.0f;
+    float positionY = 0.0f;
+
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
@@ -132,6 +144,18 @@ void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2
     swap(element1->getIndex(), element2->getIndex());
 }
 
+void GridNode::dropElement(GridElementNode* elementToDrop, GridElementNode* collapsedElement)
+{
+    elementToDrop->slideTo(collapsedElement->getPosition(), false);
+    collapsedElement->setPosition(elementToDrop->getPosition());
+
+    GridElementType elementType1 = elementTypeTable[elementToDrop->getIndex()];
+    elementTypeTable[elementToDrop->getIndex()] = elementTypeTable[collapsedElement->getIndex()];
+    elementTypeTable[collapsedElement->getIndex()] = elementType1;
+
+    swap(collapsedElement->getIndex(), elementToDrop->getIndex());
+}
+
 bool GridNode::collapseNearbyElements(GridElementNode* element)
 {
     bool canCollapse = false;
@@ -141,6 +165,8 @@ bool GridNode::collapseNearbyElements(GridElementNode* element)
     listOfCollapsible.push_back(index);
 
     const unsigned int columnIndexStart = static_cast<int>(std::floor(index / gridColumns));
+
+    // TODO: detecting and falling for vertical elements
 
     // try to find elements in element's row
     if(index > 0)
@@ -181,26 +207,19 @@ bool GridNode::collapseNearbyElements(GridElementNode* element)
             std::shared_ptr<GridElementNode> collapsibleElement =
                 std::dynamic_pointer_cast<GridElementNode>(getChild(collapsibleIndex));
             listOfCollapsible.pop_front();
+
             if(collapsibleElement != nullptr)
             {
                 collapsibleElement->collapse();
-                unsigned int movementIndex = collapsibleIndex;
-                while(movementIndex >= gridColumns)
+                unsigned int elementAboveIndex = collapsibleIndex;
+                while(elementAboveIndex >= gridColumns)
                 {
-                    movementIndex -= gridColumns;
+                    elementAboveIndex -= gridColumns;
 
                     std::shared_ptr<GridElementNode> elementAbove =
-                        std::dynamic_pointer_cast<GridElementNode>(getChild(movementIndex));
+                        std::dynamic_pointer_cast<GridElementNode>(getChild(elementAboveIndex));
 
-                    elementAbove->slideTo(collapsibleElement->getPosition(), false);
-                    collapsibleElement->setPosition(elementAbove->getPosition());
-
-                    GridElementType elementType1 = elementTypeTable[elementAbove->getIndex()];
-                    elementTypeTable[elementAbove->getIndex()] =
-                        elementTypeTable[collapsibleElement->getIndex()];
-                    elementTypeTable[collapsibleElement->getIndex()] = elementType1;
-
-                    swap(collapsibleElement->getIndex(), elementAbove->getIndex());
+                    dropElement(elementAbove.get(), collapsibleElement.get());
                 }
             }
         }

@@ -46,6 +46,8 @@ class GridNode : public simple2dengine::CanvasNode
     void generate();
 
   private:
+    void generateTypeTable();
+    void generateNodes();
     void onElementActivated(GridElementNode* element);
     void onMovementFinished(GridElementNode* element);
 
@@ -53,6 +55,7 @@ class GridNode : public simple2dengine::CanvasNode
     bool collapseNearbyElements(GridElementNode* element);
 
     void swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack = true);
+    void dropElement(GridElementNode* elementToDrop, GridElementNode* collapsedElement);
 
     std::unordered_map<GridElementType, std::string> elementsPathes;
     std::vector<GridElementType> elementTypeTable;
