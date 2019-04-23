@@ -55,7 +55,6 @@ namespace simple2dengine
         /**
          * @brief Get loaded Asset.
          *
-         * @tparam T Asset class name
          * @param filename path to asset
          * @return const T* loaded asset
          */

@@ -170,7 +170,7 @@ SCENARIO("Scenes can be added, activated and deleted")
                 REQUIRE(layer_3_node_1->isVisibleInTree() == false);
             }
 
-            layer_1_node_2->removeChild("layer_2_node_2");
+            layer_1_node_2->removeChild(layer_1_node_2->getChild("layer_2_node_2"));
 
             THEN("the size changes")
             {
