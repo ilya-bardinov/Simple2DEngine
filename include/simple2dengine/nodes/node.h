@@ -129,19 +129,28 @@ namespace simple2dengine
          * @return true if successfully add a node, otherwise return false.
          *
          */
-        bool removeChild(const std::string& childName);
+        bool removeChild(std::shared_ptr<Node> child);
         /**
-         * @brief Remove all children from node tree.
+         * @brief Get the Child of Node by index.
          *
+         * @param index index of the child.
+         * @return std::shared_ptr<Node> child.
          */
-        void clear();
+        std::shared_ptr<Node> getChild(unsigned int index);
+        /**
+         * @brief Get the Child of Node by name.
+         *
+         * @param childName name of the child.
+         * @return std::shared_ptr<Node> child.
+         */
+        std::shared_ptr<Node> getChild(const std::string& childName);
         /**
          * @brief Return Index of Node in its parent.
          * If node has no parent, return 0.
          *
-         * @return int Index of Node in its parent.
+         * @return unsigned int Index of Node in its parent.
          */
-        int getIndex() const;
+        unsigned int getIndex() const;
         /**
          * @brief Get the Name of Node.
          *
@@ -179,6 +188,18 @@ namespace simple2dengine
          * @return std::shared_ptr<Node> node in path if it exist, otherwise return nullptr.
          */
         std::shared_ptr<Node> getNode(const std::string& path);
+        /**
+         * @brief Swap children with spicified index.
+         *
+         * @param firstIndex child to move.
+         * @param secondIndex child to move.
+         */
+        void swap(unsigned int firstIndex, unsigned int secondIndex);
+        /**
+         * @brief Remove all children from node tree.
+         *
+         */
+        void clear();
 
       protected:
         /**
@@ -240,7 +261,6 @@ namespace simple2dengine
         std::weak_ptr<Node> parent;                  // parent node
 
         std::string name; // name of node
-        int index = 0;    // index of node in its parent
 
         NodeState state = NodeState::None; // current state of node
 

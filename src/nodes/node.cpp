@@ -22,12 +22,9 @@ namespace simple2dengine
 
         child->engine = this->engine;
         child->parent = shared_from_this();
-        child->index = children.size();
         children.push_back(child);
 
-        child->notifyCreate();
-
-        if(state == NodeState::Updating && child->state == NodeState::None)
+        if(state == NodeState::Updating)
         {
             child->notifyEnter();
         }
@@ -35,7 +32,41 @@ namespace simple2dengine
         return true;
     }
 
-    bool Node::removeChild(const std::string& childName)
+    bool Node::removeChild(std::shared_ptr<Node> child)
+    {
+        const auto it = std::find(children.begin(), children.end(), child);
+
+        if(it != children.end())
+        {
+            if(state == NodeState::Updating)
+            {
+                (*it)->notifyExit();
+            }
+            (*it)->notifyDestroy();
+            (*it)->parent = std::shared_ptr<Node>(nullptr);
+            children.erase(it);
+        }
+        else
+        {
+            std::cout << "Node::removeChild - child '" << child->getName()
+                      << "' not found in node tree!" << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
+    std::shared_ptr<Node> Node::getChild(unsigned int index)
+    {
+        if(index < children.size())
+        {
+            return children[index];
+        }
+
+        return nullptr;
+    }
+
+    std::shared_ptr<Node> Node::getChild(const std::string& childName)
     {
         const auto it =
             std::find_if(children.begin(), children.end(), [&](const std::shared_ptr<Node>& child) {
@@ -44,33 +75,26 @@ namespace simple2dengine
 
         if(it != children.end())
         {
-            (*it)->parent = std::shared_ptr<Node>(nullptr);
-            (*it)->notifyDestroy();
-            children.erase(it);
-        }
-        else
-        {
-            std::cout << "Node::removeChild - child '" << childName << "' not found in node tree!"
-                      << std::endl;
-            return false;
+            return (*it);
         }
 
-        return true;
+        return nullptr;
     }
 
-    void Node::clear()
+    unsigned int Node::getIndex() const
     {
-        for(const auto& child : children)
+        std::shared_ptr<Node> parentNode = getParent();
+        if(parentNode != nullptr)
         {
-            child->parent = std::shared_ptr<Node>(nullptr);
-            child->notifyDestroy();
+            const auto it = std::find(parentNode->getChildren().begin(),
+                                      parentNode->getChildren().end(), shared_from_this());
+            if(it != parentNode->getChildren().end())
+            {
+                return std::distance(parentNode->getChildren().begin(), it);
+            }
         }
-        children.clear();
-    }
 
-    int Node::getIndex() const
-    {
-        return index;
+        return 0;
     }
 
     const std::string& Node::getName() const
@@ -163,6 +187,39 @@ namespace simple2dengine
         return nullptr;
     }
 
+    void Node::swap(unsigned int firstIndex, unsigned int secondIndex)
+    {
+        if(firstIndex == secondIndex)
+        {
+            return;
+        }
+
+        if(firstIndex < children.size() && secondIndex < children.size())
+        {
+            auto firstItDiff = children.begin();
+            std::advance(firstItDiff, firstIndex);
+            auto secondItDiff = children.begin();
+            std::advance(secondItDiff, secondIndex);
+
+            std::iter_swap(firstItDiff, secondItDiff);
+        }
+        else
+        {
+            std::cout << "Node::moveChild - index out of range!" << std::endl;
+            return;
+        }
+    }
+
+    void Node::clear()
+    {
+        for(const auto& child : children)
+        {
+            child->parent = std::shared_ptr<Node>(nullptr);
+            child->notifyDestroy();
+        }
+        children.clear();
+    }
+
     void Node::update(int deltaInMs)
     {
         onUpdate(deltaInMs);
@@ -198,10 +255,7 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            if(child->state < NodeState::Creating)
-            {
-                child->notifyCreate();
-            }
+            child->notifyCreate();
         }
     }
 
@@ -212,10 +266,7 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            if(child->state < NodeState::Entering)
-            {
-                child->notifyEnter();
-            }
+            child->notifyEnter();
         }
 
         state = NodeState::Updating;
@@ -227,12 +278,6 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            if(child->state == NodeState::None)
-            {
-                child->notifyCreate();
-                child->notifyEnter();
-            }
-
             child->notifyExit();
         }
 
@@ -245,11 +290,6 @@ namespace simple2dengine
 
         for(auto& child : children)
         {
-            if(child->state == NodeState::None)
-            {
-                child->notifyCreate();
-            }
-
             child->notifyDestroy();
         }
 
