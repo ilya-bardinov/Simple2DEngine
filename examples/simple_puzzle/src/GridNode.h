@@ -47,12 +47,18 @@ class GridNode : public simple2dengine::CanvasNode
 
   private:
     void onElementActivated(GridElementNode* element);
+    void onMovementFinished(GridElementNode* element);
 
-    bool canSwapElements(GridElementNode* element1, GridElementNode* element2);
+    bool canSwapElements(GridElementNode* element1, GridElementNode* element2) const;
+    bool collapseNearbyGems(GridElementNode* element);
+
+    void swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack = true);
 
     std::unordered_map<GridElementType, std::string> elementsPathes;
+    std::vector<GridElementType> elementTypeTable;
 
     GridElementNode* selectedElement = nullptr;
+    GridElementNode* movementFinishedElement = nullptr;
     uint8_t gridRows = 0;
     uint8_t gridColumns = 0;
     float gridElementMargin = 0.0f;

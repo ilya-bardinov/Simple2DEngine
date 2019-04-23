@@ -31,6 +31,10 @@ void GridElementNode::onUpdate(int deltaInMs)
         {
             _isMoving = false;
             setPosition(newPosition);
+            if(onMovementFinished && canMoveBack)
+            {
+                onMovementFinished(this);
+            }
             return;
         }
 
@@ -55,6 +59,12 @@ void GridElementNode::setOnActivate(std::function<void(GridElementNode*)> activa
     onActivate = std::move(activateAction);
 }
 
+void GridElementNode::setOnMovementFinished(
+    std::function<void(GridElementNode*)> movementFinishedAction)
+{
+    onMovementFinished = std::move(movementFinishedAction);
+}
+
 void GridElementNode::setSelected(const bool isSelected)
 {
     if(isSelected)
@@ -76,8 +86,15 @@ bool GridElementNode::isSelected() const
     return _isSelected;
 }
 
-void GridElementNode::slideTo(const sf::Vector2f& whereToMovePosition)
+void GridElementNode::collapse()
 {
+    setScale(0.5f, 0.5f);
+    setColor(sf::Color(255, 255, 255, 128));
+}
+
+void GridElementNode::slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack /* = true*/)
+{
+    canMoveBack = moveBack;
     newPosition = whereToMovePosition;
     _isMoving = true;
 }

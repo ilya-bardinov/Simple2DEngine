@@ -1,5 +1,6 @@
 #include <chrono>
 #include <functional>
+#include <list>
 #include <random>
 
 #include "GridElementNode.h"
@@ -28,6 +29,7 @@ void GridNode::onCreate()
 void GridNode::generate()
 {
     clear();
+    elementTypeTable.clear();
     float positionX = 0.0f;
     float positionY = 0.0f;
 
@@ -38,7 +40,6 @@ void GridNode::generate()
                                                      static_cast<int>(GridElementType::Max) - 1),
                   std::mt19937(static_cast<unsigned int>(seed)));
 
-    std::vector<GridElementType> elementTypeTable;
     for(uint8_t row = 0; row < gridRows; ++row)
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
@@ -75,6 +76,8 @@ void GridNode::generate()
             elementOfGrid->setAnchor(simple2dengine::Anchor::Center);
             elementOfGrid->setOnActivate(
                 std::bind(&GridNode::onElementActivated, this, std::placeholders::_1));
+            elementOfGrid->setOnMovementFinished(
+                std::bind(&GridNode::onMovementFinished, this, std::placeholders::_1));
 
             if(column == gridColumns - 1)
             {
@@ -91,7 +94,7 @@ void GridNode::generate()
     }
 }
 
-bool GridNode::canSwapElements(GridElementNode* element1, GridElementNode* element2)
+bool GridNode::canSwapElements(GridElementNode* element1, GridElementNode* element2) const
 {
     const unsigned int index1 = element1->getIndex();
     const unsigned int index2 = element2->getIndex();
@@ -111,6 +114,78 @@ bool GridNode::canSwapElements(GridElementNode* element1, GridElementNode* eleme
     }
 
     return false;
+}
+
+void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2,
+                            bool canMoveBack /*= true*/)
+{
+    const sf::Vector2f elementPosition1 = element1->getPosition();
+    element1->slideTo(element2->getPosition(), canMoveBack);
+    element2->slideTo(elementPosition1, canMoveBack);
+
+    GridElementType elementType1 = elementTypeTable[element1->getIndex()];
+    elementTypeTable[element1->getIndex()] = elementTypeTable[element2->getIndex()];
+    elementTypeTable[element2->getIndex()] = elementType1;
+
+    swap(element1->getIndex(), element2->getIndex());
+}
+
+bool GridNode::collapseNearbyGems(GridElementNode* element)
+{
+    bool canCollapse = false;
+
+    const unsigned int index = element->getIndex();
+    std::list<unsigned int> listOfCollapseable;
+    listOfCollapseable.push_back(index);
+
+    const unsigned int columnIndexStart = static_cast<int>(std::floor(index / gridColumns));
+
+    // try to find elements in element's row
+    if(index > 0)
+    {
+        for(unsigned int indexByRow = index - 1; indexByRow >= columnIndexStart * gridColumns;
+            --indexByRow)
+        {
+            if(elementTypeTable[indexByRow] == elementTypeTable[index])
+            {
+                listOfCollapseable.push_back(indexByRow);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    for(unsigned int indexByRow = index + 1; indexByRow < (columnIndexStart + 1) * gridColumns;
+        ++indexByRow)
+    {
+        if(elementTypeTable[indexByRow] == elementTypeTable[index])
+        {
+            listOfCollapseable.push_back(indexByRow);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if(listOfCollapseable.size() >= 3)
+    {
+        canCollapse = true;
+        while(listOfCollapseable.size() > 0)
+        {
+            std::shared_ptr<GridElementNode> elementOfGrid =
+                std::dynamic_pointer_cast<GridElementNode>(getChild(listOfCollapseable.front()));
+            listOfCollapseable.pop_front();
+            if(elementOfGrid != nullptr)
+            {
+                elementOfGrid->collapse();
+            }
+        }
+    }
+    listOfCollapseable.clear();
+
+    return canCollapse;
 }
 
 void GridNode::onElementActivated(GridElementNode* element)
@@ -136,14 +211,32 @@ void GridNode::onElementActivated(GridElementNode* element)
         {
             selectedElement->setSelected(false);
             // swap their positions
-            const sf::Vector2f selectedElementPosition = selectedElement->getPosition();
-            selectedElement->slideTo(element->getPosition());
-            element->slideTo(selectedElementPosition);
-
-            swap(element->getIndex(), selectedElement->getIndex());
+            swapElements(selectedElement, element);
 
             selectedElement = nullptr;
         }
+    }
+}
+
+void GridNode::onMovementFinished(GridElementNode* element)
+{
+    if(!element)
+    {
+        return;
+    }
+
+    if(!movementFinishedElement)
+    {
+        movementFinishedElement = element;
+    }
+    else
+    {
+        if(!collapseNearbyGems(movementFinishedElement) && !collapseNearbyGems(element))
+        {
+            // swap their positions back
+            swapElements(movementFinishedElement, element, false);
+        }
+        movementFinishedElement = nullptr;
     }
 }
 

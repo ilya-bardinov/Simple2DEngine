@@ -40,20 +40,25 @@ class GridElementNode : public simple2dengine::SpriteNode
     GridElementType getType();
 
     void setOnActivate(std::function<void(GridElementNode*)> activateAction);
+    void setOnMovementFinished(std::function<void(GridElementNode*)> movementFinishedAction);
     void setSelected(const bool isSelected);
     bool isSelected() const;
 
-    void slideTo(const sf::Vector2f& whereToMovePosition);
+    void collapse();
+
+    void slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack = true);
 
   private:
     GridElementType elementType = GridElementType::None;
     bool _isSelected = false;
     bool _isMoving = false;
+    bool canMoveBack = false;
     sf::Vector2f newPosition;
 
     const float speed = 0.7f;
 
     std::function<void(GridElementNode*)> onActivate;
+    std::function<void(GridElementNode*)> onMovementFinished;
 };
 
 #endif // _SIMPLE_PUZZLE_GRID_ELEMENT_NODE_H_
