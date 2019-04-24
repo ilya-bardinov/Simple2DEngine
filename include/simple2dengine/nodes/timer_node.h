@@ -31,6 +31,8 @@ namespace simple2dengine
          * @brief Construct a new Time Node.
          *
          * @param nodeName name of the node.
+         * @param time time until onTimeout will be called.
+         * @param isOneShot if true - one shot timer.
          *
          * @see Engine.
          * @see Node.

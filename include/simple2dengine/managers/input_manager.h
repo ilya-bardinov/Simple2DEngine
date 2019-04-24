@@ -34,21 +34,21 @@ namespace simple2dengine
         /**
          * @brief Attach Action to keyboard button.
          *
-         * @param actionName - name of action.
+         * @param action - name of action.
          * @param keyboardKey - keyboard key from SFML.
          */
         void registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey);
         /**
          * @brief Attach Action to mouse button.
          *
-         * @param actionName - name of action.
-         * @param keyboardKey - mouse button from SFML.
+         * @param action - name of action.
+         * @param mouseButton - mouse button from SFML.
          */
         void registerAction(const std::string& action, const sf::Mouse::Button mouseButton);
         /**
          * @brief Remove Action.
          *
-         * @param actionName - name of action.
+         * @param action - name of action.
          */
         void unregisterAction(const std::string& action);
         /**

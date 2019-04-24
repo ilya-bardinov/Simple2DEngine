@@ -6,7 +6,7 @@
 #include "GridElementNode.h"
 #include "GridNode.h"
 
-GridNode::GridNode(const std::string& name, const GridParameters& parameters) : CanvasNode(name)
+GridNode::GridNode(const std::string& _name, const GridParameters& parameters) : CanvasNode(_name)
 {
     this->gridElementMargin = parameters.elementMargin;
     this->gridRows = parameters.rows;
