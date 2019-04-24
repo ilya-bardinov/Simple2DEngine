@@ -57,7 +57,7 @@ class GridNode : public simple2dengine::CanvasNode
     void swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack = true);
     void dropElement(GridElementNode* elementToDrop, GridElementNode* collapsedElement);
 
-    std::unordered_map<GridElementType, std::string> elementsPathes;
+    std::unordered_map<GridElementType, std::string, EnumClassHash> elementsPathes;
     std::vector<GridElementType> elementTypeTable;
 
     GridElementNode* selectedElement = nullptr;

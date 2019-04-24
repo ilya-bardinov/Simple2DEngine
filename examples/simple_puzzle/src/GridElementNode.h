@@ -27,6 +27,15 @@ enum class GridElementType : int
     Max
 };
 
+struct EnumClassHash
+{
+    template <typename T>
+    std::size_t operator()(T t) const
+    {
+        return static_cast<std::size_t>(t);
+    }
+};
+
 class GridElementNode : public simple2dengine::SpriteNode
 {
   public:
