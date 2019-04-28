@@ -23,8 +23,13 @@ set(
     ${simple2dengine_SOURCE_DIR}/src/nodes/canvas/text_node.cpp
 )
 
+if(WIN32)
+    add_library(simple2dengine STATIC ${SOURCES})
+else()
+    add_library(simple2dengine SHARED ${SOURCES})
+endif()
+
 # Executable
-add_library(simple2dengine SHARED ${SOURCES})
 
 # Link SFML
 target_link_libraries(
