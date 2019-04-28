@@ -12,15 +12,17 @@ namespace simple2dengine
         assetManager.registerLoader(std::make_shared<SoundLoader>(), {"wav", "ogg"});
         assetManager.registerLoader(std::make_shared<FontLoader>(), {"ttf"});
         // window creating
-        window.create(sf::VideoMode(configuration.window.width, configuration.window.height),
-                      configuration.window.name);
+        window.create(sf::VideoMode(configuration.window.width, configuration.window.height,
+                                    configuration.window.bitsPerPixel),
+                      configuration.window.name, configuration.window.style);
+        window.setPosition(configuration.window.position);
+        window.setVerticalSyncEnabled(configuration.framerate.verticalSync);
+        if(configuration.framerate.fps > 0)
+        {
+            window.setFramerateLimit(configuration.framerate.fps);
+        }
 
         sceneManager.engine = this;
-
-        if(configuration.fps > 0)
-        {
-            window.setFramerateLimit(configuration.fps);
-        }
     }
 
     void Engine::run()
@@ -30,7 +32,10 @@ namespace simple2dengine
         {
             // we need delta for update
             sf::Time deltaTime = deltaClock.restart();
+            // Let's make some game and engine logic
             update(deltaTime.asMilliseconds());
+            // Now we have to display in the window all our pixels
+            render();
         }
     }
 
@@ -64,6 +69,11 @@ namespace simple2dengine
     sf::RenderWindow& Engine::getRenderWindow()
     {
         return window;
+    }
+
+    void Engine::setBackgroundColor(const sf::Color& color)
+    {
+        backgroundColor = color;
     }
 
     void Engine::update(int delta)
@@ -104,14 +114,12 @@ namespace simple2dengine
         }
         // update scenes in scene manager
         sceneManager.update(delta);
-        // Now we should display in window all our graphics
-        render();
     }
 
     void Engine::render()
     {
-        // clear the window with black color
-        window.clear(sf::Color::White);
+        // clear the window with background color
+        window.clear(backgroundColor);
         // render scenes in scene manager
         sceneManager.render();
         // end the current frame

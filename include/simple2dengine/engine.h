@@ -90,10 +90,18 @@ namespace simple2dengine
          *
          */
         sf::RenderWindow& getRenderWindow();
+        /**
+         * @brief Set the Background Color of Window.
+         *
+         * @param color background color of window.
+         */
+        void setBackgroundColor(const sf::Color& color);
 
       private:
         /**
          * @brief Update logic of Engine and Nodes.
+         *
+         * @param deltaInMs - time in milliseconds since last update.
          *
          */
         void update(int deltaInMs);
@@ -103,10 +111,11 @@ namespace simple2dengine
          */
         void render();
 
-        sf::RenderWindow window;     // SFML window
-        sf::Clock deltaClock;        // Help to calculate delta for update method
-        bool isRunning = false;      // Running state
-        Configuration configuration; // Configuration object (window size, fps, etc)
+        sf::RenderWindow window;                      // SFML window
+        sf::Color backgroundColor = sf::Color::Black; // Window background color
+        sf::Clock deltaClock;                         // Help to calculate delta for update method
+        bool isRunning = false;                       // Running state
+        Configuration configuration;                  // Configuration object (window size, fps, etc)
         // managers
         SceneManager sceneManager; // operates with scenes
         AssetManager assetManager; // operates with assets

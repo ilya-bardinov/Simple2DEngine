@@ -7,12 +7,15 @@
 int main()
 {
     simple2dengine::Configuration config;
-    config.fps = 60;
+    config.framerate.verticalSync = true;
     config.window.width = 800;
     config.window.height = 800;
-    config.window.name = std::string("Simple Demo");
+    config.window.name = std::string("Simple Puzzle");
+    config.window.style = sf::Style::Default;
+    config.window.position = sf::Vector2i(600, 300);
 
     simple2dengine::Engine engine(config);
+    engine.setBackgroundColor(sf::Color::White);
 
     // engine.getInputManager().registerAction("reset", sf::Keyboard::Key::Space);
 

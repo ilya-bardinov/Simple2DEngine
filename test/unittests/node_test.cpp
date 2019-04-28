@@ -15,7 +15,7 @@ SCENARIO("Scenes can be added, activated and deleted")
     {
         std::vector<int> v(5);
         simple2dengine::Configuration config;
-        config.fps = 60;
+        config.framerate.verticalSync = true;
         config.window.width = 400;
         config.window.height = 300;
         config.window.name = std::string("Unit Test");
