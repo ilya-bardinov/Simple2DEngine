@@ -22,6 +22,11 @@ void GridElementNode::onUpdate(int deltaInMs)
 {
     if(state == State::Moving)
     {
+        if(deltaInMs <= 0)
+        {
+            deltaInMs = 1;
+        }
+
         const sf::Vector2f newPositionDiff = getPosition() - futurePosition;
         const int8_t signOfX = (newPositionDiff.x > 0) ? 1 : ((newPositionDiff.x < 0) ? -1 : 0);
         const int8_t signOfY = (newPositionDiff.y > 0) ? 1 : ((newPositionDiff.y < 0) ? -1 : 0);
