@@ -9,16 +9,14 @@ namespace simple2dengine
         const auto position = textures.find(filename);
         if(position != textures.end())
         {
-            std::cout << "TextureLoader::load - file '" << filename << "' already loaded!"
-                      << std::endl;
+            std::cout << "TextureLoader::load - file '" << filename << "' already loaded!" << std::endl;
             return;
         }
 
         sf::Texture texture;
         if(!texture.loadFromFile(filename))
         {
-            std::cout << "TextureLoader::load - error when loading file '" << filename << "'!"
-                      << std::endl;
+            std::cout << "TextureLoader::load - error when loading file '" << filename << "'!" << std::endl;
             return;
         }
 
@@ -34,12 +32,11 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "TextureLoader::unload - file '" << filename << "' is not loaded!"
-                      << std::endl;
+            std::cout << "TextureLoader::unload - file '" << filename << "' is not loaded!" << std::endl;
         }
     }
 
-    BaseAsset* TextureLoader::getAsset(const std::string& filename) const
+    const BaseAsset* TextureLoader::getAsset(const std::string& filename) const
     {
         const auto position = textures.find(filename);
         if(position != textures.end())
@@ -50,8 +47,7 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "TextureLoader::getAsset - file '" << filename << "' is not loaded!"
-                      << std::endl;
+            std::cout << "TextureLoader::getAsset - file '" << filename << "' is not loaded!" << std::endl;
         }
         return nullptr;
     }

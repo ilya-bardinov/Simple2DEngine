@@ -31,7 +31,7 @@ namespace simple2dengine
         while(isRunning)
         {
             // we need delta for update
-            sf::Time deltaTime = deltaClock.restart();
+            const sf::Time deltaTime = deltaClock.restart();
             // Let's make some game and engine logic
             update(deltaTime.asMilliseconds());
             // Now we have to display in the window all our pixels
@@ -76,7 +76,7 @@ namespace simple2dengine
         backgroundColor = color;
     }
 
-    void Engine::update(int delta)
+    void Engine::update(const int delta)
     {
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
@@ -92,8 +92,8 @@ namespace simple2dengine
                 case sf::Event::Resized:
                 {
                     // windowView.setSize(event.size.width, event.size.height);
-                    sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width),
-                                              static_cast<float>(event.size.height));
+                    const sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width),
+                                                    static_cast<float>(event.size.height));
                     window.setView(sf::View(visibleArea));
                 }
                 break;

@@ -19,8 +19,9 @@ int main()
 
     // engine.getInputManager().registerAction("reset", sf::Keyboard::Key::Space);
 
-    engine.getSceneManager().addScene(std::make_shared<GameScene>("game"));
-    engine.getSceneManager().activateScene("game");
+    auto scene = std::make_shared<GameScene>("game");
+    engine.getSceneManager().addScene(scene);
+    engine.getSceneManager().activateScene(std::move(scene));
 
     engine.run();
 

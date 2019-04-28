@@ -16,8 +16,7 @@ namespace simple2dengine
         sf::SoundBuffer buffer;
         if(!buffer.loadFromFile(filename))
         {
-            std::cout << "SoundLoader::load - error when loading file '" << filename << "'!"
-                      << std::endl;
+            std::cout << "SoundLoader::load - error when loading file '" << filename << "'!" << std::endl;
             return;
         }
 
@@ -37,7 +36,7 @@ namespace simple2dengine
         }
     }
 
-    BaseAsset* SoundLoader::getAsset(const std::string& filename) const
+    const BaseAsset* SoundLoader::getAsset(const std::string& filename) const
     {
         const auto position = buffers.find(filename);
         if(position != buffers.end())
@@ -48,8 +47,7 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "SoundLoader::getAsset - file '" << filename << "' is not loaded!"
-                      << std::endl;
+            std::cout << "SoundLoader::getAsset - file '" << filename << "' is not loaded!" << std::endl;
         }
         return nullptr;
     }

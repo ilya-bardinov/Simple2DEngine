@@ -4,24 +4,24 @@
 
 namespace simple2dengine
 {
-    void InputManager::registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey)
+    void InputManager::registerAction(const std::string& action, const sf::Keyboard::Key keyboardButton)
     {
         const auto it = keyboardActions.find(action);
         if(it != keyboardActions.end())
         {
-            const std::vector<sf::Keyboard::Key> keyVector = it->second;
-            for(const auto& key : keyVector)
+            const std::vector<sf::Keyboard::Key> vector = it->second;
+            for(const sf::Keyboard::Key& key : vector)
             {
-                if(key == keyboardKey)
+                if(key == keyboardButton)
                 {
                     std::cout << "InputManager::registerAction - action '" << action
-                              << "' already have key " << keyboardKey << std::endl;
+                              << "' already have keyboard button " << keyboardButton << std::endl;
                     return;
                 }
             }
         }
 
-        keyboardActions[action].push_back(keyboardKey);
+        keyboardActions[action].push_back(keyboardButton);
     }
 
     void InputManager::registerAction(const std::string& action, const sf::Mouse::Button mouseButton)
@@ -29,10 +29,10 @@ namespace simple2dengine
         const auto it = mouseActions.find(action);
         if(it != mouseActions.end())
         {
-            const std::vector<sf::Mouse::Button> button = it->second;
-            for(const auto& key : button)
+            const std::vector<sf::Mouse::Button> vector = it->second;
+            for(const sf::Mouse::Button& button : vector)
             {
-                if(key == mouseButton)
+                if(button == mouseButton)
                 {
                     std::cout << "InputManager::registerAction - action '" << action
                               << "' already have mouse button " << mouseButton << std::endl;
@@ -62,11 +62,11 @@ namespace simple2dengine
     bool InputManager::isActionPressed(const std::string& action) const
     {
         // check keyboard buttons
-        const auto itKeyboard = keyboardActions.find(action);
-        if(itKeyboard != keyboardActions.end())
+        const auto keyboardIt = keyboardActions.find(action);
+        if(keyboardIt != keyboardActions.end())
         {
-            const std::vector<sf::Keyboard::Key> keyVector = itKeyboard->second;
-            for(const auto& key : keyVector)
+            const std::vector<sf::Keyboard::Key> vector = keyboardIt->second;
+            for(const sf::Keyboard::Key& key : vector)
             {
                 if(sf::Keyboard::isKeyPressed(key))
                 {
@@ -75,13 +75,13 @@ namespace simple2dengine
             }
         }
         // check mouse buttons
-        const auto itMouse = mouseActions.find(action);
-        if(itMouse != mouseActions.end())
+        const auto mouseIt = mouseActions.find(action);
+        if(mouseIt != mouseActions.end())
         {
-            const std::vector<sf::Mouse::Button> button = itMouse->second;
-            for(const auto& key : button)
+            const std::vector<sf::Mouse::Button> vector = mouseIt->second;
+            for(const sf::Mouse::Button& button : vector)
             {
-                if(sf::Mouse::isButtonPressed(key))
+                if(sf::Mouse::isButtonPressed(button))
                 {
                     return true;
                 }

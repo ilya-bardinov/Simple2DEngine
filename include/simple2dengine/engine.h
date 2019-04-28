@@ -104,7 +104,7 @@ namespace simple2dengine
          * @param deltaInMs - time in milliseconds since last update.
          *
          */
-        void update(int deltaInMs);
+        void update(const int deltaInMs);
         /**
          * @brief Render Nodes.
          *

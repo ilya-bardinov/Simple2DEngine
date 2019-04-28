@@ -37,38 +37,45 @@ namespace simple2dengine
         /**
          * @brief Add node to scene manager.
          *
-         * @param node Node to add.
+         * @param scene - scene to add.
          */
         void addScene(std::shared_ptr<Node> scene);
         /**
          * @brief Remove node with a name immediately.
          * This method is not a safe for deleting.
          *
-         * @param name Name of scene to delete.
+         * @param scene - scene to delete.
          */
-        void removeSceneImmediately(const std::string& name);
+        void removeSceneImmediately(std::shared_ptr<Node> scene);
         /**
          * @brief Add node to erasing queue.
          * Queues a node for deletion at the next frame.
          * When deleted, all of its child nodes will be deleted as well.
          * This method ensures it’s safe to delete the node.
          *
-         * @param name Name of scene to delete.
+         * @param scene - scene to delete.
          */
-        void removeScene(const std::string& name);
+        void removeScene(std::shared_ptr<Node> scene);
         /**
          * @brief Activate scene with a name.
          * Activated scene will be displaying on a next tick.
          *
-         * @param name Name of scene.
+         * @param scene - scene to activate.
          */
-        void activateScene(const std::string& name);
+        void activateScene(std::shared_ptr<Node> scene);
         /**
          * @brief Get the Scenes Count.
          *
-         * @return int Scenes Count
+         * @return Scenes Count
          */
-        int getSceneCount() const;
+        int getScenesCount() const;
+        /**
+         * @brief Get scene object by name.
+         *
+         * @param name - Name of scene.
+         * @return std::shared_ptr<Node> - pointer to scene.
+         */
+        std::shared_ptr<Node> getScene(const std::string& name);
         /**
          * @brief Safely remove and notify all scenes.
          *
@@ -79,7 +86,7 @@ namespace simple2dengine
          *
          * @param deltaInMs delta time from previous update in milliseconds
          */
-        void update(int deltaInMs);
+        void update(const int deltaInMs);
         /**
          * @brief Render and Display scene.
          *
@@ -88,14 +95,14 @@ namespace simple2dengine
         /**
          * @brief Process input events from SFML.
          *
-         * @param event input event.
+         * @param event - input event.
          */
-        void input(sf::Event event);
+        void input(const sf::Event& event);
 
       private:
         std::shared_ptr<Node> currentScene = nullptr;                  // current scene
         std::unordered_map<std::string, std::shared_ptr<Node>> scenes; // all scenes (nodes)
-        std::vector<std::shared_ptr<Node>> deletionQueue; // nodes that will be destroyed on next tick
+        std::vector<std::shared_ptr<Node>> removedScenes; // nodes that will be destroyed on next tick
 
         Engine* engine = nullptr; // engine pointer
 

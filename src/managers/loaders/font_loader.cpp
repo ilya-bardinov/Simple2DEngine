@@ -16,8 +16,7 @@ namespace simple2dengine
         sf::Font font;
         if(!font.loadFromFile(filename))
         {
-            std::cout << "FontLoader::load - error when loading file '" << filename << "'!"
-                      << std::endl;
+            std::cout << "FontLoader::load - error when loading file '" << filename << "'!" << std::endl;
             return;
         }
 
@@ -37,7 +36,7 @@ namespace simple2dengine
         }
     }
 
-    BaseAsset* FontLoader::getAsset(const std::string& filename) const
+    const BaseAsset* FontLoader::getAsset(const std::string& filename) const
     {
         const auto position = fonts.find(filename);
         if(position != fonts.end())
@@ -48,8 +47,7 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "FontLoader::getAsset - file '" << filename << "' is not loaded!"
-                      << std::endl;
+            std::cout << "FontLoader::getAsset - file '" << filename << "' is not loaded!" << std::endl;
         }
         return nullptr;
     }

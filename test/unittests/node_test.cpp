@@ -23,17 +23,17 @@ SCENARIO("Scenes can be added, activated and deleted")
 
         simple2dengine::SceneManager scenemanager = engine.getSceneManager();
 
-        REQUIRE(scenemanager.getSceneCount() == 0);
+        REQUIRE(scenemanager.getScenesCount() == 0);
 
         WHEN("Remove non-existed scene")
         {
-            scenemanager.activateScene("test_scene");
-            scenemanager.removeScene("test_scene");
-            scenemanager.activateScene("test_scene");
+            auto scene = scenemanager.getScene("test_scene");
+
+            REQUIRE(scene == nullptr);
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 0);
+                REQUIRE(scenemanager.getScenesCount() == 0);
             }
         }
 
@@ -41,12 +41,12 @@ SCENARIO("Scenes can be added, activated and deleted")
         {
             auto node = std::make_shared<simple2dengine::Node>("test_scene");
             scenemanager.addScene(node);
-            scenemanager.activateScene("test_scene");
+            scenemanager.activateScene(node);
             scenemanager.clear();
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 1);
+                REQUIRE(scenemanager.getScenesCount() == 0);
             }
         }
 
@@ -54,33 +54,33 @@ SCENARIO("Scenes can be added, activated and deleted")
         {
             auto node = std::make_shared<simple2dengine::Node>("test_scene");
             scenemanager.addScene(node);
-            scenemanager.activateScene("test_scene");
+            scenemanager.activateScene(node);
 
             THEN("the size changes when added")
             {
-                REQUIRE(scenemanager.getSceneCount() == 1);
+                REQUIRE(scenemanager.getScenesCount() == 1);
             }
 
-            scenemanager.removeScene("test_scene");
-            scenemanager.activateScene("test_scene");
+            scenemanager.removeScene(node);
+            scenemanager.activateScene(node);
 
             THEN("the size changes when deleted")
             {
-                REQUIRE(scenemanager.getSceneCount() == 0);
+                REQUIRE(scenemanager.getScenesCount() == 0);
             }
 
             scenemanager.addScene(node);
 
             THEN("the size changes when added")
             {
-                REQUIRE(scenemanager.getSceneCount() == 1);
+                REQUIRE(scenemanager.getScenesCount() == 1);
             }
 
-            scenemanager.removeScene("test_scene");
+            scenemanager.removeScene(node);
 
             THEN("the size changes when deleted")
             {
-                REQUIRE(scenemanager.getSceneCount() == 0);
+                REQUIRE(scenemanager.getScenesCount() == 0);
             }
         }
 
@@ -88,7 +88,7 @@ SCENARIO("Scenes can be added, activated and deleted")
         {
             auto scene = std::make_shared<simple2dengine::Node>("simple_scene");
             scenemanager.addScene(scene);
-            scenemanager.activateScene("simple_scene");
+            scenemanager.activateScene(scenemanager.getScene("simple_scene"));
 
             auto layer_1_node_1 = std::make_shared<simple2dengine::Node>("layer_1_node_1");
             scene->addChild(layer_1_node_1);
@@ -109,7 +109,7 @@ SCENARIO("Scenes can be added, activated and deleted")
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 1);
+                REQUIRE(scenemanager.getScenesCount() == 1);
                 REQUIRE(scene->getChildren().size() == 4);
                 REQUIRE(layer_1_node_2->getChildren().size() == 2);
                 REQUIRE(layer_2_node_2->getChildren().size() == 1);
@@ -174,7 +174,7 @@ SCENARIO("Scenes can be added, activated and deleted")
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 1);
+                REQUIRE(scenemanager.getScenesCount() == 1);
                 REQUIRE(scene->getChildren().size() == 4);
                 REQUIRE(layer_1_node_2->getChildren().size() == 1);
                 REQUIRE(layer_2_node_2->getChildren().size() == 1);
@@ -210,18 +210,18 @@ SCENARIO("Scenes can be added, activated and deleted")
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 4);
+                REQUIRE(scenemanager.getScenesCount() == 4);
             }
 
-            scenemanager.activateScene("scene_3");
+            scenemanager.activateScene(scenemanager.getScene("scene_3"));
 
-            scenemanager.removeScene("scene_3");
-            scenemanager.removeScene("scene_2");
-            scenemanager.activateScene("scene_4");
+            scenemanager.removeScene(scenemanager.getScene("scene_3"));
+            scenemanager.removeScene(scenemanager.getScene("scene_2"));
+            scenemanager.activateScene(scenemanager.getScene("scene_4"));
 
             THEN("the size changes")
             {
-                REQUIRE(scenemanager.getSceneCount() == 2);
+                REQUIRE(scenemanager.getScenesCount() == 2);
             }
 
             engine.stop();

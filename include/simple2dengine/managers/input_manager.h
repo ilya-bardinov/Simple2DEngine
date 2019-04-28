@@ -23,8 +23,7 @@
 namespace simple2dengine
 {
     /**
-     * @brief Scene Manager.
-     * You can get it from Engine.
+     * @brief Input Manager.
      *
      * @see Engine.
      */
@@ -35,9 +34,9 @@ namespace simple2dengine
          * @brief Attach Action to keyboard button.
          *
          * @param action - name of action.
-         * @param keyboardKey - keyboard key from SFML.
+         * @param keyboardButton - keyboard button from SFML.
          */
-        void registerAction(const std::string& action, const sf::Keyboard::Key keyboardKey);
+        void registerAction(const std::string& action, const sf::Keyboard::Key keyboardButton);
         /**
          * @brief Attach Action to mouse button.
          *
@@ -65,7 +64,7 @@ namespace simple2dengine
          * window.
          *
          * @param relativeTo - Coordinates from window.
-         * @return Current position of the mouse.
+         * @return sf::Vector2i - Current position of the mouse.
          */
         sf::Vector2i getMousePosition(const sf::Window& relativeTo) const;
 

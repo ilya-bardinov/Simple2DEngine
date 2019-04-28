@@ -57,7 +57,7 @@ void GameScene::onInput(sf::Event event)
 
 void GameScene::onUpdate(int deltaInMs)
 {
-    // if(fpsUpdateTimer >= fpsTimer)
+    if(fpsUpdateTimer >= fpsTimer)
     {
         fpsText->setString("FPS: " + std::to_string(deltaInMs > 0 ? 1000 / deltaInMs : 1000));
         fpsUpdateTimer = 0;

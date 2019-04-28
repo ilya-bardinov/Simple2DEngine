@@ -7,8 +7,8 @@ namespace simple2dengine
     {
         for(const std::string& extension : extensions)
         {
-            const auto loaderIterator = loaders.find(extension);
-            if(loaderIterator != loaders.end())
+            const auto it = loaders.find(extension);
+            if(it != loaders.end())
             {
                 std::cout << "Error when register loader with extension '" << extension
                           << "': extensions has already added!" << std::endl;
@@ -23,8 +23,8 @@ namespace simple2dengine
         std::shared_ptr<Loader> loader = getLoader(filename);
         if(!loader)
         {
-            std::cout << "Error when loading asset '" << filename
-                      << "': no loaders found for extension!" << std::endl;
+            std::cout << "Error when loading asset '" << filename << "': no loaders found for extension!"
+                      << std::endl;
             return;
         }
 
@@ -36,8 +36,8 @@ namespace simple2dengine
         std::shared_ptr<Loader> loader = getLoader(filename);
         if(!loader)
         {
-            std::cout << "Error when unload asset '" << filename
-                      << "': no loaders found for extension!" << std::endl;
+            std::cout << "Error when unload asset '" << filename << "': no loaders found for extension!"
+                      << std::endl;
             return;
         }
 
@@ -54,9 +54,9 @@ namespace simple2dengine
             extension = filename.substr(found + 1);
         }
 
-        const auto loaderIterator = loaders.find(extension);
-        if(loaderIterator != loaders.end())
-            return loaderIterator->second;
+        const auto it = loaders.find(extension);
+        if(it != loaders.end())
+            return it->second;
 
         return nullptr;
     }

@@ -62,7 +62,7 @@ namespace simple2dengine
          * @param filename name of asset.
          * @return loaded asset.
          */
-        virtual BaseAsset* getAsset(const std::string& filename) const = 0;
+        virtual const BaseAsset* getAsset(const std::string& filename) const = 0;
     };
 } // namespace simple2dengine
 

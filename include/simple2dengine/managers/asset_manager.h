@@ -42,24 +42,24 @@ namespace simple2dengine
         /**
          * @brief Load an Asset
          *
-         * @param filename path to asset
+         * @param filename - path to asset.
          */
         void load(const std::string& filename);
         /**
          * @brief Unload an Asset
          *
-         * @param filename path to asset
+         * @param filename - path to asset.
          */
         void unload(const std::string& filename);
         /**
          * @brief Get loaded Asset.
          *
-         * @param filename path to asset
+         * @param filename - path to asset.
          * @return const T* loaded asset
          */
         template<class T> const T* getAsset(const std::string& filename) const
         {
-            std::shared_ptr<Loader> loader = getLoader(filename);
+            const std::shared_ptr<Loader> loader = getLoader(filename);
             if(!loader)
             {
                 std::cout << "Error when getting asset '" << filename << "': no loaders found for extension!"
@@ -67,19 +67,19 @@ namespace simple2dengine
                 return nullptr;
             }
 
-            BaseAsset* asset = loader->getAsset(filename);
+            const T* ret_asset = nullptr;
+            const BaseAsset* asset = loader->getAsset(filename);
             if(asset)
             {
-                Asset<T>* loadedAsset = static_cast<Asset<T>*>(asset);
+                const Asset<T>* loadedAsset = static_cast<const Asset<T>*>(asset);
                 if(loadedAsset)
                 {
-                    const T* ret_asset = loadedAsset->asset;
-                    delete asset;
-                    return ret_asset;
+                    ret_asset = loadedAsset->asset;
                 }
+                delete asset;
             }
 
-            return nullptr;
+            return ret_asset;
         }
         /**
          * @brief Get the Loader object

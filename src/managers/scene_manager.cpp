@@ -10,7 +10,8 @@ namespace simple2dengine
         const auto it = scenes.find(name);
         if(it != scenes.end() && it->second)
         {
-            std::cout << "SceneManager::addScene - scene '" << name << "' already exist!" << std::endl;
+            std::cout << "SceneManager::addScene - scene '" << name << "' already exist in scene tree!"
+                      << std::endl;
             return;
         }
         scene->engine = this->engine;
@@ -19,70 +20,60 @@ namespace simple2dengine
         scenes[name]->notifyCreate();
     }
 
-    void SceneManager::removeSceneImmediately(const std::string& name)
+    void SceneManager::removeSceneImmediately(std::shared_ptr<Node> scene)
     {
-        const auto it = scenes.find(name);
-        if(it != scenes.end() && it->second)
+        const std::string name = scene->getName();
+        if(currentScene == scene)
         {
-            if(currentScene == it->second)
-            {
-                currentScene->notifyExit();
-                currentScene = nullptr;
-            }
-            it->second->notifyDestroy();
-            scenes.erase(it);
+            currentScene->notifyExit();
+            currentScene = nullptr;
         }
-        else
-        {
-            std::cout << "SceneManager::removeScene - scene '" << name << "' doesn't exist!"
-                      << std::endl;
-        }
+        scene->notifyDestroy();
+        scenes.erase(name);
     }
 
-    void SceneManager::removeScene(const std::string& name)
+    void SceneManager::removeScene(std::shared_ptr<Node> scene)
     {
-        const auto it = scenes.find(name);
-        if(it != scenes.end() && it->second)
+        const std::string name = scene->getName();
+        removedScenes.push_back(scene);
+        if(currentScene == scene)
         {
-            deletionQueue.push_back(it->second);
-            if(currentScene == it->second)
-            {
-                currentScene->notifyExit();
-                currentScene = nullptr;
-            }
-            it->second->notifyDestroy();
-            scenes.erase(it);
+            currentScene->notifyExit();
+            currentScene = nullptr;
         }
-        else
-        {
-            std::cout << "SceneManager::removeScene - scene '" << name << "' doesn't exist!"
-                      << std::endl;
-        }
+        scene->notifyDestroy();
+        scenes.erase(name);
     }
 
-    void SceneManager::activateScene(const std::string& name)
+    void SceneManager::activateScene(std::shared_ptr<Node> scene)
+    {
+        const std::string name = scene->getName();
+        if(currentScene)
+        {
+            currentScene->notifyExit();
+        }
+        currentScene = scene;
+        currentScene->notifyEnter();
+    }
+
+    int SceneManager::getScenesCount() const
+    {
+        return scenes.size();
+    }
+
+    std::shared_ptr<Node> SceneManager::getScene(const std::string& name)
     {
         const auto it = scenes.find(name);
         if(it != scenes.end())
         {
-            if(currentScene)
-            {
-                currentScene->notifyExit();
-            }
-            currentScene = it->second;
-            if(currentScene)
-                currentScene->notifyEnter();
+            return it->second;
         }
         else
         {
-            std::cout << "SceneManager::activateScene - scene '" << name << "' doesn't exist!"
-                      << std::endl;
+            std::cout << "SceneManager::getScene - scene '" << name << "' doesn't exist!" << std::endl;
         }
-    }
 
-    int SceneManager::getSceneCount() const
-    {
-        return scenes.size();
+        return nullptr;
     }
 
     void SceneManager::clear()
@@ -91,6 +82,7 @@ namespace simple2dengine
         {
             currentScene->notifyExit();
         }
+        currentScene = nullptr;
 
         for(auto& scene : scenes)
         {
@@ -99,23 +91,14 @@ namespace simple2dengine
                 scene.second->notifyDestroy();
             }
         }
-
-        for(auto& scene : deletionQueue)
-        {
-            if(scene)
-            {
-                scene->notifyDestroy();
-            }
-        }
-
-        currentScene = nullptr;
+        scenes.clear();
     }
 
-    void SceneManager::update(int deltaInMs)
+    void SceneManager::update(const int deltaInMs)
     {
-        if(deletionQueue.size() > 0)
+        if(removedScenes.size() > 0)
         {
-            deletionQueue.clear();
+            removedScenes.clear();
         }
 
         if(currentScene)
@@ -132,7 +115,7 @@ namespace simple2dengine
         }
     }
 
-    void SceneManager::input(sf::Event event)
+    void SceneManager::input(const sf::Event& event)
     {
         if(currentScene)
         {
