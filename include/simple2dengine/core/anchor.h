@@ -27,12 +27,24 @@ namespace simple2dengine
         Right = 1 << 3,
         Center = 1 << 4
     };
-
+    /**
+     * @brief bitwise or operation
+     *
+     * @param a Anchor
+     * @param b Anchor
+     * @return constexpr enum Anchor Anchor
+     */
     constexpr enum Anchor operator|(const enum Anchor a, const enum Anchor b)
     {
         return static_cast<enum Anchor>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
     }
-
+    /**
+     * @brief bitwise and operation
+     *
+     * @param a Anchor
+     * @param b Anchor
+     * @return constexpr enum Anchor Anchor
+     */
     constexpr enum Anchor operator&(const enum Anchor a, const enum Anchor b)
     {
         return static_cast<enum Anchor>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
