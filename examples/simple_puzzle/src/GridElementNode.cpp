@@ -2,7 +2,7 @@
 
 void GridElementNode::onInput(sf::Event event)
 {
-    if(!onActivate || _isMoving || _isCollapsing)
+    if(!onActivate || state == State::Moving)
         return;
 
     if(event.type == sf::Event::EventType::MouseButtonPressed)
@@ -20,17 +20,17 @@ void GridElementNode::onInput(sf::Event event)
 
 void GridElementNode::onUpdate(int deltaInMs)
 {
-    if(_isMoving)
+    if(state == State::Moving)
     {
-        const sf::Vector2f newPositionDiff = getPosition() - newPosition;
+        const sf::Vector2f newPositionDiff = getPosition() - futurePosition;
         const int8_t signOfX = (newPositionDiff.x > 0) ? 1 : ((newPositionDiff.x < 0) ? -1 : 0);
         const int8_t signOfY = (newPositionDiff.y > 0) ? 1 : ((newPositionDiff.y < 0) ? -1 : 0);
         const float posDiff = speed * deltaInMs;
 
         if(newPositionDiff.x * signOfX <= posDiff && newPositionDiff.y * signOfY <= posDiff)
         {
-            _isMoving = false;
-            setPosition(newPosition);
+            state = State::None;
+            setPosition(futurePosition);
             if(onMovementFinished && canMoveBack)
             {
                 onMovementFinished(this);
@@ -40,18 +40,40 @@ void GridElementNode::onUpdate(int deltaInMs)
 
         const sf::Vector2f vec(posDiff * signOfX, posDiff * signOfY);
 
-        setPosition(getPosition() - vec);
+        move(-vec);
     }
 }
 
-void GridElementNode::setType(const GridElementType type)
+void GridElementNode::setType(const GridElementType _type)
 {
-    elementType = type;
+    this->type = _type;
 }
 
 GridElementType GridElementNode::getType() const
 {
-    return elementType;
+    return type;
+}
+
+void GridElementNode::setState(const State _state)
+{
+    this->state = _state;
+}
+
+GridElementNode::State GridElementNode::getState() const
+{
+    return state;
+}
+
+const sf::Vector2f& GridElementNode::getFuturePosition() const
+{
+    if(state == State::Moving)
+    {
+        return futurePosition;
+    }
+    else
+    {
+        return getPosition();
+    }
 }
 
 void GridElementNode::setOnActivate(std::function<void(GridElementNode*)> activateAction)
@@ -59,8 +81,7 @@ void GridElementNode::setOnActivate(std::function<void(GridElementNode*)> activa
     onActivate = std::move(activateAction);
 }
 
-void GridElementNode::setOnMovementFinished(
-    std::function<void(GridElementNode*)> movementFinishedAction)
+void GridElementNode::setOnMovementFinished(std::function<void(GridElementNode*)> movementFinishedAction)
 {
     onMovementFinished = std::move(movementFinishedAction);
 }
@@ -78,28 +99,12 @@ void GridElementNode::setSelected(const bool isSelected)
         setColor(sf::Color(255, 255, 255, 255));
     }
 
-    this->_isSelected = isSelected;
-}
-
-bool GridElementNode::isSelected() const
-{
-    return _isSelected;
-}
-
-void GridElementNode::collapse()
-{
-    setColor(sf::Color(255, 255, 255, 0));
-    _isCollapsing = true;
-}
-
-bool GridElementNode::isCollapsing() const
-{
-    return _isCollapsing;
+    state = State::Selected;
 }
 
 void GridElementNode::slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack /* = true*/)
 {
     canMoveBack = moveBack;
-    newPosition = whereToMovePosition;
-    _isMoving = true;
+    futurePosition = whereToMovePosition;
+    state = State::Moving;
 }

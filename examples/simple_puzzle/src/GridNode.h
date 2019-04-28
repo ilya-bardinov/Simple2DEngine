@@ -52,7 +52,11 @@ class GridNode : public simple2dengine::CanvasNode
     void onMovementFinished(GridElementNode* element);
 
     bool canSwapElements(GridElementNode* element1, GridElementNode* element2) const;
-    bool collapseNearbyElements(GridElementNode* element);
+
+    std::vector<unsigned int> findCollapsibleElementsHorizontally(const GridElementNode* element) const;
+    std::vector<unsigned int> findCollapsibleElementsVertically(const GridElementNode* element) const;
+    std::vector<unsigned int> findCollapsibleElements(const GridElementNode* element) const;
+    void collapseElements(const std::vector<unsigned int>& elements);
 
     void swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack = true);
     void dropElement(GridElementNode* elementToDrop, GridElementNode* collapsedElement);

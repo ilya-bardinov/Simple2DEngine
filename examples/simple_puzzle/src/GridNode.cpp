@@ -40,10 +40,9 @@ void GridNode::generateTypeTable()
 
     // we need random element filling
     const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    auto dice_rand =
-        std::bind(std::uniform_int_distribution<int>(static_cast<int>(GridElementType::None) + 1,
-                                                     static_cast<int>(GridElementType::Max) - 1),
-                  std::mt19937(static_cast<unsigned int>(seed)));
+    auto dice_rand = std::bind(std::uniform_int_distribution<int>(static_cast<int>(GridElementType::None) + 1,
+                                                                  static_cast<int>(GridElementType::Max) - 1),
+                               std::mt19937(static_cast<unsigned int>(seed)));
 
     for(uint8_t row = 0; row < gridRows; ++row)
     {
@@ -79,8 +78,7 @@ void GridNode::generateNodes()
         for(uint8_t column = 0; column < gridColumns; ++column)
         {
             const int elementNumber = gridColumns * row + column;
-            auto elementOfGrid =
-                std::make_shared<GridElementNode>("element" + std::to_string(elementNumber));
+            auto elementOfGrid = std::make_shared<GridElementNode>("element" + std::to_string(elementNumber));
 
             GridElementType elementType = elementTypeTable[elementNumber];
 
@@ -130,8 +128,7 @@ bool GridNode::canSwapElements(GridElementNode* element1, GridElementNode* eleme
     return false;
 }
 
-void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2,
-                            bool canMoveBack /*= true*/)
+void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2, bool canMoveBack /*= true*/)
 {
     const sf::Vector2f elementPosition1 = element1->getPosition();
     element1->slideTo(element2->getPosition(), canMoveBack);
@@ -146,8 +143,9 @@ void GridNode::swapElements(GridElementNode* element1, GridElementNode* element2
 
 void GridNode::dropElement(GridElementNode* elementToDrop, GridElementNode* collapsedElement)
 {
+    const sf::Vector2f futurePosOfDropElement = elementToDrop->getFuturePosition();
     elementToDrop->slideTo(collapsedElement->getPosition(), false);
-    collapsedElement->setPosition(elementToDrop->getPosition());
+    collapsedElement->setPosition(futurePosOfDropElement);
 
     GridElementType elementType1 = elementTypeTable[elementToDrop->getIndex()];
     elementTypeTable[elementToDrop->getIndex()] = elementTypeTable[collapsedElement->getIndex()];
@@ -156,40 +154,83 @@ void GridNode::dropElement(GridElementNode* elementToDrop, GridElementNode* coll
     swap(collapsedElement->getIndex(), elementToDrop->getIndex());
 }
 
-bool GridNode::collapseNearbyElements(GridElementNode* element)
+std::vector<unsigned int> GridNode::findCollapsibleElements(const GridElementNode* element) const
 {
-    bool canCollapse = false;
+    std::vector<unsigned int> collapsibleHorizontal = findCollapsibleElementsHorizontally(element);
+    std::vector<unsigned int> collapsibleVertical = findCollapsibleElementsVertically(element);
 
+    collapsibleHorizontal.insert(collapsibleHorizontal.end(), collapsibleVertical.begin(),
+                                 collapsibleVertical.end());
+
+    return collapsibleHorizontal;
+}
+
+std::vector<unsigned int> GridNode::findCollapsibleElementsHorizontally(const GridElementNode* element) const
+{
     const unsigned int index = element->getIndex();
-    std::list<unsigned int> listOfCollapsible;
+    std::vector<unsigned int> listOfCollapsible;
     listOfCollapsible.push_back(index);
 
-    const unsigned int columnIndexStart = static_cast<int>(std::floor(index / gridColumns));
+    const unsigned int elementColumn = static_cast<int>(std::floor(index / gridColumns));
 
-    // TODO: detecting and falling for vertical elements
-
-    // try to find elements in element's row
+    // try to find going left from element
     if(index > 0)
     {
-        for(unsigned int indexByRow = index - 1; indexByRow >= columnIndexStart * gridColumns;
-            --indexByRow)
+        unsigned int rowIndex = index - 1;
+        while(rowIndex >= elementColumn * gridColumns)
         {
-            if(elementTypeTable[indexByRow] == elementTypeTable[index])
+            if(elementTypeTable[rowIndex] == elementTypeTable[index])
             {
-                listOfCollapsible.push_back(indexByRow);
+                listOfCollapsible.push_back(rowIndex);
             }
             else
             {
                 break;
             }
+            if(rowIndex == 0)
+                break;
+            rowIndex--;
         }
     }
-    for(unsigned int indexByRow = index + 1; indexByRow < (columnIndexStart + 1) * gridColumns;
-        ++indexByRow)
+
+    // try to find going right from element
+    unsigned int rowIndex = index + 1;
+    while(rowIndex < (elementColumn + 1) * gridColumns)
     {
-        if(elementTypeTable[indexByRow] == elementTypeTable[index])
+
+        if(elementTypeTable[rowIndex] == elementTypeTable[index])
         {
-            listOfCollapsible.push_back(indexByRow);
+            listOfCollapsible.push_back(rowIndex);
+        }
+        else
+        {
+            break;
+        }
+        rowIndex++;
+    }
+
+    if(listOfCollapsible.size() < 3)
+    {
+        listOfCollapsible.clear();
+    }
+
+    return listOfCollapsible;
+}
+
+std::vector<unsigned int> GridNode::findCollapsibleElementsVertically(const GridElementNode* element) const
+{
+    const unsigned int index = element->getIndex();
+    std::vector<unsigned int> listOfCollapsible;
+    listOfCollapsible.push_back(index);
+
+    // try to find going up from element
+    unsigned int columnIndex = index;
+    while(columnIndex >= gridColumns)
+    {
+        columnIndex -= gridColumns;
+        if(elementTypeTable[columnIndex] == elementTypeTable[index])
+        {
+            listOfCollapsible.push_back(columnIndex);
         }
         else
         {
@@ -197,36 +238,74 @@ bool GridNode::collapseNearbyElements(GridElementNode* element)
         }
     }
 
-    // collapse elements
-    if(listOfCollapsible.size() >= 3)
+    // try to find going down from element
+    columnIndex = index + gridColumns;
+    while(columnIndex < gridRows * gridColumns)
     {
-        canCollapse = true;
-        while(listOfCollapsible.size() > 0)
+        if(elementTypeTable[columnIndex] == elementTypeTable[index])
         {
-            const unsigned int collapsibleIndex = listOfCollapsible.front();
-            std::shared_ptr<GridElementNode> collapsibleElement =
-                std::dynamic_pointer_cast<GridElementNode>(getChild(collapsibleIndex));
-            listOfCollapsible.pop_front();
+            listOfCollapsible.push_back(columnIndex);
+        }
+        else
+        {
+            break;
+        }
+        columnIndex += gridColumns;
+    }
 
-            if(collapsibleElement != nullptr)
+    if(listOfCollapsible.size() < 3)
+    {
+        listOfCollapsible.clear();
+    }
+
+    return listOfCollapsible;
+}
+
+void GridNode::collapseElements(const std::vector<unsigned int>& elements)
+{
+    // prepare rand func
+    const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    auto dice_rand = std::bind(std::uniform_int_distribution<int>(static_cast<int>(GridElementType::None) + 1,
+                                                                  static_cast<int>(GridElementType::Max) - 1),
+                               std::mt19937(static_cast<unsigned int>(seed)));
+
+    for(unsigned int elementIndex : elements)
+    {
+        std::shared_ptr<GridElementNode> element =
+            std::dynamic_pointer_cast<GridElementNode>(getChild(elementIndex));
+
+        if(element != nullptr)
+        {
+            unsigned int aboveElementIndex = elementIndex;
+            std::shared_ptr<GridElementNode> aboveElement = element;
+            while(aboveElementIndex >= gridColumns)
             {
-                collapsibleElement->collapse();
-                unsigned int elementAboveIndex = collapsibleIndex;
-                while(elementAboveIndex >= gridColumns)
+                aboveElementIndex -= gridColumns;
+
+                aboveElement = std::dynamic_pointer_cast<GridElementNode>(getChild(aboveElementIndex));
+
+                if(aboveElement)
                 {
-                    elementAboveIndex -= gridColumns;
-
-                    std::shared_ptr<GridElementNode> elementAbove =
-                        std::dynamic_pointer_cast<GridElementNode>(getChild(elementAboveIndex));
-
-                    dropElement(elementAbove.get(), collapsibleElement.get());
+                    dropElement(aboveElement.get(), element.get());
                 }
             }
+
+            // set new position for collapsed element
+            const sf::Vector2f aboveElementPosition = aboveElement->getPosition();
+            const sf::Vector2f elementPosition = element->getPosition();
+            element->setPosition(
+                sf::Vector2f(aboveElementPosition.x,
+                             aboveElementPosition.y - element->getGlobalBounds().height - gridElementMargin));
+
+            element->slideTo(elementPosition, false);
+
+            // change element's type
+            GridElementType randType = static_cast<GridElementType>(dice_rand());
+            element->setImage(engine->getAssetManager(), elementsPathes[randType]);
+            element->setType(randType);
+            elementTypeTable[element->getIndex()] = randType;
         }
     }
-    listOfCollapsible.clear();
-
-    return canCollapse;
 }
 
 void GridNode::onElementActivated(GridElementNode* element)
@@ -272,10 +351,23 @@ void GridNode::onMovementFinished(GridElementNode* element)
     }
     else
     {
-        if(!collapseNearbyElements(movementFinishedElement) && !collapseNearbyElements(element))
+        std::vector<unsigned int> collapsibleElements = findCollapsibleElements(movementFinishedElement);
+        std::vector<unsigned int> collapsibleElementsSecond = findCollapsibleElements(element);
+        collapsibleElements.insert(collapsibleElements.end(), collapsibleElementsSecond.begin(),
+                                   collapsibleElementsSecond.end());
+
+        std::sort(collapsibleElements.begin(), collapsibleElements.end());
+        collapsibleElements.erase(std::unique(collapsibleElements.begin(), collapsibleElements.end()),
+                                  collapsibleElements.end());
+
+        if(collapsibleElements.size() == 0)
         {
             // swap their positions back
             swapElements(movementFinishedElement, element, false);
+        }
+        else
+        {
+            collapseElements(std::move(collapsibleElements));
         }
         movementFinishedElement = nullptr;
     }

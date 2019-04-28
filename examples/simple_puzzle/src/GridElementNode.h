@@ -29,8 +29,7 @@ enum class GridElementType : int
 
 struct EnumClassHash
 {
-    template <typename T>
-    std::size_t operator()(T t) const
+    template<typename T> std::size_t operator()(T t) const
     {
         return static_cast<std::size_t>(t);
     }
@@ -38,6 +37,13 @@ struct EnumClassHash
 
 class GridElementNode : public simple2dengine::SpriteNode
 {
+    enum class State
+    {
+        None,
+        Selected,
+        Moving
+    };
+
   public:
     using SpriteNode::SpriteNode;
     virtual ~GridElementNode(){};
@@ -48,25 +54,26 @@ class GridElementNode : public simple2dengine::SpriteNode
     void setType(const GridElementType type);
     GridElementType getType() const;
 
+    void setState(const State state);
+    State getState() const;
+
+    void setSelected(const bool isSelected);
+
+    const sf::Vector2f& getFuturePosition() const;
+
     void setOnActivate(const std::function<void(GridElementNode*)> activateAction);
     void setOnMovementFinished(const std::function<void(GridElementNode*)> movementFinishedAction);
-    void setSelected(const bool isSelected);
-    bool isSelected() const;
-
-    void collapse();
-    bool isCollapsing() const;
 
     void slideTo(const sf::Vector2f& whereToMovePosition, bool moveBack = true);
 
   private:
-    GridElementType elementType = GridElementType::None;
-    bool _isSelected = false;
-    bool _isMoving = false;
-    bool canMoveBack = false;
-    bool _isCollapsing = false;
-    sf::Vector2f newPosition;
+    GridElementType type = GridElementType::None;
+    State state = State::None;
 
-    const float speed = 0.7f;
+    bool canMoveBack = false;
+    sf::Vector2f futurePosition;
+
+    const float speed = 1.0f;
 
     std::function<void(GridElementNode*)> onActivate;
     std::function<void(GridElementNode*)> onMovementFinished;

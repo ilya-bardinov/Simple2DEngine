@@ -24,7 +24,7 @@ set(
 )
 
 # Executable
-add_library(simple2dengine STATIC ${SOURCES})
+add_library(simple2dengine SHARED ${SOURCES})
 
 # Link SFML
 target_link_libraries(
