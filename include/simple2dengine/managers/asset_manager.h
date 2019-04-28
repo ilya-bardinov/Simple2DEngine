@@ -38,8 +38,7 @@ namespace simple2dengine
          *
          * @see Loader.
          */
-        void registerLoader(std::shared_ptr<Loader> loader,
-                            const std::vector<std::string>& extensions);
+        void registerLoader(std::shared_ptr<Loader> loader, const std::vector<std::string>& extensions);
         /**
          * @brief Load an Asset
          *
@@ -63,8 +62,8 @@ namespace simple2dengine
             std::shared_ptr<Loader> loader = getLoader(filename);
             if(!loader)
             {
-                std::cout << "Error when getting asset '" << filename
-                          << "': no loaders found for extension!" << std::endl;
+                std::cout << "Error when getting asset '" << filename << "': no loaders found for extension!"
+                          << std::endl;
                 return nullptr;
             }
 
@@ -72,7 +71,7 @@ namespace simple2dengine
             if(asset)
             {
                 Asset<T>* loadedAsset = static_cast<Asset<T>*>(asset);
-                if(loadedAsset != nullptr)
+                if(loadedAsset)
                 {
                     const T* ret_asset = loadedAsset->asset;
                     delete asset;

@@ -48,8 +48,8 @@ namespace simple2dengine
         }
         else
         {
-            std::cout << "Node::removeChild - child '" << child->getName()
-                      << "' not found in node tree!" << std::endl;
+            std::cout << "Node::removeChild - child '" << child->getName() << "' not found in node tree!"
+                      << std::endl;
             return false;
         }
 
@@ -69,9 +69,8 @@ namespace simple2dengine
     std::shared_ptr<Node> Node::getChild(const std::string& childName)
     {
         const auto it =
-            std::find_if(children.begin(), children.end(), [&](const std::shared_ptr<Node>& child) {
-                return child->getName() == childName;
-            });
+            std::find_if(children.begin(), children.end(),
+                         [&](const std::shared_ptr<Node>& child) { return child->getName() == childName; });
 
         if(it != children.end())
         {
@@ -84,10 +83,10 @@ namespace simple2dengine
     unsigned int Node::getIndex() const
     {
         std::shared_ptr<Node> parentNode = getParent();
-        if(parentNode != nullptr)
+        if(parentNode)
         {
-            const auto it = std::find(parentNode->getChildren().begin(),
-                                      parentNode->getChildren().end(), shared_from_this());
+            const auto it = std::find(parentNode->getChildren().begin(), parentNode->getChildren().end(),
+                                      shared_from_this());
             if(it != parentNode->getChildren().end())
             {
                 return std::distance(parentNode->getChildren().begin(), it);
@@ -110,7 +109,7 @@ namespace simple2dengine
     std::shared_ptr<Node> Node::getRoot()
     {
         auto root = shared_from_this();
-        while(root->getParent() != nullptr)
+        while(root->getParent())
         {
             root = root->getParent();
         }

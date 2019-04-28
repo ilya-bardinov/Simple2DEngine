@@ -77,7 +77,7 @@ void GridNode::generateNodes()
     {
         for(uint8_t column = 0; column < gridColumns; ++column)
         {
-            const int elementNumber = gridColumns * row + column;
+            const unsigned int elementNumber = gridColumns * row + column;
             auto elementOfGrid = std::make_shared<GridElementNode>("element" + std::to_string(elementNumber));
 
             GridElementType elementType = elementTypeTable[elementNumber];
@@ -240,7 +240,8 @@ std::vector<unsigned int> GridNode::findCollapsibleElementsVertically(const Grid
 
     // try to find going down from element
     columnIndex = index + gridColumns;
-    while(columnIndex < gridRows * gridColumns)
+    const unsigned int totalElements = gridRows * gridColumns;
+    while(columnIndex < totalElements)
     {
         if(elementTypeTable[columnIndex] == elementTypeTable[index])
         {
@@ -274,7 +275,7 @@ void GridNode::collapseElements(const std::vector<unsigned int>& elements)
         std::shared_ptr<GridElementNode> element =
             std::dynamic_pointer_cast<GridElementNode>(getChild(elementIndex));
 
-        if(element != nullptr)
+        if(element)
         {
             unsigned int aboveElementIndex = elementIndex;
             std::shared_ptr<GridElementNode> aboveElement = element;
@@ -291,7 +292,8 @@ void GridNode::collapseElements(const std::vector<unsigned int>& elements)
             }
 
             // set new position for collapsed element
-            const sf::Vector2f aboveElementPosition = aboveElement->getPosition();
+            const sf::Vector2f aboveElementPosition =
+                aboveElement ? aboveElement->getPosition() : element->getPosition();
             const sf::Vector2f elementPosition = element->getPosition();
             element->setPosition(
                 sf::Vector2f(aboveElementPosition.x,
